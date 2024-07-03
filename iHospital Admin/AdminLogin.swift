@@ -60,7 +60,7 @@ struct AdminLogin: View {
                     }) {
                         Text("Forgot Password?")
                             .fontWeight(.medium)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .padding(.horizontal, 80)}
                 Spacer()
                     .frame(height: 15)
