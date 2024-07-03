@@ -8,9 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */; };
-		324C9CDA2C355D4800712E84 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CD92C355D4800712E84 /* ContentView.swift */; };
 		324C9CDC2C355D4A00712E84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDB2C355D4A00712E84 /* Assets.xcassets */; };
 		324C9CDF2C355D4A00712E84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */; };
+		324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CEC2C35CDF400712E84 /* LoginView.swift */; };
+		324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CEF2C35D7B200712E84 /* Supabase.swift */; };
+		324C9CF32C35D7D900712E84 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 324C9CF22C35D7D900712E84 /* Auth */; };
+		324C9CF52C35D7D900712E84 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 324C9CF42C35D7D900712E84 /* Storage */; };
+		324C9CF82C35D7E200712E84 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 324C9CF72C35D7E200712E84 /* Supabase */; };
+		324C9CFA2C35D7F400712E84 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CF92C35D7F400712E84 /* Constants.swift */; };
+		324C9CFC2C35D85800712E84 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFB2C35D85800712E84 /* User.swift */; };
+		324C9CFF2C35D9B600712E84 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFE2C35D9B600712E84 /* Role.swift */; };
+		324C9D022C35E11E00712E84 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D012C35E11E00712E84 /* View.swift */; };
+		324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D042C35E24500712E84 /* LoaderButton.swift */; };
 		48DB8F712C35AB7800FDBAC2 /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */; };
 		48DB8F732C35AC4D00FDBAC2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */; };
 /* End PBXBuildFile section */
@@ -18,9 +27,15 @@
 /* Begin PBXFileReference section */
 		324C9CD42C355D4800712E84 /* iHospital Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iHospital Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iHospital_AdminApp.swift; sourceTree = "<group>"; };
-		324C9CD92C355D4800712E84 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		324C9CDB2C355D4A00712E84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		324C9CEC2C35CDF400712E84 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		324C9CEF2C35D7B200712E84 /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
+		324C9CF92C35D7F400712E84 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		324C9CFB2C35D85800712E84 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		324C9CFE2C35D9B600712E84 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		324C9D012C35E11E00712E84 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		324C9D042C35E24500712E84 /* LoaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderButton.swift; sourceTree = "<group>"; };
 		48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
 		48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -30,6 +45,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				324C9CF52C35D7D900712E84 /* Storage in Frameworks */,
+				324C9CF32C35D7D900712E84 /* Auth in Frameworks */,
+				324C9CF82C35D7E200712E84 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +59,7 @@
 			children = (
 				324C9CD62C355D4800712E84 /* iHospital Admin */,
 				324C9CD52C355D4800712E84 /* Products */,
+				324C9CF62C35D7E200712E84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,12 +74,15 @@
 		324C9CD62C355D4800712E84 /* iHospital Admin */ = {
 			isa = PBXGroup;
 			children = (
+				324C9D032C35E22B00712E84 /* Components */,
+				324C9D002C35E11200712E84 /* Extensions */,
+				324C9CFD2C35D9A100712E84 /* Models */,
+				324C9CEE2C35D7A600712E84 /* Modules */,
+				324C9CEB2C35CB6D00712E84 /* Views */,
 				324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */,
-				324C9CD92C355D4800712E84 /* ContentView.swift */,
-				48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */,
-				48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */,
 				324C9CDB2C355D4A00712E84 /* Assets.xcassets */,
 				324C9CDD2C355D4A00712E84 /* Preview Content */,
+				324C9CF92C35D7F400712E84 /* Constants.swift */,
 			);
 			path = "iHospital Admin";
 			sourceTree = "<group>";
@@ -71,6 +93,56 @@
 				324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		324C9CEB2C35CB6D00712E84 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */,
+				48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */,
+				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		324C9CEE2C35D7A600712E84 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				324C9CEF2C35D7B200712E84 /* Supabase.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		324C9CF62C35D7E200712E84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		324C9CFD2C35D9A100712E84 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				324C9CFB2C35D85800712E84 /* User.swift */,
+				324C9CFE2C35D9B600712E84 /* Role.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		324C9D002C35E11200712E84 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				324C9D012C35E11E00712E84 /* View.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		324C9D032C35E22B00712E84 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				324C9D042C35E24500712E84 /* LoaderButton.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,6 +161,11 @@
 			dependencies = (
 			);
 			name = "iHospital Admin";
+			packageProductDependencies = (
+				324C9CF22C35D7D900712E84 /* Auth */,
+				324C9CF42C35D7D900712E84 /* Storage */,
+				324C9CF72C35D7E200712E84 /* Supabase */,
+			);
 			productName = "iHospital Admin";
 			productReference = 324C9CD42C355D4800712E84 /* iHospital Admin.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +194,9 @@
 				Base,
 			);
 			mainGroup = 324C9CCB2C355D4800712E84;
+			packageReferences = (
+				324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = 324C9CD52C355D4800712E84 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -143,10 +223,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				324C9CDA2C355D4800712E84 /* ContentView.swift in Sources */,
+				324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */,
 				48DB8F712C35AB7800FDBAC2 /* SideBarMenu.swift in Sources */,
 				48DB8F732C35AC4D00FDBAC2 /* Dashboard.swift in Sources */,
+				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
+				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
+				324C9D022C35E11E00712E84 /* View.swift in Sources */,
+				324C9CFA2C35D7F400712E84 /* Constants.swift in Sources */,
+				324C9CFC2C35D85800712E84 /* User.swift in Sources */,
+				324C9CFF2C35D9B600712E84 /* Role.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +438,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		324C9CF22C35D7D900712E84 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		324C9CF42C35D7D900712E84 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		324C9CF72C35D7E200712E84 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 324C9CCC2C355D4800712E84 /* Project object */;
 }

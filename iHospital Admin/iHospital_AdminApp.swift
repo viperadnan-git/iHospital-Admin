@@ -9,9 +9,24 @@ import SwiftUI
 
 @main
 struct iHospital_AdminApp: App {
+    @State private var isAuthenticated: Bool = SupaUser.shared != nil
+    
+    
     var body: some Scene {
         WindowGroup {
-            SideBarMenu()
+            Group {
+                if isAuthenticated {
+                    SideBarMenu()
+                } else {
+                    LoginView()
+                }
+            }.task {
+                for await state in supabase.auth.authStateChanges {
+                    if [.initialSession, .signedIn, .signedOut].contains(state.event) {
+                        isAuthenticated = state.session != nil
+                    }
+                }
+            }
         }
     }
 }
