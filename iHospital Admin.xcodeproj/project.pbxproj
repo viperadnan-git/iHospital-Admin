@@ -11,6 +11,8 @@
 		324C9CDA2C355D4800712E84 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CD92C355D4800712E84 /* ContentView.swift */; };
 		324C9CDC2C355D4A00712E84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDB2C355D4A00712E84 /* Assets.xcassets */; };
 		324C9CDF2C355D4A00712E84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */; };
+		82809B6A2C35E5C700EACF8D /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82809B692C35E5C700EACF8D /* SignUp.swift */; };
+		82809B6C2C35E81100EACF8D /* AdminLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82809B6B2C35E81100EACF8D /* AdminLogin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		324C9CD92C355D4800712E84 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		324C9CDB2C355D4A00712E84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		82809B692C35E5C700EACF8D /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		82809B6B2C35E81100EACF8D /* AdminLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLogin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,8 @@
 			isa = PBXGroup;
 			children = (
 				324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */,
+				82809B692C35E5C700EACF8D /* SignUp.swift */,
+				82809B6B2C35E81100EACF8D /* AdminLogin.swift */,
 				324C9CD92C355D4800712E84 /* ContentView.swift */,
 				324C9CDB2C355D4A00712E84 /* Assets.xcassets */,
 				324C9CDD2C355D4A00712E84 /* Preview Content */,
@@ -138,6 +144,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				324C9CDA2C355D4800712E84 /* ContentView.swift in Sources */,
+				82809B6C2C35E81100EACF8D /* AdminLogin.swift in Sources */,
+				82809B6A2C35E5C700EACF8D /* SignUp.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +280,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = JZN7WN2NCM;
+				DEVELOPMENT_TEAM = J998DAYY5Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -285,7 +293,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.viperadnan.iHospital-Admin";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.viradnan.iHospital-Admin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -301,7 +309,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = JZN7WN2NCM;
+				DEVELOPMENT_TEAM = J998DAYY5Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -314,7 +322,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.viperadnan.iHospital-Admin";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.viradnan.iHospital-Admin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
