@@ -11,7 +11,7 @@ import SwiftUI
 struct iHospital_AdminApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SideBarMenu()
         }
     }
 }
