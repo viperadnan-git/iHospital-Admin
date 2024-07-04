@@ -20,4 +20,5 @@ enum SupabaseTable: String {
     case users = "users"
     case roles = "roles"
     case doctors = "doctors"
+    case departments = "departments"
 }
