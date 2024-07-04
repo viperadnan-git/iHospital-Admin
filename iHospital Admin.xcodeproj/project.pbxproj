@@ -23,7 +23,7 @@
 		48DB8F712C35AB7800FDBAC2 /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */; };
 		48DB8F732C35AC4D00FDBAC2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorView.swift */; };
-		D54FB27D2C3671D80011304E /* doctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27C2C3671D80011304E /* doctorView.swift */; };
+		D54FB27D2C3671D80011304E /* DoctorSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27C2C3671D80011304E /* DoctorSide.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +42,7 @@
 		48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
 		48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorView.swift; sourceTree = "<group>"; };
-		D54FB27C2C3671D80011304E /* doctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = doctorView.swift; sourceTree = "<group>"; };
+		D54FB27C2C3671D80011304E /* DoctorSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSide.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +108,7 @@
 				48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */,
 				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
 				82CBE7882C366F250033B971 /* AdminDoctorView.swift */,
-				D54FB27C2C3671D80011304E /* doctorView.swift */,
+				D54FB27C2C3671D80011304E /* DoctorSide.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,7 +238,7 @@
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,
-				D54FB27D2C3671D80011304E /* doctorView.swift in Sources */,
+				D54FB27D2C3671D80011304E /* DoctorSide.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
 				82CBE7892C366F250033B971 /* AdminDoctorView.swift in Sources */,
 				324C9D022C35E11E00712E84 /* View.swift in Sources */,

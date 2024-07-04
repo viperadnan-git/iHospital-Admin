@@ -13,27 +13,27 @@ extension Color {
     }
 }
 
-struct doctorView: View {
+struct DoctorSide: View {
     @State private var searchText = ""
     @State private var selectedDate = Date()
     @State private var showDatePicker = false
 
     let patients = [
-        Patient(patientID: "001", name: "Shweta", age: 25, gender: "Female", startTime: doctorView.timeFormatter.date(from: "11:00 AM")!, endTime: doctorView.timeFormatter.date(from: "11:30 AM")!, appointmentDate: Date()),
-        Patient(patientID: "002", name: "Rohit", age: 28, gender: "Male", startTime: doctorView.timeFormatter.date(from: "12:00 PM")!, endTime: doctorView.timeFormatter.date(from: "12:30 PM")!, appointmentDate: Date()),
-        Patient(patientID: "003", name: "Rohan", age: 22, gender: "Male", startTime: doctorView.timeFormatter.date(from: "1:00 PM")!, endTime: doctorView.timeFormatter.date(from: "1:30 PM")!, appointmentDate: Date()),
-        Patient(patientID: "004", name: "Shayaan", age: 28, gender: "Male", startTime: doctorView.timeFormatter.date(from: "2:30 PM")!, endTime: doctorView.timeFormatter.date(from: "3:00 PM")!, appointmentDate: Date()),
-        Patient(patientID: "005", name: "Nitin", age: 24, gender: "Male", startTime: doctorView.timeFormatter.date(from: "4:00 PM")!, endTime: doctorView.timeFormatter.date(from: "5:30 PM")!, appointmentDate: Date()),
-        Patient(patientID: "006", name: "Sunny", age: 30, gender: "Male", startTime: doctorView.timeFormatter.date(from: "9:00 AM")!, endTime: doctorView.timeFormatter.date(from: "9:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!),
-        Patient(patientID: "007", name: "Vicky", age: 32, gender: "Male", startTime: doctorView.timeFormatter.date(from: "9:30 AM")!, endTime: doctorView.timeFormatter.date(from: "10:00 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!),
-        Patient(patientID: "008", name: "Rajesh", age: 29, gender: "Male", startTime: doctorView.timeFormatter.date(from: "10:00 AM")!, endTime: doctorView.timeFormatter.date(from: "10:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 2, to: Date())!),
-        Patient(patientID: "009", name: "Priya", age: 26, gender: "Female", startTime: doctorView.timeFormatter.date(from: "10:30 AM")!, endTime: doctorView.timeFormatter.date(from: "11:00 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 2, to: Date())!),
-        Patient(patientID: "010", name: "Amit", age: 33, gender: "Male", startTime: doctorView.timeFormatter.date(from: "11:00 AM")!, endTime: doctorView.timeFormatter.date(from: "11:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 3, to: Date())!),
-        Patient(patientID: "011", name: "Anjali", age: 28, gender: "Female", startTime: doctorView.timeFormatter.date(from: "11:30 AM")!, endTime: doctorView.timeFormatter.date(from: "12:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 3, to: Date())!),
-        Patient(patientID: "012", name: "Sanjay", age: 31, gender: "Male", startTime: doctorView.timeFormatter.date(from: "12:00 PM")!, endTime: doctorView.timeFormatter.date(from: "12:30 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 4, to: Date())!),
-        Patient(patientID: "013", name: "Pooja", age: 27, gender: "Female", startTime: doctorView.timeFormatter.date(from: "12:30 PM")!, endTime: doctorView.timeFormatter.date(from: "1:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 4, to: Date())!),
-        Patient(patientID: "014", name: "Rahul", age: 34, gender: "Male", startTime: doctorView.timeFormatter.date(from: "1:00 PM")!, endTime: doctorView.timeFormatter.date(from: "1:30 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!),
-        Patient(patientID: "015", name: "Neha", age: 29, gender: "Female", startTime: doctorView.timeFormatter.date(from: "1:30 PM")!, endTime: doctorView.timeFormatter.date(from: "2:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!)
+        Patient(patientID: "001", name: "Shweta", age: 25, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "11:00 AM")!, endTime: DoctorSide.timeFormatter.date(from: "11:30 AM")!, appointmentDate: Date()),
+        Patient(patientID: "002", name: "Rohit", age: 28, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "12:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "12:30 PM")!, appointmentDate: Date()),
+        Patient(patientID: "003", name: "Rohan", age: 22, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "1:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "1:30 PM")!, appointmentDate: Date()),
+        Patient(patientID: "004", name: "Shayaan", age: 28, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "2:30 PM")!, endTime: DoctorSide.timeFormatter.date(from: "3:00 PM")!, appointmentDate: Date()),
+        Patient(patientID: "005", name: "Nitin", age: 24, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "4:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "5:30 PM")!, appointmentDate: Date()),
+        Patient(patientID: "006", name: "Sunny", age: 30, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "9:00 AM")!, endTime: DoctorSide.timeFormatter.date(from: "9:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!),
+        Patient(patientID: "007", name: "Vicky", age: 32, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "9:30 AM")!, endTime: DoctorSide.timeFormatter.date(from: "10:00 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!),
+        Patient(patientID: "008", name: "Rajesh", age: 29, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "10:00 AM")!, endTime: DoctorSide.timeFormatter.date(from: "10:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 2, to: Date())!),
+        Patient(patientID: "009", name: "Priya", age: 26, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "10:30 AM")!, endTime: DoctorSide.timeFormatter.date(from: "11:00 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 2, to: Date())!),
+        Patient(patientID: "010", name: "Amit", age: 33, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "11:00 AM")!, endTime: DoctorSide.timeFormatter.date(from: "11:30 AM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 3, to: Date())!),
+        Patient(patientID: "011", name: "Anjali", age: 28, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "11:30 AM")!, endTime: DoctorSide.timeFormatter.date(from: "12:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 3, to: Date())!),
+        Patient(patientID: "012", name: "Sanjay", age: 31, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "12:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "12:30 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 4, to: Date())!),
+        Patient(patientID: "013", name: "Pooja", age: 27, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "12:30 PM")!, endTime: DoctorSide.timeFormatter.date(from: "1:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 4, to: Date())!),
+        Patient(patientID: "014", name: "Rahul", age: 34, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "1:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "1:30 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!),
+        Patient(patientID: "015", name: "Neha", age: 29, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "1:30 PM")!, endTime: DoctorSide.timeFormatter.date(from: "2:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!)
     ]
 
     var filteredPatients: [Patient] {
@@ -210,7 +210,7 @@ struct doctorView: View {
                                         Text(patient.name).frame(maxWidth: .infinity, alignment: .center)
                                         Text("\(patient.age)").frame(maxWidth: .infinity, alignment: .center)
                                         Text(patient.gender).frame(maxWidth: .infinity, alignment: .center)
-                                        Text(doctorView.timeRangeFormatter.string(from: patient.startTime, to: patient.endTime))
+                                        Text(DoctorSide.timeRangeFormatter.string(from: patient.startTime, to: patient.endTime))
                                             .frame(maxWidth: .infinity, alignment: .center)
                                             .fixedSize(horizontal: true, vertical: false)
                                         
@@ -297,9 +297,9 @@ struct doctorView: View {
     }()
 }
 
-struct doctorView_Previews: PreviewProvider {
+struct DoctorSide_Previews: PreviewProvider {
     static var previews: some View {
-        doctorView()
+        DoctorSide()
     }
 }
 
