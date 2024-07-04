@@ -12,7 +12,7 @@ struct SideBarMenu: View {
     @State private var errorMessage: String?
     
     var body: some View {
-        NavigationSplitView {
+        NavigationView {
             List {
                 NavigationLink(destination: Dashboard()) {
                     Label("Dashboard", systemImage: "house")
@@ -20,7 +20,7 @@ struct SideBarMenu: View {
                 NavigationLink(destination: Text("Item 2 Detail")) {
                     Label("Appointments", systemImage: "calendar")
                 }
-                NavigationLink(destination: Text("Item 3 Detail")) {
+                NavigationLink(destination: DoctorView()) {
                     Label("Doctors", systemImage: "stethoscope")
                 }
                 NavigationLink(destination: Text("Item 4 Detail")) {
@@ -41,8 +41,10 @@ struct SideBarMenu: View {
                     }
                 }
             }
-        } detail: {
             Dashboard()
+            
+//        } detail: {
+//            Dashboard()
         }.errorAlert(title: $errorTitle, message: $errorMessage)
     }
     
