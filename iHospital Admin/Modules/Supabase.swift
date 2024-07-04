@@ -13,7 +13,8 @@ import Auth
 
 let supabase = SupabaseClient(
     supabaseURL: URL(string: SUPABASE_URL)!,
-    supabaseKey: SUPABASE_KEY
+    supabaseKey: SUPABASE_KEY,
+    options: .init(auth: .init(flowType: .implicit))
 )
 
 enum SupabaseTable: String {
@@ -21,4 +22,20 @@ enum SupabaseTable: String {
     case roles = "roles"
     case doctors = "doctors"
     case departments = "departments"
+    
+    var id: String {
+        self.rawValue
+    }
+}
+
+
+enum SupabaseError: Error {
+    case invalidURL
+    case invalidResponse
+    case invalidData
+    case invalidUser
+    case invalidRole
+    case invalidDoctor
+    case invalidDepartment
+    case unauthorized
 }

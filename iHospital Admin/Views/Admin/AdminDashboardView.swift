@@ -13,15 +13,12 @@ let secondpatient = Patient(id: UUID(), name: "Shweta", age: 12, gender: .male)
 
 let thirdpatient = Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
 
-let oneDoctor = Doctor(id: UUID(), name: "Harry Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "harry@gmail.com", qualification: "MBBS,MS", experience: Date())
+let oneDoctor = Doctor(userId: UUID(), name: "Doctor", dateOfBirth: Date(), gender: .male, phoneNumber: 29327, email: "asja", qualification: "asjha", experienceSince: Date(), dateOfJoining: Date(), departmentId: UUID())
 
 
 
 let totalDoctors = [
-    Doctor(id: UUID(), name: "Alex CArry", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "alex@gmail.com", qualification: "MBBS,MS", experience: Date()),
-    Doctor(id: UUID(), name: "Harry Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "harry@gmail.com", qualification: "MBBS,MS", experience: Date()),
-    Doctor(id: UUID(), name: "Shubham Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "shubham@gmail.com", qualification: "MBBS,MS", experience: Date()),
-    Doctor(id: UUID(), name: "Neeta Singh", dateOfBirth: Date(), gender: .female, phoneNumber: "+91 XXXXXXXXXX", email: "neeta@gmail.com", qualification: "MBBS,MS", experience: Date())
+    oneDoctor, oneDoctor, oneDoctor, oneDoctor
 ]
 
 var totalAppointments = [

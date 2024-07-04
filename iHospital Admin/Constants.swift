@@ -13,3 +13,4 @@ let SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 
 // MARK: - User Defaults Keys
 let USER_INFO_KEY = "User"
+let DOCTOR_INFO_KEY = "Doctor"

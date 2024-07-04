@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct AdminDepartmentView: View {
-    @StateObject private var viewModel = AdminDoctorViewModel()
+    @StateObject private var viewModel = AdminDepartmentViewModel()
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -17,7 +17,7 @@ struct AdminDepartmentView: View {
     ]
     
     var body: some View {
-        ScrollView {
+        VStack {
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -27,17 +27,19 @@ struct AdminDepartmentView: View {
                 Text(errorMessage)
                     .foregroundColor(.red)
             } else {
-                LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(viewModel.departments, id: \.id) { department in
-                        NavigationLink(destination: AdminDoctorListView(department: department)) {
-                            CardView(department: department)
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 15) {
+                        ForEach(viewModel.departments, id: \.id) { department in
+                            NavigationLink(destination: AdminDoctorListView(department: department)) {
+                                CardView(department: department)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .frame(height: 150)
+                            .padding(.all)
                         }
-                        .buttonStyle(PlainButtonStyle())
-                        .frame(height: 150)
-                        .padding(.all)
                     }
+                    .padding()
                 }
-                .padding()
             }
         }
         .navigationTitle("Departments")

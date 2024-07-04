@@ -6,30 +6,24 @@
 //
 
 import SwiftUI
+import Auth
 
 @main
 struct iHospital_AdminApp: App {
-    @State private var isAuthenticated: Bool = SupaUser.shared != nil
-    
+    @StateObject private var authViewModel = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
             Group {
-                if isAuthenticated {
-                    if true {
+                if authViewModel.user != nil {
+                    if authViewModel.user?.role == .admin {
                         AdminSidebarView()
                     } else {
-//                        DoctorSide()
+                        DoctorDashboardView()
                     }
                 }
                 else {
-                    LoginView()
-                }
-            }.task {
-                for await state in supabase.auth.authStateChanges {
-                    if [.initialSession, .signedIn, .signedOut].contains(state.event) {
-                        isAuthenticated = state.session != nil
-                    }
+                    LoginView().environmentObject(authViewModel)
                 }
             }
         }

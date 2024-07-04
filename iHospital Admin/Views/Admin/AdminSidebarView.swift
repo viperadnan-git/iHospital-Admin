@@ -43,16 +43,14 @@ struct AdminSidebarView: View {
                 }
             }
             AdminDashboardView()
-            
-//        } detail: {
-//            Dashboard()
         }.errorAlert(title: $errorTitle, message: $errorMessage)
     }
     
     func onLogOut() {
         Task {
             do {
-                try await supabase.auth.signOut()
+                print("Loggin out")
+                try await SupaUser.logOut()
             } catch {
                 errorMessage = error.localizedDescription
             }

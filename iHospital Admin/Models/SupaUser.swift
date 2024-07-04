@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  SupaUser.swift
 //  iHospital Admin
 //
 //  Created by Adnan Ahmad on 04/07/24.
@@ -11,21 +11,26 @@ import Foundation
 struct SupaUser: Codable {
     static var shared = loadUser() {
         didSet {
-            shared?.saveUser()
+            if let shared = shared {
+                shared.saveUser()
+            } else {
+                UserDefaults.standard.removeObject(forKey: USER_INFO_KEY)
+            }
         }
     }
     
     let user: Auth.User
-    let role: Role
+    let role: Roles
     
     static func loadUser() -> SupaUser? {
         guard let data = UserDefaults.standard.data(forKey: USER_INFO_KEY) else {
-            print("User data found")
+            print("User data not found")
             return nil
         }
         
         let decoder = JSONDecoder()
         if let user = try? decoder.decode(SupaUser.self, from: data) {
+            print(user)
             return user
         }
         
@@ -39,19 +44,27 @@ struct SupaUser: Codable {
         }
     }
     
-    static func login(email: String, password: String) async throws -> SupaUser? {
-        let response = try await supabase.auth.signIn(email: email, password: password)
+    static func login(email: String, password: String) async throws {
+        try await supabase.auth.signIn(email: email, password: password)
+    }
+    
+    static func logOut() async throws {
+        try await supabase.auth.signOut()
+        shared = nil
+    }
+    
+    static func getSupaUser() async throws -> SupaUser? {
+        guard let user = supabase.auth.currentUser else {
+            return nil
+        }
         
-        let role: [String: Role] = try await supabase.from(SupabaseTable.roles.rawValue)
+        let role: [String: Roles] = try await supabase.from(SupabaseTable.roles.id)
             .select("role")
-            .eq("user_id", value: response.user.id)
+            .eq("user_id", value: user.id)
             .single()
             .execute()
             .value
         
-        let supaUser = SupaUser(user: response.user, role: role["role"]!)
-        
-        SupaUser.shared = supaUser
-        return supaUser
+        return SupaUser(user: user, role: role["role"]!)
     }
 }

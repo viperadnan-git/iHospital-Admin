@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     @State private var email: String = ""
     @State private var password: String = ""
     
     @State private var isLoading = false
     @State private var errorTitle: String?
     @State private var errorMessage: String?
-
+    
     var body: some View {
         GeometryReader { geometry in
             HStack {
@@ -85,10 +87,10 @@ struct LoginView: View {
                 .frame(width: geometry.size.width > 600 ? geometry.size.width * 0.5 : geometry.size.width)
                 
             }.errorAlert(title: $errorTitle, message: $errorMessage)
-        }
+        }.onOpenURL(perform: handleOpenURL)
     }
     
-    func onLogin() {
+    private func onLogin() {
         guard !email.isEmpty, !password.isEmpty else {
             return
         }
@@ -100,9 +102,20 @@ struct LoginView: View {
             }
             
             do {
-                if let user = try await SupaUser.login(email: email, password: password) {
-                    SupaUser.shared = user
-                }
+                try await SupaUser.login(email: email, password: password)
+                try await authViewModel.updateSupaUser()
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
+
+
+    private func handleOpenURL(_ url: URL) {
+        Task {
+            do {
+                try await supabase.auth.session(from: url)
+                try await authViewModel.updateSupaUser()
             } catch {
                 errorMessage = error.localizedDescription
             }
