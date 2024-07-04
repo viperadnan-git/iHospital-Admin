@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DoctorView: View {
+struct AdminDoctorView: View {
     let columns = [
            GridItem(.flexible()),
            GridItem(.flexible()),
@@ -71,11 +71,8 @@ struct DetailView: View {
                     })
     }
 }
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+
+
 #Preview {
-    DoctorView()
+    AdminDoctorView()
 }

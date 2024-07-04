@@ -20,7 +20,7 @@ struct SideBarMenu: View {
                 NavigationLink(destination: Text("Item 2 Detail")) {
                     Label("Appointments", systemImage: "calendar")
                 }
-                NavigationLink(destination: DoctorView()) {
+                NavigationLink(destination: AdminDoctorView()) {
                     Label("Doctors", systemImage: "stethoscope")
                 }
                 NavigationLink(destination: Text("Item 4 Detail")) {
