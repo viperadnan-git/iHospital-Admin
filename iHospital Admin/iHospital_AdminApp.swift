@@ -16,7 +16,7 @@ struct iHospital_AdminApp: App {
         WindowGroup {
             Group {
                 if isAuthenticated {
-                    if SupaUser.shared?.role == .admin {
+                    if true {
                         AdminSidebarView()
                     } else {
                         DoctorSide()

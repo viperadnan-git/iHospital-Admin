@@ -10,6 +10,8 @@ import SwiftUI
 struct AdminDoctorListView: View {
     let department: Department
     
+    @State private var showingForm = false
+    
     var body: some View {
         VStack {
             Text("List of doctors in \(department.name)")
@@ -19,11 +21,18 @@ struct AdminDoctorListView: View {
         }
         .navigationTitle(department.name)
         .navigationBarItems(trailing: Button(action: {
-            // Action for Plus button
+            showingForm = true
             print("Plus button tapped")
         }) {
             Image(systemName: "plus")
                 .font(.title3)
         })
+        .sheet(isPresented: $showingForm) {
+                   AdminDoctorAddView()
+               }
     }
 }
+
+
+
+
