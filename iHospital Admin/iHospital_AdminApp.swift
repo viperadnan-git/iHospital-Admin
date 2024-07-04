@@ -19,7 +19,7 @@ struct iHospital_AdminApp: App {
                     if true {
                         AdminSidebarView()
                     } else {
-                        DoctorSide()
+//                        DoctorSide()
                     }
                 }
                 else {

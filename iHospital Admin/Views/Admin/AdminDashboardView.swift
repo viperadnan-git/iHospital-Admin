@@ -7,116 +7,117 @@
 
 import SwiftUI
 
+let onepatient = Patient(id: UUID(), name: "Adnan", age: 12, gender: .male)
+
+let secondpatient = Patient(id: UUID(), name: "Shweta", age: 12, gender: .male)
+
+let thirdpatient = Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
+
+let oneDoctor = Doctor(id: UUID(), name: "Harry Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "harry@gmail.com", qualification: "MBBS,MS", experience: Date())
+
+
+
+let totalDoctors = [
+    Doctor(id: UUID(), name: "Alex CArry", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "alex@gmail.com", qualification: "MBBS,MS", experience: Date()),
+    Doctor(id: UUID(), name: "Harry Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "harry@gmail.com", qualification: "MBBS,MS", experience: Date()),
+    Doctor(id: UUID(), name: "Shubham Singh", dateOfBirth: Date(), gender: .male, phoneNumber: "+91 XXXXXXXXXX", email: "shubham@gmail.com", qualification: "MBBS,MS", experience: Date()),
+    Doctor(id: UUID(), name: "Neeta Singh", dateOfBirth: Date(), gender: .female, phoneNumber: "+91 XXXXXXXXXX", email: "neeta@gmail.com", qualification: "MBBS,MS", experience: Date())
+]
+
+var totalAppointments = [
+    Appointment(id: UUID(), patient: onepatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
+    Appointment(id: UUID(), patient: secondpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
+    Appointment(id: UUID(), patient: thirdpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
+    Appointment(id: UUID(), patient: onepatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
+    Appointment(id: UUID(), patient: secondpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date())
+]
+
+var totalPatients = [
+    Patient(id: UUID(), name: "Adnan", age: 12, gender: .male),
+    Patient(id: UUID(), name: "Shweta", age: 12, gender: .male),
+    Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
+]
+
 struct AdminDashboardView: View {
+    @State private var searchText = ""
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-//                Text("Dashboard")
-//                    .font(.largeTitle)
-//                    .bold()
                 HStack(spacing: 30){
                     VStack(alignment:.leading,spacing: 15) {
-                        // First two cards
                         Text("Today's Overview")
                             .font(.title)
                             .padding(.top)
                             .padding(.leading,30)
-                            
+
                         HStack(spacing: 20) {
-                            OverviewCard(title: "100", subtitle: "Appointments", color: .pink)
+                            OverviewCard(title: "\(totalAppointments.count)", subtitle: "Appointments", color: .pink)
                                 .frame(maxWidth: .infinity)
-                            OverviewCard(title: "20", subtitle: "New Patients", color: .purple)
+                            OverviewCard(title: "\(totalPatients.count)", subtitle: "New Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
-                            
-                            
                         }
                         .padding([.leading,.trailing],30)
-                        .frame(maxWidth: .infinity) // Take 50% of HStack width
+                        .frame(maxWidth: .infinity)
 
-                        // Second two cards
                         HStack(spacing: 20) {
-                            OverviewCard(title: "43", subtitle: "Available Doctors", color: .yellow)
+                            OverviewCard(title: "\(totalDoctors.count)", subtitle: "Available Doctors", color: .yellow)
                             OverviewCard(title: "13", subtitle: "Lab Tests", color: .blue)
                         }
                         .padding(.top,0)
                         .padding([.leading,.trailing],30)
                         .padding(.bottom,20)
-//                       .padding([.leading,.bottom,.trailing],20)
                         .padding(.top,14)
-                        .frame(maxWidth: .infinity) // Take 50% of HStack width
-
-                        
+                        .frame(maxWidth: .infinity)
                     }
                     .frame(maxWidth: .infinity)
                     .background(Color.dashboard)
                     .cornerRadius(12)
-                    
 
-// Add padding to the HStack
-                    
-                        
                     VStack(alignment: .leading, spacing: 10) {
-                            
-                            Text("Today's Revenue")
+                        Text("Today's Revenue")
                             .font(.title)
                             .padding(.top)
                             .padding(.leading,30)
-//                            .padding([.top,.bottom,.trailing],20)
+                        
                         VStack(){
                             OverviewCard(title: "$XYZ", subtitle: "Total Revenue", color: .purple)
                                 .padding([.leading,.trailing],30)
                                 .padding(.top,10)
-                    
-                        
-                        
+
                             OverviewCard(title: "$YYY", subtitle: "Total Revenue", color: .purple)
                                 .padding([.leading,.trailing],30)
                                 .padding(.bottom,25)
                                 .padding(.top,10)
                         }
-                     
-                                
-                        
-                        }
-//                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
                     .background(Color.dashboard)
                     .cornerRadius(12)
-
-                     // Take 50% of HStack width
                 }
-                
 
-                
-
-                // Second Section
                 VStack(alignment: .leading){
                     Text("Today's Appointments")
-                        .padding()
+                        .padding([.top,.leading,.trailing],20)
                         .font(.title3)
                         .bold()
-//                        .padding(.top,0)
 
-                    SearchBar()
-
-                    AppointmentsList()
+                    SearchBar(searchText: $searchText)
+                    
+                    AppointmentsList(searchText: $searchText)
                         .background(Color.white)
                         .cornerRadius(12)
                         .padding()
-                    
-                        
-                    
                 }
                 .background(Color.card)
                 .cornerRadius(12)
-                
             }
             .padding()
             .navigationTitle("Dashboard")
         }
     }
 }
-//Ui for Card
+
 struct OverviewCard: View {
     let title: String
     let subtitle: String
@@ -130,7 +131,6 @@ struct OverviewCard: View {
             Text(subtitle)
                 .font(.subheadline)
         }
-        /*padding()*/
         .frame(maxWidth: .infinity)
         .frame(height: 150)
         .background(color)
@@ -140,9 +140,9 @@ struct OverviewCard: View {
 }
 
 
-//Ui for search bar
+//UI for search bar
 struct SearchBar: View {
-    @State private var searchText = ""
+    @Binding var searchText: String
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -150,7 +150,7 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
                     .padding(.leading, 8)
-                
+
                 TextField("Search Patients", text: $searchText)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(8)
@@ -160,38 +160,79 @@ struct SearchBar: View {
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .padding([.leading, .trailing, .top])
+        .padding([.leading, .trailing])
     }
 }
-
-
-
+//to display all the Appointment Lists
 struct AppointmentsList: View {
+    @Binding var searchText: String
+
     var body: some View {
         LazyVStack {
-            ForEach(0..<40) { _ in
-                AppointmentRow()
+            
+            HStack{
+                Text("Patient ID").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
+                Text("Patient Name").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
+                Text("Mobile Number").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
+                Text("Appointment Time").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
+                Text("Doctor").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
+                Text("Status").frame(maxWidth: .infinity,alignment: .leading)
+                    .bold()
             }
+            .background(Color.white)
+            .padding()
+            
+            ForEach(filteredAppointments()) { appointment in
+                AppointmentRow(appointment: appointment)
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    func filteredAppointments() -> [Appointment] {
+        if searchText.isEmpty {
+            return totalAppointments
+        } else {
+            return totalAppointments.filter { $0.patient.name.lowercased().contains(searchText.lowercased()) }
         }
     }
 }
-
-
+//To make One Appointment List
 struct AppointmentRow: View {
-    var body: some View {
-        HStack {
-            Text("341").padding(.trailing,40)
-            Text("Amit Verma").padding(.trailing,40)
-            Text("+91 XXXXXXXXXXX").padding(.trailing,40)
-            Text("11:00 am").padding(.trailing,50)
-            Text("Dr. Harry Singh").padding(.trailing,40)
-            StatusIndicator(status: "Upcoming").padding(.trailing,40)
-        }
-        .padding()
+    var appointment: Appointment
 
+    var body: some View {
+        
+        HStack(spacing:20) {
+            Text("\(appointment.patient.id)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(appointment.patient.name)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading,40)
+            Text("\(appointment.phoneNumber)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(formattedTime(date: appointment.appointmentTime))")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(appointment.doctor.name)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+            StatusIndicator(status: "Upcoming")
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding([.leading, .trailing], 10)
+    }
+
+    func formattedTime(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
 }
-//For Small circle that is showing before upcomoing
+
 struct StatusIndicator: View {
     let status: String
 
@@ -204,7 +245,7 @@ struct StatusIndicator: View {
                 .font(.footnote)
         }
     }
-//For Different colors for different things
+
     func statusColor(status: String) -> Color {
         switch status {
         case "Upcoming":

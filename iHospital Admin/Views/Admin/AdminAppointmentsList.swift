@@ -9,11 +9,12 @@ import SwiftUI
 
 struct AdminAppointmentsList: View {
     @State private var selectedDate = Date()
+    @State private var searchText = ""
     
     var body: some View {
         VStack(alignment: .leading,spacing: 20){
             HStack{
-                SearchBar()
+                SearchBar(searchText: $searchText)
                     .padding()
                 DatePicker("", selection: $selectedDate,displayedComponents: .date)
                     .labelsHidden()
@@ -24,7 +25,7 @@ struct AdminAppointmentsList: View {
             }
             ScrollView{
                 
-                AppointmentsList()
+                AppointmentsList(searchText: $searchText)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.horizontal)
