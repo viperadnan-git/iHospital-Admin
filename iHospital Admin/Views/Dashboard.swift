@@ -11,16 +11,16 @@ struct Dashboard: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("Dashboard")
-                    .font(.largeTitle)
-                    .bold()
+//                Text("Dashboard")
+//                    .font(.largeTitle)
+//                    .bold()
                 HStack(spacing: 30){
-                    VStack(alignment:.leading,spacing: 20) {
+                    VStack(alignment:.leading,spacing: 15) {
                         // First two cards
                         Text("Today's Overview")
                             .font(.title)
                             .padding(.top)
-                            .padding(.leading,10)
+                            .padding(.leading,30)
                             
                         HStack(spacing: 20) {
                             OverviewCard(title: "100", subtitle: "Appointments", color: .pink)
@@ -30,7 +30,7 @@ struct Dashboard: View {
                             
                             
                         }
-                        .padding()
+                        .padding([.leading,.trailing],30)
                         .frame(maxWidth: .infinity) // Take 50% of HStack width
 
                         // Second two cards
@@ -38,39 +38,49 @@ struct Dashboard: View {
                             OverviewCard(title: "43", subtitle: "Available Doctors", color: .yellow)
                             OverviewCard(title: "13", subtitle: "Lab Tests", color: .blue)
                         }
-                        .padding()
+                        .padding(.top,0)
+                        .padding([.leading,.trailing],30)
+                        .padding(.bottom,20)
+//                       .padding([.leading,.bottom,.trailing],20)
+                        .padding(.top,14)
                         .frame(maxWidth: .infinity) // Take 50% of HStack width
 
                         
                     }
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray)
+                    .background(Color.dashboard)
                     .cornerRadius(12)
                     
 
 // Add padding to the HStack
                     
                         
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 10) {
                             
-                            Text("Today's Overview")
+                            Text("Today's Revenue")
                             .font(.title)
                             .padding(.top)
-                            .padding(.leading)
+                            .padding(.leading,30)
 //                            .padding([.top,.bottom,.trailing],20)
-                     
-                                OverviewCard(title: "$XYZ", subtitle: "Total Revenue", color: .purple)
-                                .padding()
+                        VStack(){
+                            OverviewCard(title: "$XYZ", subtitle: "Total Revenue", color: .purple)
+                                .padding([.leading,.trailing],30)
+                                .padding(.top,10)
+                    
                         
-                            
-                            
-                                OverviewCard(title: "$YYY", subtitle: "Total Revenue", color: .purple)
-                                .padding()
+                        
+                            OverviewCard(title: "$YYY", subtitle: "Total Revenue", color: .purple)
+                                .padding([.leading,.trailing],30)
+                                .padding(.bottom,25)
+                                .padding(.top,10)
+                        }
+                     
+                                
                         
                         }
-                        .padding(.horizontal)
+//                        .padding(.horizontal)
                         .frame(maxWidth: .infinity)
-                    .background(Color.gray)
+                    .background(Color.dashboard)
                     .cornerRadius(12)
 
                      // Take 50% of HStack width
@@ -83,20 +93,26 @@ struct Dashboard: View {
                 VStack(alignment: .leading){
                     Text("Today's Appointments")
                         .padding()
-                        .font(.headline)
-                        .padding(.top)
+                        .font(.title3)
+                        .bold()
+//                        .padding(.top,0)
 
                     SearchBar()
 
                     AppointmentsList()
                         .background(Color.white)
+                        .cornerRadius(12)
                         .padding()
                     
+                        
+                    
                 }
-                .background(Color.cyan)
+                .background(Color.card)
+                .cornerRadius(12)
                 
             }
             .padding()
+            .navigationTitle("Dashboard")
         }
     }
 }
