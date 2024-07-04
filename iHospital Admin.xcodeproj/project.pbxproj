@@ -20,8 +20,8 @@
 		324C9CFF2C35D9B600712E84 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFE2C35D9B600712E84 /* Role.swift */; };
 		324C9D022C35E11E00712E84 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D012C35E11E00712E84 /* View.swift */; };
 		324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D042C35E24500712E84 /* LoaderButton.swift */; };
-		48DB8F712C35AB7800FDBAC2 /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */; };
-		48DB8F732C35AC4D00FDBAC2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */; };
+		48DB8F712C35AB7800FDBAC2 /* AdminSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F702C35AB7800FDBAC2 /* AdminSidebarView.swift */; };
+		48DB8F732C35AC4D00FDBAC2 /* AdminDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DB8F722C35AC4D00FDBAC2 /* AdminDashboardView.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorView.swift */; };
 		D54FB27D2C3671D80011304E /* DoctorSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27C2C3671D80011304E /* DoctorSide.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
@@ -39,8 +39,8 @@
 		324C9CFE2C35D9B600712E84 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		324C9D012C35E11E00712E84 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		324C9D042C35E24500712E84 /* LoaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderButton.swift; sourceTree = "<group>"; };
-		48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
-		48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
+		48DB8F702C35AB7800FDBAC2 /* AdminSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSidebarView.swift; sourceTree = "<group>"; };
+		48DB8F722C35AC4D00FDBAC2 /* AdminDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardView.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorView.swift; sourceTree = "<group>"; };
 		D54FB27C2C3671D80011304E /* DoctorSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSide.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
@@ -104,10 +104,8 @@
 		324C9CEB2C35CB6D00712E84 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				48DB8F702C35AB7800FDBAC2 /* SideBarMenu.swift */,
-				48DB8F722C35AC4D00FDBAC2 /* Dashboard.swift */,
+				32E378F12C367B4A0076F2C4 /* Admin */,
 				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
-				82CBE7882C366F250033B971 /* AdminDoctorView.swift */,
 				D54FB27C2C3671D80011304E /* DoctorSide.swift */,
 			);
 			path = Views;
@@ -152,6 +150,16 @@
 				324C9D042C35E24500712E84 /* LoaderButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		32E378F12C367B4A0076F2C4 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				48DB8F702C35AB7800FDBAC2 /* AdminSidebarView.swift */,
+				82CBE7882C366F250033B971 /* AdminDoctorView.swift */,
+				48DB8F722C35AC4D00FDBAC2 /* AdminDashboardView.swift */,
+			);
+			path = Admin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,8 +241,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */,
-				48DB8F712C35AB7800FDBAC2 /* SideBarMenu.swift in Sources */,
-				48DB8F732C35AC4D00FDBAC2 /* Dashboard.swift in Sources */,
+				48DB8F712C35AB7800FDBAC2 /* AdminSidebarView.swift in Sources */,
+				48DB8F732C35AC4D00FDBAC2 /* AdminDashboardView.swift in Sources */,
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,

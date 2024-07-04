@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Dashboard: View {
+struct AdminDashboardView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -220,5 +220,5 @@ struct StatusIndicator: View {
 }
 
 #Preview {
-    Dashboard()
+    AdminDashboardView()
 }

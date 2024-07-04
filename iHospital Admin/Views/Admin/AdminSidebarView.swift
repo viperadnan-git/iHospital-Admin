@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct SideBarMenu: View {
+struct AdminSidebarView: View {
     @State private var errorTitle: String?
     @State private var errorMessage: String?
     
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: Dashboard()) {
+                NavigationLink(destination: AdminDashboardView()) {
                     Label("Dashboard", systemImage: "house")
                 }
                 NavigationLink(destination: Text("Item 2 Detail")) {
@@ -41,7 +41,7 @@ struct SideBarMenu: View {
                     }
                 }
             }
-            Dashboard()
+            AdminDashboardView()
             
 //        } detail: {
 //            Dashboard()
@@ -60,5 +60,5 @@ struct SideBarMenu: View {
 }
 
 #Preview {
-    SideBarMenu()
+    AdminSidebarView()
 }
