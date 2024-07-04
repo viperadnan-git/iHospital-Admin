@@ -28,6 +28,7 @@
 		32E378F82C3680450076F2C4 /* AdminDoctorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378F72C3680450076F2C4 /* AdminDoctorViewModel.swift */; };
 		32E378FA2C36820B0076F2C4 /* AdminDepartmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378F92C36820B0076F2C4 /* AdminDepartmentView.swift */; };
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
+		4850DB5E2C369E56001D10A1 /* AdminAppointmentsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB5D2C369E56001D10A1 /* AdminAppointmentsList.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
 		D54FB27D2C3671D80011304E /* DoctorSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27C2C3671D80011304E /* DoctorSide.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
@@ -53,6 +54,7 @@
 		32E378F72C3680450076F2C4 /* AdminDoctorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorViewModel.swift; sourceTree = "<group>"; };
 		32E378F92C36820B0076F2C4 /* AdminDepartmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDepartmentView.swift; sourceTree = "<group>"; };
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
+		4850DB5D2C369E56001D10A1 /* AdminAppointmentsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAppointmentsList.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
 		D54FB27C2C3671D80011304E /* DoctorSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSide.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				32E378F62C3680290076F2C4 /* ViewModels */,
 				32E378F42C367CF70076F2C4 /* AdminSidebarView.swift */,
 				32E378F22C367CEF0076F2C4 /* AdminDashboardView.swift */,
+				4850DB5D2C369E56001D10A1 /* AdminAppointmentsList.swift */,
 				82CBE7882C366F250033B971 /* AdminDoctorListView.swift */,
 				32E378F92C36820B0076F2C4 /* AdminDepartmentView.swift */,
 			);
@@ -273,6 +276,7 @@
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,
+				4850DB5E2C369E56001D10A1 /* AdminAppointmentsList.swift in Sources */,
 				D54FB27D2C3671D80011304E /* DoctorSide.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,

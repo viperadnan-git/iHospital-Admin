@@ -145,20 +145,22 @@ struct SearchBar: View {
     @State private var searchText = ""
 
     var body: some View {
-        HStack {
-            TextField("Search", text: $searchText)
-                .padding(7)
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-            Button(action: {
-                // Add search action here
-                print(searchText)
-            }) {
+        ZStack(alignment: .leading) {
+            HStack {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(.blue)
+                    .foregroundColor(.gray)
+                    .padding(.leading, 8)
+                
+                TextField("Search Patients", text: $searchText)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .padding(8)
+                    .background(Color.white)
             }
+            .padding([.leading, .trailing])
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .padding(.horizontal)
+        .padding([.leading, .trailing, .top])
     }
 }
 
@@ -167,7 +169,7 @@ struct SearchBar: View {
 struct AppointmentsList: View {
     var body: some View {
         LazyVStack {
-            ForEach(0..<10) { _ in
+            ForEach(0..<40) { _ in
                 AppointmentRow()
             }
         }
@@ -181,7 +183,7 @@ struct AppointmentRow: View {
             Text("341").padding(.trailing,40)
             Text("Amit Verma").padding(.trailing,40)
             Text("+91 XXXXXXXXXXX").padding(.trailing,40)
-            Text("24/06/2024 11:00 am").padding(.trailing,50)
+            Text("11:00 am").padding(.trailing,50)
             Text("Dr. Harry Singh").padding(.trailing,40)
             StatusIndicator(status: "Upcoming").padding(.trailing,40)
         }

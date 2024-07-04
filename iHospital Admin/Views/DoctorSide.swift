@@ -17,7 +17,7 @@ struct DoctorSide: View {
     @State private var searchText = ""
     @State private var selectedDate = Date()
     @State private var showDatePicker = false
-
+    
     let patients = [
         Patient(patientID: "001", name: "Shweta", age: 25, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "11:00 AM")!, endTime: DoctorSide.timeFormatter.date(from: "11:30 AM")!, appointmentDate: Date()),
         Patient(patientID: "002", name: "Rohit", age: 28, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "12:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "12:30 PM")!, appointmentDate: Date()),
@@ -35,31 +35,31 @@ struct DoctorSide: View {
         Patient(patientID: "014", name: "Rahul", age: 34, gender: "Male", startTime: DoctorSide.timeFormatter.date(from: "1:00 PM")!, endTime: DoctorSide.timeFormatter.date(from: "1:30 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!),
         Patient(patientID: "015", name: "Neha", age: 29, gender: "Female", startTime: DoctorSide.timeFormatter.date(from: "1:30 PM")!, endTime: DoctorSide.timeFormatter.date(from: "2:00 PM")!, appointmentDate: Calendar.current.date(byAdding: .day, value: 5, to: Date())!)
     ]
-
+    
     var filteredPatients: [Patient] {
         // Filter patients based on searchText and selectedDate
         let filtered = patients.filter { patient in
             let isMatchingDate = Calendar.current.isDate(patient.appointmentDate, inSameDayAs: selectedDate)
             return isMatchingDate && (searchText.isEmpty ||
-                patient.name.localizedCaseInsensitiveContains(searchText) ||
-                patient.gender.localizedCaseInsensitiveContains(searchText) ||
-                patient.patientID.localizedCaseInsensitiveContains(searchText) ||
-                "\(patient.age)".localizedCaseInsensitiveContains(searchText))
+                                      patient.name.localizedCaseInsensitiveContains(searchText) ||
+                                      patient.gender.localizedCaseInsensitiveContains(searchText) ||
+                                      patient.patientID.localizedCaseInsensitiveContains(searchText) ||
+                                      "\(patient.age)".localizedCaseInsensitiveContains(searchText))
         }
         return filtered
     }
-
+    
     var nextPatient: Patient? {
         // Return the first patient of today's schedule
         return patients.first(where: { Calendar.current.isDate($0.appointmentDate, inSameDayAs: Date()) })
     }
-
+    
     var totalAppointmentsToday: Int {
         // Calculate the total appointments for today
         let todayPatients = patients.filter { Calendar.current.isDate($0.appointmentDate, inSameDayAs: Date()) }
         return todayPatients.count
     }
-
+    
     var body: some View {
         ZStack {
             VStack {
