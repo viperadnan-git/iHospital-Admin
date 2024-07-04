@@ -16,9 +16,9 @@ struct AdminAppointmentsList: View {
             HStack{
                 SearchBar(searchText: $searchText)
                     .padding()
-                DatePicker("", selection: $selectedDate,displayedComponents: .date)
-                    .labelsHidden()
-                    .padding()
+//                DatePicker("", selection: $selectedDate,displayedComponents: .date)
+//                    .labelsHidden()
+//                    .padding()
                 
 //                    .frame(maxWidth: .infinity)
 
