@@ -16,13 +16,14 @@ struct iHospital_AdminApp: App {
         WindowGroup {
             Group {
                 if isAuthenticated {
-                        LoginView()
+                    if SupaUser.shared?.role == .admin {
+                        SideBarMenu()
                     } else {
-                        if true {
-                            DoctorSide()
-                        } else {
-                            SideBarMenu()
-                        }
+                        DoctorSide()
+                    }
+                }
+                else {
+                    LoginView()
                 }
             }.task {
                 for await state in supabase.auth.authStateChanges {
