@@ -16,9 +16,9 @@ struct iHospital_AdminApp: App {
         WindowGroup {
             Group {
                 if isAuthenticated {
-                    SideBarMenu()
-                } else {
-                    LoginView()
+                        LoginView()
+                    } else {
+                        doctorView()
                 }
             }.task {
                 for await state in supabase.auth.authStateChanges {
