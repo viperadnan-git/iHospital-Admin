@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-let onepatient = Patient(id: UUID(), name: "Adnan", age: 12, gender: .male)
+let onepatient = Patient(patientId: UUID(), userId: UUID(), name: "Adnan", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
 
-let secondpatient = Patient(id: UUID(), name: "Shweta", age: 12, gender: .male)
+let secondpatient = Patient(patientId: UUID(), userId: UUID(), name: "Shweta", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
 
-let thirdpatient = Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
+let thirdpatient = Patient(patientId: UUID(), userId: UUID(), name: "Vicky", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
 
 let oneDoctor = Doctor(userId: UUID(), name: "Doctor", dateOfBirth: Date(), gender: .male, phoneNumber: 29327, email: "asja", qualification: "asjha", experienceSince: Date(), dateOfJoining: Date(), departmentId: UUID())
 
@@ -30,9 +30,13 @@ var totalAppointments = [
 ]
 
 var totalPatients = [
-    Patient(id: UUID(), name: "Adnan", age: 12, gender: .male),
-    Patient(id: UUID(), name: "Shweta", age: 12, gender: .male),
-    Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
+    Patient(patientId: UUID(), userId: UUID(), name: "Adnan", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
+    Patient(patientId: UUID(), userId: UUID(), name: "Shweta", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
+    Patient(patientId: UUID(), userId: UUID(), name: "Vicky", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
+    
+//    Patient(id: UUID(), name: "Adnan", age: 12, gender: .male),
+//    Patient(id: UUID(), name: "Shweta", age: 12, gender: .male),
+//    Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
 ]
 
 struct AdminDashboardView: View {
@@ -206,7 +210,7 @@ struct AppointmentRow: View {
     var body: some View {
         
         HStack(spacing:20) {
-            Text("\(appointment.patient.id)")
+            Text("\(appointment.patient.userId)")
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text("\(appointment.patient.name)")
                 .frame(maxWidth: .infinity, alignment: .leading)
