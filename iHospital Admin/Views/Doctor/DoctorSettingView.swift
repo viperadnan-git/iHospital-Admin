@@ -9,25 +9,26 @@ import SwiftUI
 
 struct DoctorSettingView: View {
     @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
-    @State private var availabilityStartDate = Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 10))!
-    @State private var availabilityEndDate = Calendar.current.date(from: DateComponents(year: 2025, month: 9, day: 10))!
+    
+    @State private var priorBookingDays = 7
     @State private var startTime = Date()
     @State private var endTime = Date()
     @State private var selectedDays: Set<String> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    @State private var fee = DEFAULT_DOCTOR_FEES
     @State private var errorTitle: String? = "Invalid Input"
     @State private var errorMessage: String?
     
-    var daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    let priorBookingOptions = ["1 Week": 7, "2 Weeks": 14, "3 Weeks": 21, "4 Weeks": 28]
     
     var body: some View {
         HStack {
             DoctorDetailsColumn()
             
             Form {
-                Section(header: Text("Set Availability Date")) {
-                    DatePicker("Availability Start Date", selection: $availabilityStartDate, displayedComponents: .date)
-                    
-                    DatePicker("Availability End Date", selection: $availabilityEndDate, displayedComponents: .date)
+                Section(header: Text("Consultancy Fees")) {
+                    TextField("Fees", value: $fee, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
                 }
                 
                 Section(header: Text("Set Availability Time")) {
@@ -36,14 +37,33 @@ struct DoctorSettingView: View {
                             Text("Start Time")
                             TimePicker(selectedTime: $startTime)
                                 .padding(.bottom)
+                                .onChange(of: startTime) { newStartTime in
+                                    if newStartTime >= endTime {
+                                        endTime = Calendar.current.date(byAdding: .minute, value: 15, to: newStartTime) ?? endTime
+                                    }
+                                }
                         }
                         
                         VStack {
                             Text("End Time")
                             TimePicker(selectedTime: $endTime)
                                 .padding(.bottom)
+                                .onChange(of: endTime) { newEndTime in
+                                    if newEndTime <= startTime {
+                                        startTime = Calendar.current.date(byAdding: .minute, value: -15, to: newEndTime) ?? startTime
+                                    }
+                                }
                         }
                     }
+                }
+                
+                Section(header: Text("Prior Booking Days")) {
+                    Picker("Prior Booking Days", selection: $priorBookingDays) {
+                        ForEach(priorBookingOptions.keys.sorted(), id: \.self) { key in
+                            Text(key).tag(priorBookingOptions[key]!)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
                 }
                 
                 Section(header: Text("Select Days of the Week")) {
@@ -87,11 +107,18 @@ struct DoctorSettingView: View {
                 }
                 
                 let settings = try await DoctorSettings.get(userId: userId)
-                availabilityStartDate = settings.availabilityStartDate
-                availabilityEndDate = settings.availabilityEndDate
-                startTime = settings.startTime
-                endTime = settings.endTime
+                
+                priorBookingDays = settings.priorBookingDays
+                startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.startTime),
+                                                  minute: Calendar.current.component(.minute, from: settings.startTime),
+                                                  second: 0,
+                                                  of: Date()) ?? Date()
+                endTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.endTime),
+                                                minute: Calendar.current.component(.minute, from: settings.endTime),
+                                                second: 0,
+                                                of: Date()) ?? Date()
                 selectedDays = Set(settings.selectedDays)
+                fee = settings.fee
             } catch {
                 errorMessage = "Failed to fetch settings: \(error.localizedDescription)"
             }
@@ -108,11 +135,11 @@ struct DoctorSettingView: View {
                 
                 try await DoctorSettings.save(
                     userId: userId,
-                    availabilityStartDate: availabilityStartDate,
-                    availabilityEndDate: availabilityEndDate,
+                    priorBookingDays: priorBookingDays,
                     startTime: startTime,
                     endTime: endTime,
-                    selectedDays: Array(selectedDays)
+                    selectedDays: Array(selectedDays),
+                    fee: fee
                 )
                 errorMessage = "Settings saved successfully."
                 errorTitle = "Success"

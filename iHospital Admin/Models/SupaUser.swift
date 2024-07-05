@@ -30,7 +30,6 @@ struct SupaUser: Codable {
         
         let decoder = JSONDecoder()
         if let user = try? decoder.decode(SupaUser.self, from: data) {
-            print(user)
             return user
         }
         

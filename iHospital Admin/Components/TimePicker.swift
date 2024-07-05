@@ -17,9 +17,8 @@ struct TimePicker: View {
             }
         }
         .pickerStyle(WheelPickerStyle())
-        .frame(height: 150) // Adjust the height as needed
+        .frame(height: 150)
         .clipped()
-        
     }
     
     private func timeSlots() -> [Date] {
