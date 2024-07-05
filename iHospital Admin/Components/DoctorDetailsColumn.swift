@@ -35,7 +35,7 @@ struct DoctorDetailsColumn: View {
                     HStack {
                         Text("Phone")
                         Spacer()
-                        Text("\(doctor.phoneNumber)")
+                        Text(String(doctor.phoneNumber))
                     }
                     HStack {
                         Text("Qualification")
