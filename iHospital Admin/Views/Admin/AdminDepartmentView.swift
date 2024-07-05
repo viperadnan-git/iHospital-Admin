@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct AdminDepartmentView: View {
     @StateObject private var viewModel = AdminDepartmentViewModel()
     let columns = [
@@ -50,23 +49,86 @@ struct CardView: View {
     let department: Department
     
     var body: some View {
-        VStack {
-            Text(department.name)
-                .font(.headline)
-            if let phoneNumber = department.phoneNumber {
-                Text("Phone: \(phoneNumber)")
-                    .font(.subheadline)
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: iconName(for: department.name))
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .padding(.leading, 10)
+                Spacer()
             }
+            Spacer()
+            if let phoneNumber = department.phoneNumber {
+                Text("Phone: \(String(phoneNumber))")
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    .padding(.bottom, 5)
+            }
+            Text(department.name)
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding(.bottom, 2)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-        .background(Color.blue.opacity(0.2))
-        .cornerRadius(10)
+        .background(backgroundColor(for: department.name))
+        .cornerRadius(15)
+    }
+    
+    func iconName(for departmentName: String) -> String {
+        switch departmentName {
+        case "Cardiology":
+            return "heart.fill"
+        case "Neurology":
+            return "brain.head.profile"
+        case "Dermatology":
+            return "bandage.fill"
+        case "Gastroenterology":
+            return "stethoscope"
+        case "Hematology":
+            return "drop.fill"
+        case "Infectious Disease":
+            return "allergens"
+        case "Orthopedics":
+            return "figure.walk"
+        case "Pediatrics":
+            return "stroller"
+        case "Radiology":
+            return "xmark.shield.fill"
+        default:
+            return "building.2.crop.circle"
+        }
+    }
+    
+    func backgroundColor(for departmentName: String) -> Color {
+        switch departmentName {
+        case "Cardiology":
+            return Color.red
+        case "Neurology":
+            return Color.purple
+        case "Dermatology":
+            return Color.orange
+        case "Gastroenterology":
+            return Color.green
+        case "Hematology":
+            return Color.red.opacity(0.8)
+        case "Infectious Disease":
+            return Color.yellow
+        case "Orthopedics":
+            return Color.blue
+        case "Pediatrics":
+            return Color.pink
+        case "Radiology":
+            return Color.gray
+        default:
+            return Color.blue.opacity(0.5)
+        }
     }
 }
 
-
-
+// Preview for testing purposes
 #Preview {
-    AdminSidebarView()
+    AdminDepartmentView()
 }
+
