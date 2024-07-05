@@ -34,7 +34,7 @@ struct AdminDepartmentView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                             .frame(height: 150)
-                            .padding(.all)
+                            .padding(.horizontal, 4)
                         }
                     }
                     .padding()
@@ -53,27 +53,27 @@ struct CardView: View {
             HStack {
                 Image(systemName: iconName(for: department.name))
                     .font(.largeTitle)
-                    .foregroundColor(.white)
                     .padding(.leading, 10)
                 Spacer()
             }
             Spacer()
             if let phoneNumber = department.phoneNumber {
-                Text("Phone: \(String(phoneNumber))")
-                    .font(.subheadline)
-                    .foregroundColor(.white)
-                    .padding(.bottom, 5)
+                HStack {
+                    Image(systemName: "phone.fill")
+                    Text(String(phoneNumber))
+                        .font(.subheadline)
+                }
             }
             Text(department.name)
                 .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
                 .padding(.bottom, 2)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(backgroundColor(for: department.name))
         .cornerRadius(15)
+        .foregroundColor(.white)
     }
     
     func iconName(for departmentName: String) -> String {
