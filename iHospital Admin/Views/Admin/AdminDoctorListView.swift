@@ -1,9 +1,3 @@
-//
-//  DoctorView.swift
-//  iHospital Admin
-//
-//  Created by AKANKSHA on 04/07/24.
-//
 import SwiftUI
 
 struct AdminDoctorListView: View {
@@ -33,6 +27,7 @@ struct AdminDoctorListView: View {
                         ForEach(viewModel.doctors, id: \.userId) { doctor in
                             DoctorView(doctor: doctor)
                         }
+                        .padding(.horizontal,4)
                     }
                     .padding()
                 }
@@ -60,15 +55,29 @@ struct DoctorView: View {
 
     var body: some View {
         VStack {
+            Image(systemName: "person.crop.circle.fill")
+                .resizable()
+                .frame(width: 80, height: 80)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.white, lineWidth: 2))
             Text(doctor.name)
                 .font(.headline)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+
             Text(doctor.email)
                 .font(.subheadline)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+
             Text("\(doctor.phoneNumber.formatted(.number))")
                 .font(.subheadline)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-        .background(Color.gray.opacity(0.2))
+        .background(Color.card)
         .cornerRadius(10)
     }
 }
@@ -76,3 +85,4 @@ struct DoctorView: View {
 #Preview {
     AdminDoctorListView(department: Department(id: UUID(), name: "Cardiology", phoneNumber: nil))
 }
+
