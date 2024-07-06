@@ -23,7 +23,7 @@ struct AdminSidebarView: View {
                 NavigationLink(destination: AdminDepartmentView()) {
                     Label("Doctors", systemImage: "stethoscope")
                 }
-                NavigationLink(destination: Text("Item 4 Detail")) {
+                NavigationLink(destination: AdminPatientView()) {
                     Label("Patients", systemImage: "person.2")
                 }
                 NavigationLink(destination: AdminStaffView()

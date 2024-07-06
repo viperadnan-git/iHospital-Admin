@@ -190,6 +190,7 @@ struct AppointmentsList: View {
             
             ForEach(filteredAppointments()) { appointment in
                 AppointmentRow(appointment: appointment)
+                Divider()
             }
             .frame(maxWidth: .infinity)
         }
