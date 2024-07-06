@@ -43,6 +43,7 @@
 		4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB672C39876C001D10A1 /* AdminPatientView.swift */; };
 		4850DB6A2C398BD0001D10A1 /* AdminOutPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */; };
 		4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */; };
+		4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */; };
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
 		8201C86D2C3736550034B93F /* AdminStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C86C2C3736540034B93F /* AdminStaffView.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
@@ -85,6 +86,7 @@
 		4850DB672C39876C001D10A1 /* AdminPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientView.swift; sourceTree = "<group>"; };
 		4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminOutPatientView.swift; sourceTree = "<group>"; };
 		4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminInPatientView.swift; sourceTree = "<group>"; };
+		4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientDetailsView.swift; sourceTree = "<group>"; };
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
 		8201C86C2C3736540034B93F /* AdminStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffView.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				4850DB672C39876C001D10A1 /* AdminPatientView.swift */,
 				4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */,
 				4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */,
+				4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,
 				82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */,
+				4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */,
 				32E379102C3725210076F2C4 /* DoctorSettings.swift in Sources */,
 				32E3790A2C37195C0076F2C4 /* DateFormatter.swift in Sources */,
 				32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */,

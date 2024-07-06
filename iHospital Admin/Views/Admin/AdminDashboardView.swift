@@ -210,22 +210,29 @@ struct AppointmentRow: View {
 
     var body: some View {
         
-        HStack(spacing:20) {
-            Text("\(appointment.patient.userId)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(appointment.patient.name)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading,40)
-            Text("\(appointment.phoneNumber)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(formattedTime(date: appointment.appointmentTime))")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text("\(appointment.doctor.name)")
-                .frame(maxWidth: .infinity, alignment: .leading)
-            StatusIndicator(status: "Upcoming")
-                .frame(maxWidth: .infinity, alignment: .leading)
+        
+        
+        NavigationLink(destination: AdminPatientDetailsView(patient: appointment.patient)) {
+            HStack(spacing:20) {
+                Text("\(appointment.patient.userId)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("\(appointment.patient.name)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading,40)
+                Text("\(appointment.phoneNumber)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("\(formattedTime(date: appointment.appointmentTime))")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("\(appointment.doctor.name)")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                StatusIndicator(status: "Upcoming")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding([.leading, .trailing], 10)
+            .foregroundColor(.black)
         }
-        .padding([.leading, .trailing], 10)
     }
 
     func formattedTime(date: Date) -> String {
