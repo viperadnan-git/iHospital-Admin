@@ -22,33 +22,40 @@ struct LoginView: View {
             HStack {
                 if geometry.size.width > 600 {
                     VStack {
-                        Image(systemName: "heart.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .padding(.top, 100)
+                        Spacer()
+                        HStack{
+                            Image(systemName: "heart.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 50)
+                                .padding(.top, 100)
+                            
+                            Text("iHospital")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .padding(.horizontal)
+                                .frame(width: 200, height: 50)
+                                .padding(.top, 100)
+                                
+                        }
                         
-                        Image("doctors")
+                        Image("hospital")
                             .resizable()
                             .scaledToFit()
                             .padding(.bottom, 100)
+                        Spacer()
                     }
-                    .frame(width: geometry.size.width * 0.5)
-                    .background(Color(UIColor.systemTeal).opacity(0.3))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.white)
                 }
                 
                 VStack {
                     Spacer()
                     
-                    Text("Get Better Care For Your Health")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                    
                     Text("Login")
-                        .font(.title)
+                        .font(.system(size: 40))
                         .fontWeight(.bold)
+                        .foregroundColor(Color.black)
                         .padding(.top, 20)
                     
                     VStack(spacing: 16) {
