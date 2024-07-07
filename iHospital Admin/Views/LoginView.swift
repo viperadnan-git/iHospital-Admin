@@ -83,6 +83,7 @@ struct LoginView: View {
                     
                     LoaderButton(isLoading: $isLoading, action: onLogin) {
                         Text("Login")
+                            .font(.system(size: 20, weight: .medium))
                             .background(Color.blue)
                             .cornerRadius(8)
                     }
