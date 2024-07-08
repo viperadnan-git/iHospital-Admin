@@ -46,6 +46,7 @@
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
 		8201C86D2C3736550034B93F /* AdminStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C86C2C3736540034B93F /* AdminStaffView.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
+		B0839B8B2C39B13A00930FC9 /* PatientInfoDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
 		8201C86C2C3736540034B93F /* AdminStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffView.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
+		B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientInfoDoctorView.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 			children = (
 				32E379032C370A2F0076F2C4 /* DoctorDashboardView.swift */,
 				32E379072C3715A80076F2C4 /* DoctorSettingView.swift */,
+				B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */,
 			);
 			path = Doctor;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				32E378FA2C36820B0076F2C4 /* AdminDepartmentView.swift in Sources */,
 				324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */,
 				4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */,
+				B0839B8B2C39B13A00930FC9 /* PatientInfoDoctorView.swift in Sources */,
 				32E379042C370A2F0076F2C4 /* DoctorDashboardView.swift in Sources */,
 				32E379062C370ADE0076F2C4 /* DoctorDetailViewModel.swift in Sources */,
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
