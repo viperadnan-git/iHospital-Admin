@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A86D2C3BAC9700509BCB /* ViewModifiers.swift */; };
+		3213A8702C3BE17800509BCB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A86F2C3BE17800509BCB /* User.swift */; };
+		3213A8722C3BE58100509BCB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8712C3BE58100509BCB /* Date.swift */; };
 		324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */; };
 		324C9CDC2C355D4A00712E84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDB2C355D4A00712E84 /* Assets.xcassets */; };
 		324C9CDF2C355D4A00712E84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */; };
@@ -18,7 +21,6 @@
 		324C9CFA2C35D7F400712E84 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CF92C35D7F400712E84 /* Constants.swift */; };
 		324C9CFC2C35D85800712E84 /* SupaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFB2C35D85800712E84 /* SupaUser.swift */; };
 		324C9CFF2C35D9B600712E84 /* Roles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFE2C35D9B600712E84 /* Roles.swift */; };
-		324C9D022C35E11E00712E84 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D012C35E11E00712E84 /* View.swift */; };
 		324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D042C35E24500712E84 /* LoaderButton.swift */; };
 		3284098D2C380C0600473841 /* BloodGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098C2C380C0600473841 /* BloodGroup.swift */; };
 		32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378EB2C365A790076F2C4 /* Doctor.swift */; };
@@ -53,6 +55,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3213A86D2C3BAC9700509BCB /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		3213A86F2C3BE17800509BCB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3213A8712C3BE58100509BCB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		324C9CD42C355D4800712E84 /* iHospital Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iHospital Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iHospital_AdminApp.swift; sourceTree = "<group>"; };
 		324C9CDB2C355D4A00712E84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,7 +67,6 @@
 		324C9CF92C35D7F400712E84 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		324C9CFB2C35D85800712E84 /* SupaUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupaUser.swift; sourceTree = "<group>"; };
 		324C9CFE2C35D9B600712E84 /* Roles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roles.swift; sourceTree = "<group>"; };
-		324C9D012C35E11E00712E84 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		324C9D042C35E24500712E84 /* LoaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderButton.swift; sourceTree = "<group>"; };
 		3284098C2C380C0600473841 /* BloodGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGroup.swift; sourceTree = "<group>"; };
 		32E378EB2C365A790076F2C4 /* Doctor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
@@ -132,8 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				32E378FB2C36A9960076F2C4 /* iHospital-Admin-Info.plist */,
-				324C9D032C35E22B00712E84 /* Components */,
 				324C9D002C35E11200712E84 /* Extensions */,
+				324C9D032C35E22B00712E84 /* Components */,
 				324C9CFD2C35D9A100712E84 /* Models */,
 				324C9CEE2C35D7A600712E84 /* Modules */,
 				32E378F62C3680290076F2C4 /* ViewModels */,
@@ -194,6 +198,7 @@
 				32E3790F2C3725210076F2C4 /* DoctorSettings.swift */,
 				4850DB5F2C36BB50001D10A1 /* Appointment.swift */,
 				3284098C2C380C0600473841 /* BloodGroup.swift */,
+				3213A86F2C3BE17800509BCB /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -201,8 +206,9 @@
 		324C9D002C35E11200712E84 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				324C9D012C35E11E00712E84 /* View.swift */,
 				32E379092C37195C0076F2C4 /* DateFormatter.swift */,
+				3213A86D2C3BAC9700509BCB /* ViewModifiers.swift */,
+				3213A8712C3BE58100509BCB /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -344,6 +350,7 @@
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				32E379142C373F980076F2C4 /* AdminStaffAddView.swift in Sources */,
 				3284098D2C380C0600473841 /* BloodGroup.swift in Sources */,
+				3213A8722C3BE58100509BCB /* Date.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,
 				4850DB5E2C369E56001D10A1 /* AdminAppointmentsList.swift in Sources */,
@@ -351,13 +358,14 @@
 				32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
+				3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */,
+				3213A8702C3BE17800509BCB /* User.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,
 				82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */,
 				4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */,
 				32E379102C3725210076F2C4 /* DoctorSettings.swift in Sources */,
 				32E3790A2C37195C0076F2C4 /* DateFormatter.swift in Sources */,
 				32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */,
-				324C9D022C35E11E00712E84 /* View.swift in Sources */,
 				823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */,
 				4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */,
 				32E378F02C365BE20076F2C4 /* Department.swift in Sources */,

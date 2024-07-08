@@ -7,26 +7,13 @@
 
 import SwiftUI
 
-let onepatient = Patient(patientId: UUID(), userId: UUID(), name: "Adnan", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
-
-let secondpatient = Patient(patientId: UUID(), userId: UUID(), name: "Shweta", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
-
-let thirdpatient = Patient(patientId: UUID(), userId: UUID(), name: "Vicky", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv")
-
-let oneDoctor = Doctor(userId: UUID(), name: "Doctor", dateOfBirth: Date(), gender: .male, phoneNumber: 29327, email: "asja", qualification: "asjha", experienceSince: Date(), dateOfJoining: Date(), departmentId: UUID())
-
-
 
 let totalDoctors = [
-    oneDoctor, oneDoctor, oneDoctor, oneDoctor
+    Doctor.sample, Doctor.sample, Doctor.sample, Doctor.sample
 ]
 
 var totalAppointments = [
-    Appointment(id: UUID(), patient: onepatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
-    Appointment(id: UUID(), patient: secondpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
-    Appointment(id: UUID(), patient: thirdpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
-    Appointment(id: UUID(), patient: onepatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date()),
-    Appointment(id: UUID(), patient: secondpatient, phoneNumber: "+91 XXXXXXXXXX", doctor: oneDoctor, appointmentTime: Date())
+    Appointment.sample, Appointment.sample, Appointment.sample, Appointment.sample
 ]
 
 var totalPatients = [
@@ -219,9 +206,9 @@ struct AppointmentRow: View {
                 Text("\(appointment.patient.name)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading,40)
-                Text("\(appointment.phoneNumber)")
+                Text(String(appointment.patient.phoneNumber))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("\(formattedTime(date: appointment.appointmentTime))")
+                Text("\(formattedTime(date: appointment.createdAt))")
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(appointment.doctor.name)")
                     .frame(maxWidth: .infinity, alignment: .leading)

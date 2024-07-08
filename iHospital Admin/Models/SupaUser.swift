@@ -22,6 +22,8 @@ struct SupaUser: Codable {
     let user: Auth.User
     let role: Roles
     
+    static let sample: SupaUser = SupaUser(user: Auth.User(id: UUID(), appMetadata: [:], userMetadata: [:], aud: "", createdAt: Date(), updatedAt: Date()), role: .admin)
+    
     static func loadUser() -> SupaUser? {
         guard let data = UserDefaults.standard.data(forKey: USER_INFO_KEY) else {
             print("User data not found")

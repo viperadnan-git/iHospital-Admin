@@ -14,8 +14,7 @@ struct LoginView: View {
     @State private var password: String = ""
     
     @State private var isLoading = false
-    @State private var errorTitle: String?
-    @State private var errorMessage: String?
+    @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
     var body: some View {
         GeometryReader { geometry in
@@ -94,7 +93,7 @@ struct LoginView: View {
                 .padding()
                 .frame(width: geometry.size.width > 600 ? geometry.size.width * 0.5 : geometry.size.width)
                 
-            }.errorAlert(title: $errorTitle, message: $errorMessage)
+            }.errorAlert(errorAlertMessage: errorAlertMessage)
         }.onOpenURL(perform: handleOpenURL)
     }
     
@@ -113,7 +112,7 @@ struct LoginView: View {
                 try await SupaUser.login(email: email, password: password)
                 try await authViewModel.updateSupaUser()
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }
@@ -125,7 +124,7 @@ struct LoginView: View {
                 try await supabase.auth.session(from: url)
                 try await authViewModel.updateSupaUser()
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

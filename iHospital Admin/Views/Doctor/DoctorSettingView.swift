@@ -15,8 +15,7 @@ struct DoctorSettingView: View {
     @State private var endTime = Date()
     @State private var selectedDays: Set<String> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
     @State private var fee = DEFAULT_DOCTOR_FEES
-    @State private var errorTitle: String? = "Invalid Input"
-    @State private var errorMessage: String?
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Invalid Input")
     
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let priorBookingOptions = ["1 Week": 7, "2 Weeks": 14, "3 Weeks": 21, "4 Weeks": 28]
@@ -80,71 +79,62 @@ struct DoctorSettingView: View {
                         ))
                     }
                 }
-                
-                Button(action: saveSettings) {
-                    Text("Save Settings")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
             }
-            .errorAlert(title: $errorTitle, message: $errorMessage)
+            .errorAlert(errorAlertMessage: errorAlertMessage)
         }
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Doctor Settings")
         .onAppear(perform: fetchSettings)
+        .toolbar {
+            Button(action: saveSettings) {
+                Text("Save")
+            }
+        }
     }
     
     private func fetchSettings() {
-        Task {
-            do {
-                guard let userId = doctorDetailViewModel.doctor?.userId else {
-                    errorMessage = "Failed to retrieve doctor ID."
-                    return
-                }
-                
-                let settings = try await DoctorSettings.get(userId: userId)
-                
-                priorBookingDays = settings.priorBookingDays
-                startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.startTime),
-                                                  minute: Calendar.current.component(.minute, from: settings.startTime),
-                                                  second: 0,
-                                                  of: Date()) ?? Date()
-                endTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.endTime),
-                                                minute: Calendar.current.component(.minute, from: settings.endTime),
-                                                second: 0,
-                                                of: Date()) ?? Date()
-                selectedDays = Set(settings.selectedDays)
-                fee = settings.fee
-            } catch {
-                errorMessage = "Failed to fetch settings: \(error.localizedDescription)"
-            }
+        
+        guard let settings = doctorDetailViewModel.doctor?.settings else {
+            errorAlertMessage.message = "Failed to retrieve doctor settings."
+            return
         }
+        
+        print(settings)
+        
+        priorBookingDays = settings.priorBookingDays
+        startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.startTime),
+                                          minute: Calendar.current.component(.minute, from: settings.startTime),
+                                          second: 0,
+                                          of: Date()) ?? Date()
+        endTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.endTime),
+                                        minute: Calendar.current.component(.minute, from: settings.endTime),
+                                        second: 0,
+                                        of: Date()) ?? Date()
+        selectedDays = Set(settings.selectedDays)
+        fee = settings.fee
+        
     }
     
     private func saveSettings() {
         Task {
             do {
-                guard let userId = doctorDetailViewModel.doctor?.userId else {
-                    errorMessage = "Failed to retrieve doctor ID."
+                guard let settings = doctorDetailViewModel.doctor?.settings else {
+                    errorAlertMessage.message = "Failed to retrieve doctor ID."
                     return
                 }
                 
-                try await DoctorSettings.save(
-                    userId: userId,
-                    priorBookingDays: priorBookingDays,
-                    startTime: startTime,
-                    endTime: endTime,
-                    selectedDays: Array(selectedDays),
-                    fee: fee
-                )
-                errorMessage = "Settings saved successfully."
-                errorTitle = "Success"
+                settings.priorBookingDays = priorBookingDays
+                settings.startTime = startTime
+                settings.endTime = endTime
+                settings.selectedDays = Array(selectedDays)
+                settings.fee = fee
+                
+                try await settings.save()
+                
+                errorAlertMessage.title = "Success"
+                errorAlertMessage.message = "Settings saved successfully."
             } catch {
-                errorMessage = "Failed to save settings: \(error.localizedDescription)"
+                errorAlertMessage.message = "Failed to save settings: \(error.localizedDescription)"
             }
         }
     }

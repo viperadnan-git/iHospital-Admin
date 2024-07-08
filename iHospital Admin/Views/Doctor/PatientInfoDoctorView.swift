@@ -49,7 +49,7 @@ struct PatientInfoDoctorView: View {
                     }
                     .padding(40)
                     .frame(width: geometry.size.width * 0.35)
-                    .background(Color(hex: "EAF6FA"))
+                    .background(.accent)
                     .cornerRadius(15)
                     .shadow(radius: 5)
                     
@@ -96,7 +96,7 @@ struct PatientInfoDoctorView: View {
                             }
                         }
                         .padding()
-                        .background(Color(hex: "EAF6FA"))
+                        .background(.accent)
                         .cornerRadius(15)
                         .shadow(radius: 5)
                         
@@ -121,7 +121,7 @@ struct PatientInfoDoctorView: View {
                             }
                         }
                         .padding()
-                        .background(Color(hex: "EAF6FA"))
+                        .background(Color(.accent))
                         .cornerRadius(15)
                         .shadow(radius: 5)
                     }

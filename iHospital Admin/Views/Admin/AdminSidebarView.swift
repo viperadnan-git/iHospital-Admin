@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AdminSidebarView: View {
-    @State private var errorTitle: String?
-    @State private var errorMessage: String?
+    @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
     var body: some View {
         NavigationView {
@@ -43,7 +42,7 @@ struct AdminSidebarView: View {
                 }
             }
             AdminDashboardView()
-        }.errorAlert(title: $errorTitle, message: $errorMessage)
+        }.errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     func onLogOut() {
@@ -52,7 +51,7 @@ struct AdminSidebarView: View {
                 print("Loggin out")
                 try await SupaUser.logOut()
             } catch {
-                errorMessage = error.localizedDescription
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

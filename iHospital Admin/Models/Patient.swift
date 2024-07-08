@@ -37,6 +37,16 @@ struct Patient: Codable {
         return formatter
     }()
     
+    static let sample = Patient(patientId: UUID(),
+                userId: UUID(),
+                name: "John Doe",
+                phoneNumber: 1234567890,
+                bloodGroup: .APositive,
+                dateOfBirth: Date(),
+                height: 5.8,
+                weight: 70,
+                address: "123, Main Street, City, Country")
+    
     static let decoder = JSONDecoder()
     static let encoder = JSONEncoder()
 
@@ -86,11 +96,12 @@ struct Patient: Codable {
 
     
     static func fetchAll() async throws -> [Patient] {
-        let response = try await supabase.from(SupabaseTable.patients.id)
+        let response:[Patient] = try await supabase.from(SupabaseTable.patients.id)
             .select()
             .execute()
+            .value
         
-        let patients = try decoder.decode([Patient].self, from: response.data)
-        return patients
+      
+        return response
     }
 }

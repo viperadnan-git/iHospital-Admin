@@ -20,7 +20,7 @@ struct AdminPatientDetailsView: View {
                     VStack(alignment: .leading){
                         Text("\(patient.name)").font(.title)
                             .bold()
-                        Text("\(onepatient.userId)").font(.system(size: 12))
+                        Text("\(patient.userId)").font(.system(size: 12))
                         Text("Age: \(calculateAge(from: patient.dateOfBirth))")
                         Text("Phone No:  \(patient.phoneNumber)")
                         Text("Address: \(patient.address)")

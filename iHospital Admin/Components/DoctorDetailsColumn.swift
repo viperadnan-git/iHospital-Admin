@@ -33,6 +33,11 @@ struct DoctorDetailsColumn: View {
                         Text(doctor.email)
                     }
                     HStack {
+                        Text("Gender")
+                        Spacer()
+                        Text(doctor.gender.id.capitalized)
+                    }
+                    HStack {
                         Text("Phone")
                         Spacer()
                         Text(String(doctor.phoneNumber))
@@ -43,9 +48,9 @@ struct DoctorDetailsColumn: View {
                         Text(doctor.qualification)
                     }
                     HStack {
-                        Text("Experience Since")
+                        Text("Year of Experience")
                         Spacer()
-                        Text("\(doctor.experienceSince, formatter: DateFormatter.shortDate)")
+                        Text("\(doctor.experienceSince.yearsSince)")
                     }
                     HStack {
                         Text("Date of Joining")

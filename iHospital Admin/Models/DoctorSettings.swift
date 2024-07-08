@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct DoctorSettings: Codable {
-    let userId: UUID
-    let priorBookingDays: Int
-    let startTime: Date
-    let endTime: Date
-    let selectedDays: [String]
-    let fee: Int
+class DoctorSettings: Codable {
+    let doctorId: UUID
+    var priorBookingDays: Int
+    var startTime: Date
+    var endTime: Date
+    var selectedDays: [String]
+    var fee: Int
     
     enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
+        case doctorId = "doctor_id"
         case priorBookingDays = "prior_booking_days"
         case startTime = "start_time"
         case endTime = "end_time"
@@ -33,7 +33,7 @@ struct DoctorSettings: Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
+        try container.encode(doctorId, forKey: .doctorId)
         try container.encode(priorBookingDays, forKey: .priorBookingDays)
         try container.encode(DoctorSettings.timeFormatter.string(from: startTime), forKey: .startTime)
         try container.encode(DoctorSettings.timeFormatter.string(from: endTime), forKey: .endTime)
@@ -41,9 +41,9 @@ struct DoctorSettings: Codable {
         try container.encode(fee, forKey: .fee)
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        userId = try container.decode(UUID.self, forKey: .userId)
+        doctorId = try container.decode(UUID.self, forKey: .doctorId)
         priorBookingDays = try container.decode(Int.self, forKey: .priorBookingDays)
         
         let startTimeString = try container.decode(String.self, forKey: .startTime)
@@ -60,8 +60,8 @@ struct DoctorSettings: Codable {
         fee = try container.decode(Int.self, forKey: .fee)
     }
     
-    init(userId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) {
-        self.userId = userId
+    init(doctorId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) {
+        self.doctorId = doctorId
         self.priorBookingDays = priorBookingDays
         self.startTime = startTime
         self.endTime = endTime
@@ -69,19 +69,26 @@ struct DoctorSettings: Codable {
         self.fee = fee
     }
     
-    static func save(userId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) async throws {
-        let settings = DoctorSettings(
-            userId: userId,
-            priorBookingDays: priorBookingDays,
+    static func getDefaultSettings(userId: UUID) -> DoctorSettings {
+        let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
+        let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
+        let selectedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        
+        return DoctorSettings(
+            doctorId: userId,
+            priorBookingDays: 7,
             startTime: startTime,
             endTime: endTime,
             selectedDays: selectedDays,
-            fee: fee
+            fee: 499
         )
-        
+    }
+    
+    
+    func save() async throws {
         try await supabase.from("doctor_settings")
-            .upsert(settings)
-            .eq("user_id", value: userId)
+            .upsert(self)
+            .eq("doctor_id", value: doctorId)
             .execute()
     }
     
@@ -93,21 +100,9 @@ struct DoctorSettings: Codable {
             .execute()
         
         guard let response = response else {
-            let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
-            let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
-            let selectedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-            
-            return DoctorSettings(
-                userId: userId,
-                priorBookingDays: 7,
-                startTime: startTime,
-                endTime: endTime,
-                selectedDays: selectedDays,
-                fee: 499
-            )
+            return getDefaultSettings(userId: userId)
         }
-        
-        print(String(data: response.data, encoding: .utf8) ?? "No data")
+
         
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in
