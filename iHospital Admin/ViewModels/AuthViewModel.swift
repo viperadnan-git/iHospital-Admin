@@ -10,6 +10,7 @@ import Supabase
 
 class AuthViewModel: ObservableObject {
     @Published var user: SupaUser? = SupaUser.shared
+    @Published var shouldChangePassword: Bool = false
     
     @MainActor
     init() {

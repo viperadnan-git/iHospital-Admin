@@ -125,6 +125,7 @@ struct LoginView: View {
         Task {
             do {
                 try await supabase.auth.session(from: url)
+                authViewModel.shouldChangePassword = true
                 try await authViewModel.updateSupaUser()
             } catch {
                 errorAlertMessage.message = error.localizedDescription

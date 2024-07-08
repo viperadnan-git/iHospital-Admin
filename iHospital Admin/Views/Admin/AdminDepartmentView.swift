@@ -127,7 +127,7 @@ struct CardView: View {
     }
 }
 
-// Preview for testing purposes
+
 #Preview {
     AdminDepartmentView()
 }

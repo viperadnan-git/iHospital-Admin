@@ -22,7 +22,16 @@ struct AdminDoctorListView: View {
                 Text(errorMessage)
                     .foregroundColor(.red)
             } else if adminDoctorViewModel.doctors.isEmpty {
-                Text("No doctors found")
+                Image(systemName: "xmark.bin")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                    .padding()
+                    .foregroundColor(.gray)
+                
+                Text("No doctors found in \(department.name) department")
+                    .font(.title)
+                    .foregroundColor(.gray)
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 15) {

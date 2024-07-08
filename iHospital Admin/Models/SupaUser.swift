@@ -69,4 +69,8 @@ struct SupaUser: Codable {
         print("Logged in as \(user.email ?? "Unknown email") with role \(role["role"]?.rawValue ?? "Unknown role")")
         return SupaUser(user: user, role: role["role"]!)
     }
+    
+    func updatePassword(password: String) async throws {
+        try await supabase.auth.update(user: UserAttributes(password: password))
+    }
 }

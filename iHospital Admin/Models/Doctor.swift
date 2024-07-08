@@ -20,7 +20,7 @@ struct Doctor: Codable, Hashable {
     let experienceSince: Date
     let dateOfJoining: Date
     let departmentId: UUID
-    var settings: DoctorSettings?
+    var doctorSettings: DoctorSettings?
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
@@ -34,7 +34,7 @@ struct Doctor: Codable, Hashable {
         case experienceSince = "experience_since"
         case dateOfJoining = "date_of_joining"
         case departmentId = "department_id"
-        case settings = "doctor_settings"
+        case doctorSettings = "doctor_settings"
     }
     
     static func == (lhs: Doctor, rhs: Doctor) -> Bool {
@@ -47,6 +47,10 @@ struct Doctor: Codable, Hashable {
     
     var name: String {
         "\(firstName) \(lastName)"
+    }
+    
+    var settings: DoctorSettings {
+        doctorSettings ?? DoctorSettings.getDefaultSettings(userId: userId)
     }
     
     static let supabaseSelectQuery = "*, doctor_settings(*)"
@@ -64,7 +68,7 @@ struct Doctor: Codable, Hashable {
                       experienceSince: Date(),
                       dateOfJoining: Date(),
                       departmentId: UUID(),
-                      settings: DoctorSettings.getDefaultSettings(userId: userId))
+                      doctorSettings: DoctorSettings.getDefaultSettings(userId: userId))
     }
     
     static let dateFormatter: DateFormatter = {
@@ -104,11 +108,10 @@ struct Doctor: Codable, Hashable {
         qualification = try container.decode(String.self, forKey: .qualification)
         departmentId = try container.decode(UUID.self, forKey: .departmentId)
         
-        // Handle DoctorSettings when it is null
-        settings = try? container.decodeIfPresent(DoctorSettings.self, forKey: .settings)
+        doctorSettings = try? container.decodeIfPresent(DoctorSettings.self, forKey: .doctorSettings)
     }
     
-    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
+    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, doctorSettings: DoctorSettings) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -120,7 +123,7 @@ struct Doctor: Codable, Hashable {
         self.experienceSince = experienceSince
         self.dateOfJoining = dateOfJoining
         self.departmentId = departmentId
-        self.settings = settings
+        self.doctorSettings = doctorSettings
     }
     
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {

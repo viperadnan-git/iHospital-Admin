@@ -16,16 +16,18 @@ struct iHospital_AdminApp: App {
         WindowGroup {
             Group {
                 if authViewModel.user != nil {
-                    if authViewModel.user?.role == .admin {
-                        AdminSidebarView()             
+                    if authViewModel.shouldChangePassword {
+                        ChangePasswordView()
+                    } else if authViewModel.user?.role == .admin {
+                        AdminSidebarView()
                     } else {
                         DoctorDashboardView()
                     }
                 }
                 else {
-                    LoginView().environmentObject(authViewModel)
+                    LoginView()
                 }
-            }
+            }.environmentObject(authViewModel)
         }
     }
 }

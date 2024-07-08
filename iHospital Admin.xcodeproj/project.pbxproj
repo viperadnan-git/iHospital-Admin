@@ -11,6 +11,7 @@
 		3213A8702C3BE17800509BCB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A86F2C3BE17800509BCB /* User.swift */; };
 		3213A8722C3BE58100509BCB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8712C3BE58100509BCB /* Date.swift */; };
 		3213A8762C3BFC5B00509BCB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A8752C3BFC5B00509BCB /* String.swift */; };
+		3213A87B2C3C826200509BCB /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213A87A2C3C826200509BCB /* ChangePasswordView.swift */; };
 		324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */; };
 		324C9CDC2C355D4A00712E84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDB2C355D4A00712E84 /* Assets.xcassets */; };
 		324C9CDF2C355D4A00712E84 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 324C9CDE2C355D4A00712E84 /* Preview Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		3213A86F2C3BE17800509BCB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3213A8712C3BE58100509BCB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3213A8752C3BFC5B00509BCB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		3213A87A2C3C826200509BCB /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		324C9CD42C355D4800712E84 /* iHospital Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iHospital Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		324C9CD72C355D4800712E84 /* iHospital_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iHospital_AdminApp.swift; sourceTree = "<group>"; };
 		324C9CDB2C355D4A00712E84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -117,6 +119,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3213A8792C3C80A600509BCB /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
+				823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */,
+				3213A87A2C3C826200509BCB /* ChangePasswordView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		324C9CCB2C355D4800712E84 = {
 			isa = PBXGroup;
 			children = (
@@ -165,10 +177,9 @@
 		324C9CEB2C35CB6D00712E84 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3213A8792C3C80A600509BCB /* Auth */,
 				32E379022C3709970076F2C4 /* Doctor */,
 				32E378F12C367B4A0076F2C4 /* Admin */,
-				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
-				823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E378EE2C365AA90076F2C4 /* Gender.swift in Sources */,
+				3213A87B2C3C826200509BCB /* ChangePasswordView.swift in Sources */,
 				32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */,
 				3213A8762C3BFC5B00509BCB /* String.swift in Sources */,
 				32E378FA2C36820B0076F2C4 /* AdminDepartmentView.swift in Sources */,

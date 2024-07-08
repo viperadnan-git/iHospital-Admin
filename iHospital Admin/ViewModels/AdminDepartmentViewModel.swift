@@ -22,15 +22,13 @@ class AdminDepartmentViewModel: ObservableObject {
         Task {
             do {
                 let fetchedDepartments = try await Department.fetchAll()
+                print(fetchedDepartments)
                 DispatchQueue.main.async {
                     self.departments = fetchedDepartments
                     self.isLoading = false
                 }
             } catch {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Failed to load departments"
-                    self.isLoading = false
-                }
+                print(error)
             }
         }
     }

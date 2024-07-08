@@ -26,7 +26,7 @@ struct Department: Decodable {
             return all
         }
         
-        let departments: [Department] = try await supabase.from(SupabaseTable.departments.rawValue).select().execute().value
+        let departments: [Department] = try await supabase.from(SupabaseTable.departments.id).select().execute().value
         all = departments
         return departments
     }
