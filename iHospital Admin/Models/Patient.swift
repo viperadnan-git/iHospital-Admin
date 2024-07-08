@@ -11,7 +11,8 @@ import Foundation
 struct Patient: Codable {
     let patientId: UUID
     let userId: UUID
-    let name: String
+    let firstName: String
+    let lastName: String
     let phoneNumber: Int
     let bloodGroup: BloodGroup
     let dateOfBirth: Date
@@ -22,7 +23,8 @@ struct Patient: Codable {
     enum CodingKeys: String, CodingKey {
         case patientId = "id"
         case userId = "user_id"
-        case name
+        case firstName = "first_name"
+        case lastName = "last_name"
         case phoneNumber = "phone_number"
         case bloodGroup = "blood_group"
         case dateOfBirth = "date_of_birth"
@@ -30,7 +32,11 @@ struct Patient: Codable {
         case weight
         case address
     }
-
+    
+    var name: String {
+        "\(firstName) \(lastName)"
+    }
+    
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -39,7 +45,8 @@ struct Patient: Codable {
     
     static let sample = Patient(patientId: UUID(),
                 userId: UUID(),
-                name: "John Doe",
+                firstName: "John",
+                lastName: "Doe",
                 phoneNumber: 1234567890,
                 bloodGroup: .APositive,
                 dateOfBirth: Date(),
@@ -54,7 +61,8 @@ struct Patient: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         patientId = try container.decode(UUID.self, forKey: .patientId)
         userId = try container.decode(UUID.self, forKey: .userId)
-        name = try container.decode(String.self, forKey: .name)
+        firstName = try container.decode(String.self, forKey: .firstName)
+        lastName = try container.decode(String.self, forKey: .lastName)
         phoneNumber = try container.decode(Int.self, forKey: .phoneNumber)
         bloodGroup = try container.decode(BloodGroup.self, forKey: .bloodGroup)
         
@@ -69,10 +77,11 @@ struct Patient: Codable {
         address = try container.decode(String.self, forKey: .address)
     }
     
-    init(patientId: UUID, userId: UUID, name: String, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
+    init(patientId: UUID, userId: UUID, firstName: String, lastName:String, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
         self.patientId = patientId
         self.userId = userId
-        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
         self.phoneNumber = phoneNumber
         self.bloodGroup = bloodGroup
         self.dateOfBirth = dateOfBirth
@@ -85,7 +94,7 @@ struct Patient: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(patientId, forKey: .patientId)
         try container.encode(userId, forKey: .userId)
-        try container.encode(name, forKey: .name)
+        try container.encode(firstName, forKey: .firstName)
         try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(bloodGroup, forKey: .bloodGroup)
         try container.encode(Patient.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)

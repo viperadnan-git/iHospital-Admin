@@ -41,7 +41,6 @@ class DoctorDetailViewModel: ObservableObject {
                 let appointments = try await doctor.fetchAppointments()
                 DispatchQueue.main.async {
                     self.appointments = appointments
-                    print(appointments)
                 }
             } catch {
                 print(error)

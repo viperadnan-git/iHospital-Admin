@@ -10,7 +10,8 @@ import Supabase
 
 struct Doctor: Codable, Hashable {
     let userId: UUID
-    let name: String
+    let firstName: String
+    let lastName: String
     let dateOfBirth: Date
     let gender: Gender
     let phoneNumber: Int
@@ -23,7 +24,8 @@ struct Doctor: Codable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
-        case name
+        case firstName = "first_name"
+        case lastName = "last_name"
         case dateOfBirth = "date_of_birth"
         case gender
         case phoneNumber = "phone_number"
@@ -43,20 +45,26 @@ struct Doctor: Codable, Hashable {
         hasher.combine(userId)
     }
     
+    var name: String {
+        "\(firstName) \(lastName)"
+    }
+    
     static let supabaseSelectQuery = "*, doctor_settings(*)"
     
     static var sample: Doctor {
-        Doctor(userId: UUID(),
-               name: "Dr. John Doe",
-               dateOfBirth: Date(),
-               gender: .male,
-               phoneNumber: 1234567890,
-               email: "doctor@ihospital.viperadnan.com",
-               qualification: "MBBS",
-               experienceSince: Date(),
-               dateOfJoining: Date(),
-               departmentId: UUID(),
-               settings: nil)
+        let userId = UUID()
+        return Doctor(userId: userId,
+                      firstName: "John",
+                      lastName: "Doe",
+                      dateOfBirth: Date(),
+                      gender: .male,
+                      phoneNumber: 1234567890,
+                      email: "doctor@ihospital.viperadnan.com",
+                      qualification: "MBBS",
+                      experienceSince: Date(),
+                      dateOfJoining: Date(),
+                      departmentId: UUID(),
+                      settings: DoctorSettings.getDefaultSettings(userId: userId))
     }
     
     static let dateFormatter: DateFormatter = {
@@ -74,7 +82,8 @@ struct Doctor: Codable, Hashable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decode(UUID.self, forKey: .userId)
-        name = try container.decode(String.self, forKey: .name)
+        firstName = try container.decode(String.self, forKey: .firstName)
+        lastName = try container.decode(String.self, forKey: .lastName)
         
         let dateOfBirthString = try container.decode(String.self, forKey: .dateOfBirth)
         let dateOfJoiningString = try container.decode(String.self, forKey: .dateOfJoining)
@@ -94,12 +103,15 @@ struct Doctor: Codable, Hashable {
         email = try container.decode(String.self, forKey: .email)
         qualification = try container.decode(String.self, forKey: .qualification)
         departmentId = try container.decode(UUID.self, forKey: .departmentId)
-        settings = try container.decodeIfPresent(DoctorSettings.self, forKey: .settings) ?? DoctorSettings.getDefaultSettings(userId: userId)
+        
+        // Handle DoctorSettings when it is null
+        settings = try? container.decodeIfPresent(DoctorSettings.self, forKey: .settings)
     }
     
-    init(userId: UUID, name: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
+    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, settings: DoctorSettings?) {
         self.userId = userId
-        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
         self.dateOfBirth = dateOfBirth
         self.gender = gender
         self.phoneNumber = phoneNumber
@@ -110,41 +122,43 @@ struct Doctor: Codable, Hashable {
         self.departmentId = departmentId
         self.settings = settings
     }
-
     
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {
-        let response:[Doctor] = try await supabase.from(SupabaseTable.doctors.rawValue)
+        let response = try await supabase.from(SupabaseTable.doctors.id)
             .select(supabaseSelectQuery)
             .eq("department_id", value: departmentId)
             .execute()
-            .value
         
-        return response
+        return try JSONDecoder().decode([Doctor].self, from: response.data)
     }
     
-    static func addDoctor(name: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws {
+    static func addDoctor(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws -> Doctor {
         let session = try await supabase.auth.signUp(email: email, password: UUID().uuidString)
         
-        let newDoctor = Doctor(
-            userId: session.user.id,
-            name: name,
-            dateOfBirth: dateOfBirth,
-            gender: gender,
-            phoneNumber: phoneNumber,
-            email: email,
-            qualification: qualification,
-            experienceSince: experienceSince,
-            dateOfJoining: dateOfJoining,
-            departmentId: departmentId,
-            settings: nil
-        )
-        
-        try await supabase.from(SupabaseTable.doctors.id)
-            .insert(newDoctor)
+        let doctor: Doctor = try await supabase.from(SupabaseTable.doctors.id)
+            .insert([
+                "user_id": session.user.id.uuidString,
+                "first_name": firstName,
+                "last_name": lastName,
+                "date_of_birth": dateFormatter.string(from: dateOfBirth),
+                "gender": gender.id,
+                "phone_number": String(phoneNumber),
+                "email": email,
+                "qualification": qualification,
+                "experience_since": dateFormatter.string(from: experienceSince),
+                "date_of_joining": dateFormatter.string(from: dateOfJoining),
+                "department_id": departmentId.uuidString
+            ])
+            .select(supabaseSelectQuery)
+            .single()
             .execute()
+            .value
+        
         try await supabase.from(SupabaseTable.roles.id)
             .insert(Role(userId: session.user.id, role: .doctor))
             .execute()
+        
+        return doctor
     }
     
     static func getMe() async throws -> Doctor {
@@ -158,7 +172,7 @@ struct Doctor: Codable, Hashable {
             throw SupabaseError.unauthorized
         }
         
-        let response:Doctor = try await supabase.from(SupabaseTable.doctors.id)
+        let response: Doctor = try await supabase.from(SupabaseTable.doctors.id)
             .select(supabaseSelectQuery)
             .eq("user_id", value: user.id)
             .single()

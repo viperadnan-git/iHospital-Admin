@@ -10,6 +10,8 @@ import SwiftUI
 struct DoctorDetailsColumn: View {
     @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
     
+    @StateObject var errorAlertMessage = ErrorAlertMessage()
+    
     var body: some View {
         if let doctor = doctorDetailViewModel.doctor {
             Form {
@@ -58,6 +60,22 @@ struct DoctorDetailsColumn: View {
                         Text("\(doctor.dateOfJoining, formatter: DateFormatter.shortDate)")
                     }
                 }
+                
+                Section(header: Text("Danger zone")) {
+                    Button(role: .destructive, action: logOut) {
+                        Text("Log Out").frame(maxWidth: .infinity, alignment: .center)
+                    }
+                }
+            }.errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+    }
+    
+    private func logOut() {
+        Task {
+            do {
+                try await SupaUser.logOut()
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
             }
         }
     }

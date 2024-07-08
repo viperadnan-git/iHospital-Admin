@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 let totalDoctors = [
     Doctor.sample, Doctor.sample, Doctor.sample, Doctor.sample
 ]
@@ -17,18 +16,17 @@ var totalAppointments = [
 ]
 
 var totalPatients = [
-    Patient(patientId: UUID(), userId: UUID(), name: "Adnan", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
-    Patient(patientId: UUID(), userId: UUID(), name: "Shweta", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
-    Patient(patientId: UUID(), userId: UUID(), name: "Vicky", phoneNumber: 9898989898, bloodGroup: .ABPositive, dateOfBirth: Date(), height: 167, weight: 88, address: "hkchshdvshdvv"),
-    
-//    Patient(id: UUID(), name: "Adnan", age: 12, gender: .male),
-//    Patient(id: UUID(), name: "Shweta", age: 12, gender: .male),
-//    Patient(id: UUID(), name: "Vicky", age: 12, gender: .male)
+    Patient.sample,
+    Patient.sample,
+    Patient.sample,
+    Patient.sample
 ]
 
 struct AdminDashboardView: View {
     @State private var searchText = ""
 
+    @State private var appointmentsCount: String?
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -40,17 +38,17 @@ struct AdminDashboardView: View {
                             .padding(.leading,30)
 
                         HStack(spacing: 20) {
-                            OverviewCard(title: "\(totalAppointments.count)", subtitle: "Appointments", color: .pink)
+                            OverviewCard(title: $appointmentsCount, subtitle: "Appointments", color: .pink)
                                 .frame(maxWidth: .infinity)
-                            OverviewCard(title: "\(totalPatients.count)", subtitle: "New Patients", color: .purple)
+                            OverviewCard(title: .constant("5"), subtitle: "New Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
                         }
                         .padding([.leading,.trailing],30)
                         .frame(maxWidth: .infinity)
 
                         HStack(spacing: 20) {
-                            OverviewCard(title: "\(totalDoctors.count)", subtitle: "Available Doctors", color: .yellow)
-                            OverviewCard(title: "13", subtitle: "Lab Tests", color: .blue)
+                            OverviewCard(title: .constant("7"), subtitle: "Available Doctors", color: .yellow)
+                            OverviewCard(title: .constant("13"), subtitle: "Lab Tests", color: .blue)
                         }
                         .padding(.top,0)
                         .padding([.leading,.trailing],30)
@@ -69,11 +67,11 @@ struct AdminDashboardView: View {
                             .padding(.leading,30)
                         
                         VStack(){
-                            OverviewCard(title: "$XYZ", subtitle: "Total Revenue", color: .purple)
+                            OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
                                 .padding([.leading,.trailing],30)
                                 .padding(.top,10)
 
-                            OverviewCard(title: "$YYY", subtitle: "Total Revenue", color: .purple)
+                            OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
                                 .padding([.leading,.trailing],30)
                                 .padding(.bottom,25)
                                 .padding(.top,10)
@@ -89,10 +87,8 @@ struct AdminDashboardView: View {
                         .padding([.top,.leading,.trailing],20)
                         .font(.title3)
                         .bold()
-
-                    SearchBar(searchText: $searchText)
                     
-                    AppointmentsList(searchText: $searchText)
+                    AdminAppointmentsList(searchText: $searchText)
                         .background(Color.white)
                         .cornerRadius(12)
                         .padding()
@@ -102,20 +98,38 @@ struct AdminDashboardView: View {
             }
             .padding()
             .navigationTitle("Dashboard")
+            .onAppear(perform: fetchAppointments)
+        }
+    }
+    
+    func fetchAppointments() {
+        Task {
+            do {
+                let appointments = try await Appointment.fetchAppointments()
+                self.appointmentsCount = String(appointments.count)
+            } catch {
+                print("Error fetching appointments: \(error.localizedDescription)")
+            }
         }
     }
 }
 
 struct OverviewCard: View {
-    let title: String
+    @Binding var title: String?
     let subtitle: String
     let color: Color
 
     var body: some View {
         VStack {
-            Text(title)
-                .font(.largeTitle)
-                .bold()
+            if title != nil {
+                Text(title!)
+                    .font(.largeTitle)
+                    .bold()
+            } else {
+                ProgressView()
+                    .padding()
+            }
+           
             Text(subtitle)
                 .font(.subheadline)
         }
@@ -152,15 +166,13 @@ struct SearchBar: View {
     }
 }
 //to display all the Appointment Lists
-struct AppointmentsList: View {
+struct AdminAppointmentsList: View {
     @Binding var searchText: String
+    @State private var appointments: [Appointment] = []
 
     var body: some View {
-        LazyVStack {
-            
+        VStack {
             HStack{
-                Text("Patient ID").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
                 Text("Patient Name").frame(maxWidth: .infinity,alignment: .leading)
                     .bold()
                 Text("Mobile Number").frame(maxWidth: .infinity,alignment: .leading)
@@ -175,19 +187,31 @@ struct AppointmentsList: View {
             .background(Color.white)
             .padding()
             
-            ForEach(filteredAppointments()) { appointment in
+            ForEach(filteredAppointments(), id: \.id) { appointment in
                 AppointmentRow(appointment: appointment)
                 Divider()
             }
             .frame(maxWidth: .infinity)
         }
+        .onAppear(perform: fetchAppointments)
     }
 
     func filteredAppointments() -> [Appointment] {
         if searchText.isEmpty {
-            return totalAppointments
+            return appointments
         } else {
-            return totalAppointments.filter { $0.patient.name.lowercased().contains(searchText.lowercased()) }
+            return appointments.filter { $0.patient.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    
+    func fetchAppointments() {
+        Task {
+            do {
+                let appointments = try await Appointment.fetchAppointments()
+                self.appointments = appointments
+            } catch {
+                print("Error fetching appointments: \(error.localizedDescription)")
+            }
         }
     }
 }
@@ -196,13 +220,8 @@ struct AppointmentRow: View {
     var appointment: Appointment
 
     var body: some View {
-        
-        
-        
         NavigationLink(destination: AdminPatientDetailsView(patient: appointment.patient)) {
             HStack(spacing:20) {
-                Text("\(appointment.patient.userId)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(appointment.patient.name)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading,40)

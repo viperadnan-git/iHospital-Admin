@@ -66,6 +66,7 @@ struct SupaUser: Codable {
             .execute()
             .value
         
+        print("Logged in as \(user.email ?? "Unknown email") with role \(role["role"]?.rawValue ?? "Unknown role")")
         return SupaUser(user: user, role: role["role"]!)
     }
 }

@@ -12,7 +12,8 @@ import Supabase
 
 struct User: Codable, Hashable {
     let id: UUID
-    let name: String
+    let firstName: String
+    let lastName: String
     var email: String {
         didSet {
             email = email.lowercased()
@@ -22,15 +23,12 @@ struct User: Codable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
-        case name
+        case firstName = "first_name"
+        case lastName = "last_name"
         case email
         case phoneNumber = "phone_number"
     }
     
-    var firstName: Substring {
-        name.split(separator: " ").first!
-    }
-    
    
-    static let sample: User = User(id: UUID(), name: "John Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
+    static let sample: User = User(id: UUID(), firstName: "John", lastName: "Doe", email: "mail@viperadnan.com", phoneNumber: 1234567890)
 }

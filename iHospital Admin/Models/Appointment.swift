@@ -83,10 +83,22 @@ struct Appointment: Codable, Hashable, Identifiable {
         appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
     }
     
-    static func fetchAllAppointments() async throws -> [Appointment] {
+    static func fetchAppointments() async throws -> [Appointment] {
         let response:[Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    static func fetchAppointments(forDate date: Date) async throws -> [Appointment] {
+        let response:[Appointment] = try await supabase
+            .from(SupabaseTable.appointments.id)
+            .select(supabaseSelectQuery)
+            .gte("date", value: date.startOfDay.ISO8601Format())
+            .lte("date", value: date.endOfDay.ISO8601Format())
             .execute()
             .value
         

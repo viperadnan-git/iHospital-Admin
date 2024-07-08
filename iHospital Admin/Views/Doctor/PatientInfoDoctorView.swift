@@ -389,16 +389,6 @@ struct InfoRow: View {
 
 struct PatientInfoDoctorView_Previews: PreviewProvider {
     static var previews: some View {
-        PatientInfoDoctorView(patient: Patient(
-            patientId: UUID(),
-            userId: UUID(),
-            name: "Nitin",
-            phoneNumber: 79082293,
-            bloodGroup: BloodGroup.ABPositive,
-            dateOfBirth: Date(timeIntervalSince1970: 0), // Example date
-            height: 173,
-            weight: 75,
-            address: "Subhas nagar satha, london"
-        ))
+        PatientInfoDoctorView(patient: Patient.sample)
     }
 }

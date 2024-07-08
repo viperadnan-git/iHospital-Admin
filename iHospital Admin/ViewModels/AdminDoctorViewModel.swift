@@ -13,7 +13,7 @@ class AdminDoctorViewModel: ObservableObject {
     @Published var doctors: [Doctor] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-
+    
     func fetchDoctors(department: Department) {
         isLoading = true
         Task {
@@ -30,5 +30,13 @@ class AdminDoctorViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func addDoctor(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws {
+        let doctor = try await Doctor.addDoctor(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, qualification: qualification, experienceSince: experienceSince, dateOfJoining: dateOfJoining, departmentId: departmentId)
+        DispatchQueue.main.async {
+            self.doctors.append(doctor)
+        }
+        
     }
 }

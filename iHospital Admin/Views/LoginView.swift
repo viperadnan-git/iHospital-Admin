@@ -41,7 +41,7 @@ struct LoginView: View {
                         Image("hospital")
                             .resizable()
                             .scaledToFit()
-                            .padding(.bottom, 100)
+                            .padding(50)
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -72,7 +72,7 @@ struct LoginView: View {
                             Button(action: {
                                 // Handle forgot password
                             }) {
-                                Text("Forget Password?")
+                                Text("Forgot Password?")
                                     .foregroundColor(.blue)
                             }
                             .padding(.trailing)
@@ -83,7 +83,6 @@ struct LoginView: View {
                     LoaderButton(isLoading: $isLoading, action: onLogin) {
                         Text("Login")
                             .font(.system(size: 20, weight: .medium))
-                            .background(Color.blue)
                             .cornerRadius(8)
                     }
                     .padding()
@@ -99,6 +98,9 @@ struct LoginView: View {
     
     private func onLogin() {
         guard !email.isEmpty, !password.isEmpty else {
+            errorAlertMessage.message = "Please enter your email and password."
+            email = ""
+            password = ""
             return
         }
         
@@ -109,10 +111,11 @@ struct LoginView: View {
             }
             
             do {
-                try await SupaUser.login(email: email, password: password)
+                try await SupaUser.login(email: email.trimmed, password: password)
                 try await authViewModel.updateSupaUser()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
+                password = ""
             }
         }
     }

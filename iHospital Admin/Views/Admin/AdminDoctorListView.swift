@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AdminDoctorListView: View {
     let department: Department
-    @StateObject private var viewModel = AdminDoctorViewModel()
+    @StateObject private var adminDoctorViewModel = AdminDoctorViewModel()
     @State private var showingForm = false
     
     let columns = [
@@ -13,18 +13,20 @@ struct AdminDoctorListView: View {
 
     var body: some View {
         VStack {
-            if viewModel.isLoading {
+            if adminDoctorViewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .scaleEffect(2)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let errorMessage = viewModel.errorMessage {
+            } else if let errorMessage = adminDoctorViewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)
+            } else if adminDoctorViewModel.doctors.isEmpty {
+                Text("No doctors found")
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 15) {
-                        ForEach(viewModel.doctors, id: \.userId) { doctor in
+                        ForEach(adminDoctorViewModel.doctors, id: \.userId) { doctor in
                             DoctorView(doctor: doctor)
                         }
                         .padding(.horizontal,4)
@@ -42,10 +44,10 @@ struct AdminDoctorListView: View {
                 .font(.title3)
         })
         .sheet(isPresented: $showingForm) {
-            AdminDoctorAddView(department: department)
+            AdminDoctorAddView(department: department).environmentObject(adminDoctorViewModel)
         }
         .task {
-            viewModel.fetchDoctors(department: department)
+            adminDoctorViewModel.fetchDoctors(department: department)
         }
     }
 }

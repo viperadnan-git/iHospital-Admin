@@ -8,7 +8,7 @@
 enum Gender: String, Codable, CaseIterable, Identifiable {
     case male = "male"
     case female = "female"
-    case other = "other"
+    case others = "others"
     
     var id: String {
         self.rawValue

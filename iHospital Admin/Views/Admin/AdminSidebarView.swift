@@ -16,7 +16,7 @@ struct AdminSidebarView: View {
                 NavigationLink(destination: AdminDashboardView()) {
                     Label("Dashboard", systemImage: "house")
                 }
-                NavigationLink(destination: AdminAppointmentsList()) {
+                NavigationLink(destination: AdminAppointments()) {
                     Label("Appointments", systemImage: "calendar")
                 }
                 NavigationLink(destination: AdminDepartmentView()) {
@@ -48,7 +48,7 @@ struct AdminSidebarView: View {
     func onLogOut() {
         Task {
             do {
-                print("Loggin out")
+                print("Logging out")
                 try await SupaUser.logOut()
             } catch {
                 errorAlertMessage.message = error.localizedDescription

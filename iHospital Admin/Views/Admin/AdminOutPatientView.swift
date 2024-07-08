@@ -81,13 +81,13 @@ struct PatientDetailsList: View {
         .padding()
     }
     
-    func filteredPatients() -> [Patient] {
-        if searchText.isEmpty {
-            return totalPatients
-        } else {
-            return totalPatients.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        }
-    }
+//    func filteredPatients() -> [Patient] {
+//        if searchText.isEmpty {
+//            return totalPatients
+//        } else {
+//            return totalPatients.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+//        }
+//    }
 }
 
 
