@@ -43,8 +43,10 @@
 		4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB672C39876C001D10A1 /* AdminPatientView.swift */; };
 		4850DB6A2C398BD0001D10A1 /* AdminOutPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */; };
 		4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */; };
+		4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */; };
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
 		8201C86D2C3736550034B93F /* AdminStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C86C2C3736540034B93F /* AdminStaffView.swift */; };
+		823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
 		B0839B8B2C39B13A00930FC9 /* PatientInfoDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
@@ -86,8 +88,10 @@
 		4850DB672C39876C001D10A1 /* AdminPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientView.swift; sourceTree = "<group>"; };
 		4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminOutPatientView.swift; sourceTree = "<group>"; };
 		4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminInPatientView.swift; sourceTree = "<group>"; };
+		4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientDetailsView.swift; sourceTree = "<group>"; };
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
 		8201C86C2C3736540034B93F /* AdminStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffView.swift; sourceTree = "<group>"; };
+		823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
 		B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientInfoDoctorView.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				32E379022C3709970076F2C4 /* Doctor */,
 				32E378F12C367B4A0076F2C4 /* Admin */,
 				324C9CEC2C35CDF400712E84 /* LoginView.swift */,
+				823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 				4850DB672C39876C001D10A1 /* AdminPatientView.swift */,
 				4850DB692C398BD0001D10A1 /* AdminOutPatientView.swift */,
 				4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */,
+				4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -347,10 +353,12 @@
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,
 				82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */,
+				4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */,
 				32E379102C3725210076F2C4 /* DoctorSettings.swift in Sources */,
 				32E3790A2C37195C0076F2C4 /* DateFormatter.swift in Sources */,
 				32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */,
 				324C9D022C35E11E00712E84 /* View.swift in Sources */,
+				823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */,
 				4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */,
 				32E378F02C365BE20076F2C4 /* Department.swift in Sources */,
 				324C9CFA2C35D7F400712E84 /* Constants.swift in Sources */,
