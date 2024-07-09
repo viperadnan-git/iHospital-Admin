@@ -15,6 +15,16 @@ struct ChangePasswordView: View {
     
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    @FocusState private var focusedField: Field?
+    
+    @State private var passwordError: String?
+    @State private var confirmPasswordError: String?
+    
+    enum Field {
+        case password
+        case confirmPassword
+    }
+    
     var body: some View {
         HStack {
             VStack {
@@ -34,12 +44,52 @@ struct ChangePasswordView: View {
                     .padding(.top, 1)
                     .padding(.bottom, 20)
                 
-                VStack(spacing: 16) {
-                    SecureField("New Password", text: $password)
-                        .paddedTextFieldStyle()
+                VStack(spacing: 4) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        SecureField("New Password", text: $password)
+                            .paddedTextFieldStyle()
+                            .focused($focusedField, equals: .password)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                validatePassword()
+                                focusedField = .confirmPassword
+                            }
+                            .onChange(of: password) { _ in
+                                validatePassword()
+                            }
+                        
+                        if let passwordError = passwordError {
+                            Text(passwordError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 16)
+                        }
+                    }
                     
-                    SecureField("Confirm Password", text: $confirmPassword)
-                        .paddedTextFieldStyle()
+                    VStack(alignment: .leading, spacing: 4) {
+                        SecureField("Confirm Password", text: $confirmPassword)
+                            .paddedTextFieldStyle()
+                            .focused($focusedField, equals: .confirmPassword)
+                            .submitLabel(.done)
+                            .onSubmit {
+                                validateConfirmPassword()
+                                onUpdatePassword()
+                            }
+                            .onChange(of: confirmPassword) { _ in
+                                validateConfirmPassword()
+                            }
+                        
+                        if let confirmPasswordError = confirmPasswordError {
+                            Text(confirmPasswordError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 16)
+                        }
+                    }
                     
                     LoaderButton(isLoading: $isLoading, action: onUpdatePassword) {
                         Text("Update Password")
@@ -47,14 +97,35 @@ struct ChangePasswordView: View {
                     .buttonStyle(.borderedProminent)
                 }
             }
-        }.padding()
-            .padding(.trailing, 40)
+        }
+        .padding()
+        .padding(.trailing, 40)
         .errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
+    func validatePassword() {
+        if password.isEmpty {
+            passwordError = "Password is required."
+        } else {
+            passwordError = nil
+        }
+    }
+
+    func validateConfirmPassword() {
+        if confirmPassword.isEmpty {
+            confirmPasswordError = "Confirm password is required."
+        } else if confirmPassword != password {
+            confirmPasswordError = "Passwords do not match."
+        } else {
+            confirmPasswordError = nil
+        }
+    }
+    
     func onUpdatePassword() {
-        guard password == confirmPassword else {
-            errorAlertMessage.message = "Passwords do not match"
+        validatePassword()
+        validateConfirmPassword()
+        
+        guard passwordError == nil, confirmPasswordError == nil else {
             return
         }
         

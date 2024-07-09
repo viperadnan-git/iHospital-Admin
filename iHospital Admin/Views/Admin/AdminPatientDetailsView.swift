@@ -16,8 +16,8 @@ struct AdminPatientDetailsView: View {
                     Image(systemName: "person")
                         .resizable()
                         .frame(maxWidth: 100,maxHeight: 100)
-                        .padding()
-                    VStack(alignment: .leading){
+                        .padding(40)
+                    VStack(alignment: .leading, spacing: 8){
                         Text("\(patient.name)").font(.title)
                             .bold()
                         Text("\(patient.userId)").font(.system(size: 12))
@@ -27,7 +27,7 @@ struct AdminPatientDetailsView: View {
                     }
                     .padding()
                     Divider()
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading, spacing: 8){
                         Text("Other Info").font(.title3)
                             .bold()
                         Text("Blood Group: \(patient.bloodGroup)")
@@ -35,26 +35,26 @@ struct AdminPatientDetailsView: View {
                         Text("Weight: \(patient.weight ?? 00)")
                     }
                     .padding()
-
+                    
                 }
-                .frame(maxWidth: .infinity,maxHeight: 200,alignment: .leading)
-                    .background(Color.card)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                .frame(maxWidth: .infinity, maxHeight: 220,alignment: .leading)
+                .background(Color(.systemGray6))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding()
                 
                 VStack{
                     Text("Billing History").font(.title2).bold().frame(maxWidth: .infinity,alignment: .leading)
-                        BillingList(patient: patient)
-                            .background(Color.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-
+                    BillingList(patient: patient)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     
-              
+                    
+                    
                 }
                 .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .leading)
                 .padding()
-                .background(Color.card)
             }.navigationTitle("Patient Details")
-                    .navigationBarTitleDisplayMode(.inline)
+                .navigationBarTitleDisplayMode(.inline)
                 .padding()
         }
         
@@ -68,18 +68,20 @@ struct BillingList:View {
         LazyVStack{
             HStack{
                 Text("Bill No.").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
-                Text("Patient ID").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
+                    
                 Text("Patient Name").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
+                    
                 Text("Appointment Date").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
+                    
                 Text("Doctor").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
+            
                 Text("Payment Mode").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
-       }
+                    
+            }
+            .font(.caption)
+                .textCase(.uppercase)
+                .foregroundColor(Color(.systemGray))
+                .bold()
             .frame(maxWidth: .infinity,alignment: .leading)
             .padding()
             
@@ -95,18 +97,14 @@ struct BillingList:View {
 struct BillingRow:View {
     var patient:Patient
     var body: some View {
-
-            HStack{
-                Text("Bill No.").frame(maxWidth: .infinity,alignment: .leading)
-                Text("\(patient.userId)").frame(maxWidth: .infinity,alignment: .leading)
-                Text("\(patient.name)").frame(maxWidth: .infinity,alignment: .leading)
-                Text("Appointment Date").frame(maxWidth: .infinity,alignment: .leading)
-                Text("Doctor").frame(maxWidth: .infinity,alignment: .leading)
-                Text("Cash").frame(maxWidth: .infinity,alignment: .leading)
-            }
-            .padding()
-
-        
+        HStack{
+            Text("Bill No.").frame(maxWidth: .infinity,alignment: .leading)
+            Text("\(patient.firstName)").frame(maxWidth: .infinity,alignment: .leading)
+            Text("Appointment Date").frame(maxWidth: .infinity,alignment: .leading)
+            Text("Doctor").frame(maxWidth: .infinity,alignment: .leading)
+            Text("Cash").frame(maxWidth: .infinity,alignment: .leading)
+        }
+        .padding()
     }
 }
 

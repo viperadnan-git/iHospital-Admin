@@ -13,20 +13,21 @@ class DoctorDetailViewModel: ObservableObject {
     @Published var appointments: [Appointment] = []
     @Published var isLoading = true
     
+    @MainActor
     init() {
         fetchDoctor()
     }
     
+    @MainActor
     func fetchDoctor() {
         Task {
             do {
                 let doctor = try await Doctor.getMe()
-                DispatchQueue.main.async {
-                    self.doctor = doctor
-                    self.isLoading = false
-                }
+                self.doctor = doctor
+                self.isLoading = false
             } catch {
-                print(error)
+                print("Error fetching current doctor: \(error)")
+                try await SupaUser.logOut()
             }
         }
     }
@@ -43,7 +44,7 @@ class DoctorDetailViewModel: ObservableObject {
                     self.appointments = appointments
                 }
             } catch {
-                print(error)
+                print("Error fetching appointments: \(error)")
             }
         }
     }

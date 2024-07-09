@@ -68,27 +68,34 @@ struct DoctorView: View {
         VStack {
             Image(systemName: "person.crop.circle.fill")
                 .resizable()
+                .scaledToFit()
+                .foregroundColor(Color(.systemGray))
                 .frame(width: 80, height: 80)
                 .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth: 2))
             Text(doctor.name)
                 .font(.headline)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
 
-            Text(doctor.email)
-                .font(.subheadline)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-
-            Text("\(doctor.phoneNumber.formatted(.number))")
-                .font(.subheadline)
+            HStack(spacing: 2) {
+                Image(systemName: "envelope.fill")
+                Text(doctor.email)
+                    .font(.subheadline)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            
+            HStack(spacing: 2) {
+                Image(systemName: "phone.fill")
+                Text(String(doctor.phoneNumber))
+                    .font(.subheadline)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-        .background(Color.card)
+        .background(Color(.systemGray6))
         .cornerRadius(10)
     }
 }

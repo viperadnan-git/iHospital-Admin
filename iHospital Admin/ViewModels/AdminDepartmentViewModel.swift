@@ -22,13 +22,12 @@ class AdminDepartmentViewModel: ObservableObject {
         Task {
             do {
                 let fetchedDepartments = try await Department.fetchAll()
-                print(fetchedDepartments)
                 DispatchQueue.main.async {
                     self.departments = fetchedDepartments
                     self.isLoading = false
                 }
             } catch {
-                print(error)
+                print("Error fetching departments: \(error.localizedDescription)")
             }
         }
     }

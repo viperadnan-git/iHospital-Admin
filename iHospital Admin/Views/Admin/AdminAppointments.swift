@@ -20,14 +20,13 @@ struct AdminAppointments: View {
             }
             ScrollView{
                 AdminAppointmentsList(searchText: $searchText)
-                    .background(Color.white)
+                    .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.horizontal)
                     
             }
             
         }
-        .background(Color.card)
         .navigationTitle("Appointments")
     }
 }

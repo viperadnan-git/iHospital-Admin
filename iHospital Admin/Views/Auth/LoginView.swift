@@ -16,95 +16,154 @@ struct LoginView: View {
     @State private var isLoading = false
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
+    @FocusState private var focusedField: Field?
+    
+    @State private var emailError: String?
+    @State private var passwordError: String?
+    
+    enum Field {
+        case email
+        case password
+    }
+    
     var body: some View {
-        GeometryReader { geometry in
-            HStack {
-                if geometry.size.width > 600 {
-                    VStack {
-                        Spacer()
-                        HStack{
-                            Image(systemName: "heart.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 50)
-                                .padding(.top, 100)
-                            
-                            Text("iHospital")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .padding(.horizontal)
-                                .frame(width: 200, height: 50)
-                                .padding(.top, 100)
-                                
-                        }
-                        
-                        Image("hospital")
-                            .resizable()
-                            .scaledToFit()
-                            .padding(50)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.white)
+        HStack {
+            VStack {
+                Spacer()
+                HStack {
+                    Image(systemName: "heart.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 50)
+                        .padding(.top, 100)
+                    
+                    Text("iHospital")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
+                        .frame(width: 200, height: 50)
+                        .padding(.top, 100)
                 }
                 
-                VStack {
-                    Spacer()
-                    
-                    Text("Login")
-                        .font(.system(size: 40))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.black)
-                        .padding(.top, 20)
-                    
-                    VStack(spacing: 16) {
+                Image("hospital")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(50)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(.systemGray6))
+            
+            VStack {
+                Spacer()
+                
+                Text("Login")
+                    .font(.system(size: 40))
+                    .fontWeight(.bold)
+                    .padding(.top, 20)
+                
+                VStack(spacing: 4) {
+                    VStack(alignment: .leading, spacing: 4) {
                         TextField("Enter Your Email", text: $email)
                             .paddedTextFieldStyle()
                             .autocapitalization(.none)
                             .keyboardType(.emailAddress)
                             .textContentType(.emailAddress)
-                        
-                        SecureField("Enter Your Password", text: $password)
-                            .paddedTextFieldStyle()
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                // Handle forgot password
-                            }) {
-                                Text("Forgot Password?")
-                                    .foregroundColor(.blue)
+                            .focused($focusedField, equals: .email)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                validateEmail()
+                                focusedField = .password
                             }
-                            .padding(.trailing)
+                            .onChange(of: email) { _ in
+                                validateEmail()
+                            }
+                        
+                        if let emailError = emailError {
+                            Text(emailError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 17)
                         }
                     }
-                    .padding(.top, 20)
                     
-                    LoaderButton(isLoading: $isLoading, action: onLogin) {
-                        Text("Login")
-                            .font(.system(size: 20, weight: .medium))
-                            .cornerRadius(8)
+                    VStack(alignment: .leading, spacing: 4) {
+                        SecureField("Enter Your Password", text: $password)
+                            .paddedTextFieldStyle()
+                            .focused($focusedField, equals: .password)
+                            .submitLabel(.go)
+                            .onSubmit {
+                                validatePassword()
+                                onLogin()
+                            }
+                            .onChange(of: password) { _ in
+                                validatePassword()
+                            }
+                        
+                        if let passwordError = passwordError {
+                            Text(passwordError)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.leading, 2)
+                        } else {
+                            Spacer().frame(height: 17)
+                        }
                     }
-                    .padding()
                     
-                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            // Handle forgot password
+                        }) {
+                            Text("Forgot Password?")
+                                .foregroundColor(.blue)
+                        }
+                        .padding(.trailing)
+                    }
                 }
-                .padding()
-                .frame(width: geometry.size.width > 600 ? geometry.size.width * 0.5 : geometry.size.width)
+                .padding(.top, 20)
                 
-            }.errorAlert(errorAlertMessage: errorAlertMessage)
-        }.onOpenURL(perform: handleOpenURL)
+                LoaderButton(isLoading: $isLoading, action: onLogin) {
+                    Text("Login")
+                        .font(.system(size: 20, weight: .medium))
+                        .cornerRadius(8)
+                }
+                Spacer()
+            }.padding(40)
+        }.errorAlert(errorAlertMessage: errorAlertMessage)
+            .onOpenURL(perform: handleOpenURL)
+    }
+    
+    private func validateEmail() {
+        if email.isEmpty {
+            emailError = "Email is required."
+        } else if !email.isEmail {
+            emailError = "Please enter a valid email address."
+        } else {
+            emailError = nil
+        }
+    }
+    
+    private func validatePassword() {
+        if password.isEmpty {
+            passwordError = "Password is required."
+        } else {
+            passwordError = nil
+        }
     }
     
     private func onLogin() {
-        guard !email.isEmpty, !password.isEmpty else {
-            errorAlertMessage.message = "Please enter your email and password."
-            email = ""
-            password = ""
+        validateEmail()
+        validatePassword()
+        
+        guard emailError == nil, passwordError == nil else {
             return
         }
         
         Task {
+            focusedField = nil
             isLoading = true
             defer {
                 isLoading = false
@@ -119,8 +178,7 @@ struct LoginView: View {
             }
         }
     }
-
-
+    
     private func handleOpenURL(_ url: URL) {
         Task {
             do {
@@ -137,3 +195,4 @@ struct LoginView: View {
 #Preview {
     LoginView()
 }
+

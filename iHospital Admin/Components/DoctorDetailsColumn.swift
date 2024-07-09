@@ -18,10 +18,10 @@ struct DoctorDetailsColumn: View {
                 Section {
                         Image(systemName: "person.crop.circle.fill")
                             .resizable()
-                            .frame(width: 100, height: 100)
+                            .frame(width: 200, height: 200)
                             .clipShape(Circle())
                             .padding()
-                }
+                }.frame(maxWidth: .infinity, alignment: .center)
                 
                 Section(header: Text("Doctor Details")) {
                         Text(doctor.name)
@@ -57,7 +57,7 @@ struct DoctorDetailsColumn: View {
                     HStack {
                         Text("Date of Joining")
                         Spacer()
-                        Text("\(doctor.dateOfJoining, formatter: DateFormatter.shortDate)")
+                        Text(doctor.dateOfJoining.dateString)
                     }
                 }
                 

@@ -93,13 +93,11 @@ struct DoctorSettingView: View {
     }
     
     private func fetchSettings() {
-        
         guard let settings = doctorDetailViewModel.doctor?.settings else {
             errorAlertMessage.message = "Failed to retrieve doctor settings."
             return
         }
         
-        print(settings)
         
         priorBookingDays = settings.priorBookingDays
         startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.startTime),

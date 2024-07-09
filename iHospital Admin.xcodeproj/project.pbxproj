@@ -24,6 +24,7 @@
 		324C9CFC2C35D85800712E84 /* SupaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFB2C35D85800712E84 /* SupaUser.swift */; };
 		324C9CFF2C35D9B600712E84 /* Roles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9CFE2C35D9B600712E84 /* Roles.swift */; };
 		324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324C9D042C35E24500712E84 /* LoaderButton.swift */; };
+		325042302C3D0DE500452C0C /* PatienDetailsColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3250422F2C3D0DE500452C0C /* PatienDetailsColumn.swift */; };
 		3284098D2C380C0600473841 /* BloodGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098C2C380C0600473841 /* BloodGroup.swift */; };
 		32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378EB2C365A790076F2C4 /* Doctor.swift */; };
 		32E378EE2C365AA90076F2C4 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378ED2C365AA90076F2C4 /* Gender.swift */; };
@@ -72,6 +73,7 @@
 		324C9CFB2C35D85800712E84 /* SupaUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupaUser.swift; sourceTree = "<group>"; };
 		324C9CFE2C35D9B600712E84 /* Roles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roles.swift; sourceTree = "<group>"; };
 		324C9D042C35E24500712E84 /* LoaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderButton.swift; sourceTree = "<group>"; };
+		3250422F2C3D0DE500452C0C /* PatienDetailsColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatienDetailsColumn.swift; sourceTree = "<group>"; };
 		3284098C2C380C0600473841 /* BloodGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGroup.swift; sourceTree = "<group>"; };
 		32E378EB2C365A790076F2C4 /* Doctor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
 		32E378ED2C365AA90076F2C4 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				32E3790D2C3721F30076F2C4 /* DoctorDetailsColumn.swift */,
 				324C9D042C35E24500712E84 /* LoaderButton.swift */,
 				32E3790B2C371A380076F2C4 /* TimePicker.swift */,
+				3250422F2C3D0DE500452C0C /* PatienDetailsColumn.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E378EE2C365AA90076F2C4 /* Gender.swift in Sources */,
+				325042302C3D0DE500452C0C /* PatienDetailsColumn.swift in Sources */,
 				3213A87B2C3C826200509BCB /* ChangePasswordView.swift in Sources */,
 				32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */,
 				3213A8762C3BFC5B00509BCB /* String.swift in Sources */,
@@ -528,7 +532,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";
@@ -559,7 +563,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";

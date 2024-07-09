@@ -26,15 +26,34 @@ struct AdminDoctorAddView: View {
     
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to add")
     
+    @FocusState private var focusedField: Field?
+    
+    @State private var firstNameError: String?
+    @State private var lastNameError: String?
+    @State private var emailError: String?
+    @State private var phoneNumberError: String?
+    @State private var addressError: String?
+    @State private var qualificationsError: String?
+
+    enum Field {
+        case firstName
+        case lastName
+        case email
+        case phoneNumber
+        case address
+        case qualifications
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    Image(systemName: "person.circle")
+                    Image(systemName: "person.crop.circle.fill")
                         .resizable()
+                        .scaledToFit()
                         .frame(width: 200, height: 200)
                         .padding()
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(.systemGray))
                         .frame(maxWidth: .infinity)
                 }
                 
@@ -43,10 +62,16 @@ struct AdminDoctorAddView: View {
                         TextField("First Name", text: $firstName)
                             .textContentType(.givenName)
                             .autocapitalization(.words)
+                            .focused($focusedField, equals: .firstName)
+                            .onChange(of: firstName) { _ in validateFirstName() }
+                            .overlay(validationIcon(for: firstNameError), alignment: .trailing)
                         
                         TextField("Last Name", text: $lastName)
                             .textContentType(.familyName)
                             .autocapitalization(.words)
+                            .focused($focusedField, equals: .lastName)
+                            .onChange(of: lastName) { _ in validateLastName() }
+                            .overlay(validationIcon(for: lastNameError), alignment: .trailing)
                     }
                     
                     Picker("Gender", selection: $gender) {
@@ -57,16 +82,33 @@ struct AdminDoctorAddView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: Date.RANGE_MIN_24_YEARS_OLD, displayedComponents: .date)
+                    
                     TextField("Phone Number", text: $phoneNumber)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .phoneNumber)
+                        .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
+                        .overlay(validationIcon(for: phoneNumberError), alignment: .trailing)
+                    
                     TextField("Email", text: $email)
                         .textInputAutocapitalization(.never)
                         .textContentType(.emailAddress)
+                        .focused($focusedField, equals: .email)
+                        .onChange(of: email) { _ in validateEmail() }
+                        .overlay(validationIcon(for: emailError), alignment: .trailing)
+                    
                     TextField("Address", text: $address)
+                        .focused($focusedField, equals: .address)
+                        .onChange(of: address) { _ in validateAddress() }
+                        .overlay(validationIcon(for: addressError), alignment: .trailing)
+                    
                     TextField("Qualifications", text: $qualifications)
-                    DatePicker("Date of Joining", selection: $dateOfJoining, in: Date.RANGE_MAX_60_YEARS_AGO,  displayedComponents: .date)
-                    DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO,  displayedComponents: .date)
+                        .focused($focusedField, equals: .qualifications)
+                        .onChange(of: qualifications) { _ in validateQualifications() }
+                        .overlay(validationIcon(for: qualificationsError), alignment: .trailing)
+                    
+                    DatePicker("Date of Joining", selection: $dateOfJoining, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
+                    DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
                 }
             }
             .navigationTitle("Add Doctor")
@@ -82,33 +124,31 @@ struct AdminDoctorAddView: View {
     }
     
     func saveDoctor() async {
-        guard !firstName.isEmpty, !lastName.isEmpty, !email.isEmpty, !qualifications.isEmpty, !address.isEmpty else {
-            errorAlertMessage.message = "Please fill all the fields"
+        validateFirstName()
+        validateLastName()
+        validateEmail()
+        validatePhoneNumber()
+        validateAddress()
+        validateQualifications()
+        
+        guard firstNameError == nil,
+              lastNameError == nil,
+              emailError == nil,
+              phoneNumberError == nil,
+              addressError == nil,
+              qualificationsError == nil,
+              !firstName.isEmpty,
+              !lastName.isEmpty,
+              !email.isEmpty,
+              !qualifications.isEmpty,
+              !address.isEmpty else {
+            errorAlertMessage.message = "Please fill all the fields correctly"
             return
         }
         
-        guard firstName.isAlphabets else {
-            errorAlertMessage.message = "Invalid first name, must contain only alphabets"
-            return
-        }
-        
-        guard lastName.isAlphabetsAndSpace else {
-            errorAlertMessage.message = "Invalid last name, must contain only alphabets and spaces"
-            return
-        }
-        
-        guard email.isEmail else {
-            errorAlertMessage.message = "Invalid email"
-            return
-        }
-        
-        guard phoneNumber.count == 10 else {
-            errorAlertMessage.message = "Invalid phone number, must be 10 digits"
-            return
-        }
-        
-        guard let phoneNumber = Int(phoneNumber) else { return
+        guard let phoneNumber = Int(phoneNumber) else {
             errorAlertMessage.message = "Invalid phone number"
+            return
         }
         
         do {
@@ -127,6 +167,74 @@ struct AdminDoctorAddView: View {
             presentationMode.wrappedValue.dismiss()
         } catch {
             errorAlertMessage.message = error.localizedDescription
+        }
+    }
+    
+    func validationIcon(for error: String?) -> some View {
+        Group {
+            if let error = error {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(.red)
+                    .popover(isPresented: .constant(true)) {
+                        Text(error).padding()
+                    }
+            }
+        }
+    }
+    
+    func validateFirstName() {
+        if firstName.isEmpty {
+            firstNameError = "First name is required."
+        } else if !firstName.isAlphabets {
+            firstNameError = "First name must contain only alphabets."
+        } else {
+            firstNameError = nil
+        }
+    }
+
+    func validateLastName() {
+        if lastName.isEmpty {
+            lastNameError = "Last name is required."
+        } else if !lastName.isAlphabetsAndSpace {
+            lastNameError = "Last name must contain only alphabets and spaces."
+        } else {
+            lastNameError = nil
+        }
+    }
+
+    func validateEmail() {
+        if email.isEmpty {
+            emailError = "Email is required."
+        } else if !email.isEmail {
+            emailError = "Invalid email."
+        } else {
+            emailError = nil
+        }
+    }
+
+    func validatePhoneNumber() {
+        if phoneNumber.isEmpty {
+            phoneNumberError = "Phone number is required."
+        } else if !phoneNumber.isPhoneNumber {
+            phoneNumberError = "Invalid phone number, must be 10 digits."
+        } else {
+            phoneNumberError = nil
+        }
+    }
+
+    func validateAddress() {
+        if address.isEmpty {
+            addressError = "Address is required."
+        } else {
+            addressError = nil
+        }
+    }
+
+    func validateQualifications() {
+        if qualifications.isEmpty {
+            qualificationsError = "Qualifications are required."
+        } else {
+            qualificationsError = nil
         }
     }
 }

@@ -13,6 +13,7 @@ struct Patient: Codable {
     let userId: UUID
     let firstName: String
     let lastName: String
+    let gender: Gender
     let phoneNumber: Int
     let bloodGroup: BloodGroup
     let dateOfBirth: Date
@@ -25,6 +26,7 @@ struct Patient: Codable {
         case userId = "user_id"
         case firstName = "first_name"
         case lastName = "last_name"
+        case gender
         case phoneNumber = "phone_number"
         case bloodGroup = "blood_group"
         case dateOfBirth = "date_of_birth"
@@ -44,25 +46,27 @@ struct Patient: Codable {
     }()
     
     static let sample = Patient(patientId: UUID(),
-                userId: UUID(),
-                firstName: "John",
-                lastName: "Doe",
-                phoneNumber: 1234567890,
-                bloodGroup: .APositive,
-                dateOfBirth: Date(),
-                height: 5.8,
-                weight: 70,
-                address: "123, Main Street, City, Country")
+                                userId: UUID(),
+                                firstName: "John",
+                                lastName: "Doe",
+                                gender: .male,
+                                phoneNumber: 1234567890,
+                                bloodGroup: .APositive,
+                                dateOfBirth: Date(),
+                                height: 5.8,
+                                weight: 70,
+                                address: "123, Main Street, City, Country")
     
     static let decoder = JSONDecoder()
     static let encoder = JSONEncoder()
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         patientId = try container.decode(UUID.self, forKey: .patientId)
         userId = try container.decode(UUID.self, forKey: .userId)
         firstName = try container.decode(String.self, forKey: .firstName)
         lastName = try container.decode(String.self, forKey: .lastName)
+        gender = try container.decode(Gender.self, forKey: .gender)
         phoneNumber = try container.decode(Int.self, forKey: .phoneNumber)
         bloodGroup = try container.decode(BloodGroup.self, forKey: .bloodGroup)
         
@@ -77,11 +81,12 @@ struct Patient: Codable {
         address = try container.decode(String.self, forKey: .address)
     }
     
-    init(patientId: UUID, userId: UUID, firstName: String, lastName:String, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
+    init(patientId: UUID, userId: UUID, firstName: String, lastName:String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
         self.patientId = patientId
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
+        self.gender = gender
         self.phoneNumber = phoneNumber
         self.bloodGroup = bloodGroup
         self.dateOfBirth = dateOfBirth
@@ -95,6 +100,8 @@ struct Patient: Codable {
         try container.encode(patientId, forKey: .patientId)
         try container.encode(userId, forKey: .userId)
         try container.encode(firstName, forKey: .firstName)
+        try container.encode(lastName, forKey: .lastName)
+        try container.encode(gender, forKey: .gender)
         try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(bloodGroup, forKey: .bloodGroup)
         try container.encode(Patient.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)
@@ -102,7 +109,7 @@ struct Patient: Codable {
         try container.encodeIfPresent(weight, forKey: .weight)
         try container.encode(address, forKey: .address)
     }
-
+    
     
     static func fetchAll() async throws -> [Patient] {
         let response:[Patient] = try await supabase.from(SupabaseTable.patients.id)
@@ -110,7 +117,7 @@ struct Patient: Codable {
             .execute()
             .value
         
-      
+        
         return response
     }
 }

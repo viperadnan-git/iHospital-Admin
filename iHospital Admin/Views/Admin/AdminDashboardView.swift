@@ -33,9 +33,9 @@ struct AdminDashboardView: View {
                 HStack(spacing: 30){
                     VStack(alignment:.leading,spacing: 15) {
                         Text("Today's Overview")
-                            .font(.title)
-                            .padding(.top)
-                            .padding(.leading,30)
+                            .padding([.top,.leading,.trailing],20)
+                            .font(.title3)
+                            .bold()
 
                         HStack(spacing: 20) {
                             OverviewCard(title: $appointmentsCount, subtitle: "Appointments", color: .pink)
@@ -57,14 +57,13 @@ struct AdminDashboardView: View {
                         .frame(maxWidth: .infinity)
                     }
                     .frame(maxWidth: .infinity)
-                    .background(Color.dashboard)
                     .cornerRadius(12)
-
+                    Divider()
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Today's Revenue")
-                            .font(.title)
-                            .padding(.top)
-                            .padding(.leading,30)
+                            .padding([.top,.leading,.trailing],20)
+                            .font(.title3)
+                            .bold()
                         
                         VStack(){
                             OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
@@ -78,10 +77,11 @@ struct AdminDashboardView: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
-                    .background(Color.dashboard)
                     .cornerRadius(12)
                 }
-
+                
+                Divider()
+                
                 VStack(alignment: .leading){
                     Text("Today's Appointments")
                         .padding([.top,.leading,.trailing],20)
@@ -89,11 +89,11 @@ struct AdminDashboardView: View {
                         .bold()
                     
                     AdminAppointmentsList(searchText: $searchText)
-                        .background(Color.white)
+                        .background(Color(.systemGray6))
                         .cornerRadius(12)
                         .padding()
                 }
-                .background(Color.card)
+                .background(Color(.systemGroupedBackground))
                 .cornerRadius(12)
             }
             .padding()
@@ -156,10 +156,10 @@ struct SearchBar: View {
                 TextField("Search Patients", text: $searchText)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(8)
-                    .background(Color.white)
+                    .background(Color(.systemGray6))
             }
             .padding([.leading, .trailing])
-            .background(Color.white)
+            .background(Color(.systemGray6))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .padding([.leading, .trailing])
@@ -172,19 +172,18 @@ struct AdminAppointmentsList: View {
 
     var body: some View {
         VStack {
-            HStack{
+            HStack {
                 Text("Patient Name").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
                 Text("Mobile Number").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
                 Text("Appointment Time").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
                 Text("Doctor").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
                 Text("Status").frame(maxWidth: .infinity,alignment: .leading)
-                    .bold()
-            }
-            .background(Color.white)
+                   
+            } .font(.caption)
+                .textCase(.uppercase)
+                .foregroundColor(Color(.systemGray))
+                .bold()
+                .frame(maxWidth: .infinity,alignment: .leading)
             .padding()
             
             ForEach(filteredAppointments(), id: \.id) { appointment in
@@ -221,8 +220,8 @@ struct AppointmentRow: View {
 
     var body: some View {
         NavigationLink(destination: AdminPatientDetailsView(patient: appointment.patient)) {
-            HStack(spacing:20) {
-                Text("\(appointment.patient.name)")
+            HStack {
+                Text("\(appointment.patient.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading,40)
                 Text(String(appointment.patient.phoneNumber))
@@ -236,8 +235,8 @@ struct AppointmentRow: View {
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
             }
-            .padding([.leading, .trailing], 10)
-            .foregroundColor(.black)
+            // TODO: use auto colors
+            .foregroundColor(Color(.label))
         }
     }
 
