@@ -26,7 +26,7 @@ struct AdminPatientDetailsView: View {
                         Text("Address: \(patient.address)")
                     }
                     .padding()
-                    Divider()
+                    Divider().padding()
                     VStack(alignment: .leading, spacing: 8){
                         Text("Other Info").font(.title3)
                             .bold()

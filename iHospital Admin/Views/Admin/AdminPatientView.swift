@@ -18,7 +18,8 @@ struct AdminPatientView: View {
                 Text("OutPatient").tag("OutPatient")
             }
             .pickerStyle(.segmented)
-            .colorMultiply(.mainDark)
+            .colorMultiply(Color(.systemGray))
+            .foregroundColor(Color(.systemGray))
             .frame(maxWidth: 400)
             
             if selectedSide == "OutPatient"{

@@ -34,7 +34,6 @@ struct AdminOutPatientView: View {
  
             
         }
-        .background(Color.card)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
     }
@@ -59,6 +58,9 @@ struct PatientDetailsList: View {
                 Text("Status").frame(maxWidth: .infinity,alignment: .leading)
                     .bold()
             }.padding()
+                .font(.caption)
+                .textCase(.uppercase)
+                .foregroundColor(Color(.systemGray))
             
             
 //            ForEach(0..<10) { _ in
@@ -76,7 +78,7 @@ struct PatientDetailsList: View {
 //                PatientDetailsRow(patientdetails: patient)
 //            }
         }
-        .background(Color.white)
+        .background(Color(.systemGray6))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
     }

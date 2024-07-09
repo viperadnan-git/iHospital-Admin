@@ -25,7 +25,6 @@ struct AdminInPatientView: View {
                 PatientDetailsList(searchText: $searchtext)
             }
         }
-        .background(Color.card)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
             
