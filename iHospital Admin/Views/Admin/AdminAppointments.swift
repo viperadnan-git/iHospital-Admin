@@ -15,7 +15,7 @@ struct AdminAppointments: View {
         VStack(alignment: .leading,spacing: 20){
             HStack{
                 SearchBar(searchText: $searchText)
-                    .padding()
+//                    .padding()
 
             }
             ScrollView{

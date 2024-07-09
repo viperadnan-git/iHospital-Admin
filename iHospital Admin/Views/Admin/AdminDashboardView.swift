@@ -91,7 +91,6 @@ struct AdminDashboardView: View {
                     AdminAppointmentsList(searchText: $searchText)
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
-                        .padding()
                 }
                 .background(Color(.systemGroupedBackground))
                 .cornerRadius(12)
@@ -191,6 +190,7 @@ struct AdminAppointmentsList: View {
                 Divider()
             }
             .frame(maxWidth: .infinity)
+            .padding(.leading,20)
         }
         .onAppear(perform: fetchAppointments)
     }
@@ -223,7 +223,6 @@ struct AppointmentRow: View {
             HStack {
                 Text("\(appointment.patient.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading,40)
                 Text(String(appointment.patient.phoneNumber))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(formattedTime(date: appointment.createdAt))")
