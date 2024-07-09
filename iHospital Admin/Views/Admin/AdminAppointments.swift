@@ -14,7 +14,7 @@ struct AdminAppointments: View {
     var body: some View {
         VStack(alignment: .leading,spacing: 20){
             HStack{
-                SearchBar(searchText: $searchText)
+                SearchBar(text: $searchText)
                     .padding()
 
             }

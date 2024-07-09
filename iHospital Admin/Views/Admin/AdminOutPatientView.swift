@@ -12,7 +12,7 @@ struct AdminOutPatientView: View {
     var body: some View {
         VStack{
             HStack{
-                SearchBar(searchText: $searchtext).padding(.top)
+                SearchBar(text: $searchtext).padding(.top)
                 
 //                HStack{
 //                    Image(systemName: "plus")

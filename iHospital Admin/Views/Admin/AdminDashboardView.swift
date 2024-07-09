@@ -142,29 +142,7 @@ struct OverviewCard: View {
 }
 
 
-//UI for search bar
-struct SearchBar: View {
-    @Binding var searchText: String
 
-    var body: some View {
-        ZStack(alignment: .leading) {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.gray)
-                    .padding(.leading, 8)
-
-                TextField("Search Patients", text: $searchText)
-                    .textFieldStyle(PlainTextFieldStyle())
-                    .padding(8)
-                    .background(Color(.systemGray6))
-            }
-            .padding([.leading, .trailing])
-            .background(Color(.systemGray6))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        }
-        .padding([.leading, .trailing])
-    }
-}
 //to display all the Appointment Lists
 struct AdminAppointmentsList: View {
     @Binding var searchText: String

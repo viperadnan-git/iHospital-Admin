@@ -14,8 +14,19 @@ struct DoctorSettingView: View {
     @State private var startTime = Date()
     @State private var endTime = Date()
     @State private var selectedDays: Set<String> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    @State private var fee = DEFAULT_DOCTOR_FEES
+    @State private var fee = String(DEFAULT_DOCTOR_FEES)
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Invalid Input")
+    
+    @State private var isSaving = false
+    @State private var feeError: String?
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case fee
+    }
     
     let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     let priorBookingOptions = ["1 Week": 7, "2 Weeks": 14, "3 Weeks": 21, "4 Weeks": 28]
@@ -26,8 +37,16 @@ struct DoctorSettingView: View {
             
             Form {
                 Section(header: Text("Consultancy Fees")) {
-                    TextField("Fees", value: $fee, formatter: NumberFormatter())
-                        .keyboardType(.numberPad)
+                    HStack {
+                        TextField("Fees", text: $fee)
+                            .withIcon("indianrupeesign")
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .fee)
+                            .onChange(of: fee) { _ in
+                                validateFee()
+                            }
+                            .overlay(validationIcon(for: feeError), alignment: .trailing)
+                    }
                 }
                 
                 Section(header: Text("Set Availability Time")) {
@@ -56,14 +75,14 @@ struct DoctorSettingView: View {
                     }
                 }
                 
-                Section(header: Text("Prior Booking Days")) {
+                Section(header: Text("Prior Booking")) {
                     Picker("Prior Booking Days", selection: $priorBookingDays) {
                         ForEach(priorBookingOptions.keys.sorted(), id: \.self) { key in
                             Text(key).tag(priorBookingOptions[key]!)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                }
+                }.listRowInsets(.init(top: 0, leading: 7, bottom: 0, trailing: 7))
                 
                 Section(header: Text("Select Days of the Week")) {
                     ForEach(daysOfWeek, id: \.self) { day in
@@ -80,16 +99,22 @@ struct DoctorSettingView: View {
                     }
                 }
             }
-            .errorAlert(errorAlertMessage: errorAlertMessage)
         }
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Doctor Settings")
         .onAppear(perform: fetchSettings)
         .toolbar {
-            Button(action: saveSettings) {
-                Text("Save")
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: saveSettings) {
+                    if isSaving {
+                        ProgressView()
+                    } else {
+                        Text("Save")
+                    }
+                }
+                .disabled(isSaving)
             }
-        }
+        }.errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     private func fetchSettings() {
@@ -97,7 +122,6 @@ struct DoctorSettingView: View {
             errorAlertMessage.message = "Failed to retrieve doctor settings."
             return
         }
-        
         
         priorBookingDays = settings.priorBookingDays
         startTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: settings.startTime),
@@ -109,15 +133,28 @@ struct DoctorSettingView: View {
                                         second: 0,
                                         of: Date()) ?? Date()
         selectedDays = Set(settings.selectedDays)
-        fee = settings.fee
-        
+        fee = String(settings.fee)
     }
     
     private func saveSettings() {
+        validateFee()
+        
+        guard feeError == nil else {
+            errorAlertMessage.message = "Please correct the errors before saving."
+            return
+        }
+        
+        guard let fee = Int(fee) else {
+            errorAlertMessage.message = "Invalid fee amount."
+            return
+        }
+        
+        isSaving = true
         Task {
             do {
                 guard let settings = doctorDetailViewModel.doctor?.settings else {
                     errorAlertMessage.message = "Failed to retrieve doctor ID."
+                    isSaving = false
                     return
                 }
                 
@@ -133,6 +170,31 @@ struct DoctorSettingView: View {
                 errorAlertMessage.message = "Settings saved successfully."
             } catch {
                 errorAlertMessage.message = "Failed to save settings: \(error.localizedDescription)"
+            }
+            isSaving = false
+        }
+    }
+    
+    private func validateFee() {
+        if let fee = Int(fee) {
+            if fee >= 10000 {
+                feeError = "Fee must be less than 10,000."
+            } else {
+                feeError = nil
+            }
+        } else {
+            feeError = "Fee must be a number."
+        }
+    }
+    
+    private func validationIcon(for error: String?) -> some View {
+        Group {
+            if let error = error {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(.red)
+                    .popover(isPresented: .constant(true)) {
+                        Text(error).padding()
+                    }
             }
         }
     }

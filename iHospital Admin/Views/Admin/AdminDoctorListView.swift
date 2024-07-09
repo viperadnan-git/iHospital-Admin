@@ -27,9 +27,9 @@ struct AdminDoctorListView: View {
                     .scaledToFit()
                     .frame(width: 200, height: 200)
                     .padding()
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color(.systemGray6))
                 
-                Text("No doctors found in \(department.name) department")
+                Text("Tap the + button to add a doctor to this department")
                     .font(.title)
                     .foregroundColor(.gray)
             } else {

@@ -52,7 +52,7 @@ struct DoctorDetailsColumn: View {
                     HStack {
                         Text("Year of Experience")
                         Spacer()
-                        Text("\(doctor.experienceSince.yearsSince)")
+                        Text(doctor.experienceSince.yearsOfexperience)
                     }
                     HStack {
                         Text("Date of Joining")
@@ -67,6 +67,8 @@ struct DoctorDetailsColumn: View {
                     }
                 }
             }.errorAlert(errorAlertMessage: errorAlertMessage)
+        } else {
+            ProgressView()
         }
     }
     

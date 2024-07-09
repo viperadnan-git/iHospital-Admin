@@ -35,12 +35,12 @@ struct PatienDetailsColumn: View {
                 HStack {
                     Text("Phone")
                     Spacer()
-                    Text(String(patient.phoneNumber))
+                    Text(patient.phoneNumber.string)
                 }
                 HStack {
                     Text("Age")
                     Spacer()
-                    Text(String(patient.dateOfBirth.yearsSince))
+                    Text(patient.dateOfBirth.yearsSince.string)
                 }
                 
                 HStack {
@@ -55,7 +55,7 @@ struct PatienDetailsColumn: View {
                     if let height = patient.height {
                         Text("\(height, specifier: "%.2f") cm")
                     } else {
-                        Text("Unknown")
+                        Text("Unknown").foregroundStyle(Color.gray)
                     }
                 }
                 HStack {

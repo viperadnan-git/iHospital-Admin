@@ -13,7 +13,7 @@ struct AdminInPatientView: View {
         VStack{
             
             HStack{
-                SearchBar(searchText: $searchtext).padding(.top)
+                SearchBar(text: $searchtext).padding(.top)
 //                HStack{
 //                    Image(systemName: "plus").padding()
 //                    Text("Add Patient").padding()

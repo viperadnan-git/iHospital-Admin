@@ -186,11 +186,24 @@ struct Doctor: Codable, Hashable {
     }
     
     func fetchAppointments() async throws -> [Appointment] {
-        let response = try await supabase.from(SupabaseTable.appointments.id)
+        let response:[Appointment] = try await supabase.from(SupabaseTable.appointments.id)
             .select(Appointment.supabaseSelectQuery)
             .eq("doctor_id", value: userId)
             .execute()
+            .value
         
-        return try JSONDecoder().decode([Appointment].self, from: response.data)
+        return response
+    }
+    
+    func fetchAppointments(for date: Date) async throws -> [Appointment] {
+        let response:[Appointment] = try await supabase.from(SupabaseTable.appointments.id)
+            .select(Appointment.supabaseSelectQuery)
+            .eq("doctor_id", value: userId)
+            .gte("date", value: date.startOfDay.ISO8601Format())
+            .lt("date", value: date.endOfDay.ISO8601Format())
+            .execute()
+            .value
+        
+        return response
     }
 }

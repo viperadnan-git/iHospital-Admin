@@ -27,6 +27,7 @@ struct AdminDoctorAddView: View {
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to add")
     
     @FocusState private var focusedField: Field?
+    @State private var isSaving = false
     
     @State private var firstNameError: String?
     @State private var lastNameError: String?
@@ -112,13 +113,14 @@ struct AdminDoctorAddView: View {
                 }
             }
             .navigationTitle("Add Doctor")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
                 Task {
                     await saveDoctor()
                 }
-            })
+            }.disabled(isSaving))
             .errorAlert(errorAlertMessage: errorAlertMessage)
         }
     }
@@ -149,6 +151,11 @@ struct AdminDoctorAddView: View {
         guard let phoneNumber = Int(phoneNumber) else {
             errorAlertMessage.message = "Invalid phone number"
             return
+        }
+        
+        isSaving = true
+        defer {
+            isSaving = false
         }
         
         do {

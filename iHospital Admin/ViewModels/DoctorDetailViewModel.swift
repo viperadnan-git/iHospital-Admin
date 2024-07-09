@@ -32,14 +32,14 @@ class DoctorDetailViewModel: ObservableObject {
         }
     }
     
-    func fetchAppointments() {
+    func fetchAppointments(for date: Date) {
         guard let doctor = doctor else {
             return
         }
         
         Task {
             do {
-                let appointments = try await doctor.fetchAppointments()
+                let appointments = try await doctor.fetchAppointments(for: date)
                 DispatchQueue.main.async {
                     self.appointments = appointments
                 }
