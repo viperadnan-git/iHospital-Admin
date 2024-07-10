@@ -14,66 +14,90 @@ struct DoctorDashboardView: View {
                 NavigationStack {
                     VStack(alignment: .leading) {
                         HStack(spacing: 20) {
-                        
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Current Patient")
-                                    .font(.title3)
+                                    .font(.title2)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                                 
                                 if let firstAppointment = appointments.first {
-                                    Text("\(firstAppointment.patient.name)")
-                                        .foregroundColor(.white)
-                                        .font(.title)
-                                    Text("Age: \(firstAppointment.patient.dateOfBirth.age)")
-                                        .foregroundColor(.white)
-                                    Text("Phone: \(firstAppointment.patient.phoneNumber)")
-                                        .foregroundColor(.white)
-                                    Text("Time: \(firstAppointment.date.timeString)")
-                                        .foregroundColor(.white)
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text("\(firstAppointment.patient.name)")
+                                            .foregroundColor(.white)
+                                            .font(.title)
+                                            .padding(.top , 10)
+                                            .bold()
+                                        Spacer()
+                                        HStack {
+                                            Image(systemName: "phone.fill")
+                                                .frame(width:20 , height: 20)
+                                            Text("\(firstAppointment.patient.phoneNumber.string)")
+                                                .foregroundColor(.white)
+                                                .font(.caption)
+                                            Spacer()
+                                            HStack(spacing: 5) {
+                                                Image(systemName: "clock.fill")
+                                                    .frame(width: 20, height: 20)
+                                                Text("\(firstAppointment.date.timeString)")
+                                                    .foregroundColor(.white)
+                                                    .font(.caption)
+                                            }
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
                                 } else {
                                     Text("No current appointment")
                                         .foregroundColor(.white)
                                 }
                             }
                             .padding()
-                            .frame(width: UIScreen.main.bounds.width * 0.4 - 20)
-                            .background(Color.red.opacity(0.5))
+                            .frame(width: UIScreen.main.bounds.width * 0.4 - 20, height: 180)
+                            .background(Color(hex: "ef9c66"))
                             .cornerRadius(10)
                             
-                            // Blue Box 1 (occupy rest of the available space)
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.blue)
                                 .overlay(
-                                    VStack(alignment: .leading) {
+                                    VStack(alignment: .leading, spacing: 10) {
                                         Text("Appointments Left")
-                                            .font(.title3)
+                                            .font(.title2)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
-                                            .padding(.top, 10)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                        Text("5")
+                                            .foregroundColor(.white)
+                                            .font(.title)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.top ,10)
+                                            .bold()
                                         Spacer()
                                     }
                                     .padding()
                                 )
                                 .frame(maxWidth: .infinity, maxHeight: 180)
                             
-                            // Blue Box 2 (occupy rest of the available space)
+                          
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.blue)
+                                .fill(Color.purple)
                                 .overlay(
-                                    VStack(alignment: .leading) {
+                                    VStack(alignment: .leading, spacing: 10) {
                                         Text("Revenue")
-                                            .font(.title3)
+                                            .font(.title2)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
-                                            .padding(.top, 10)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                        Text("$1000")
+                                            .foregroundColor(.white)
+                                            .font(.title)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.top,8)
+                                            .bold()
                                         Spacer()
                                     }
                                     .padding()
                                 )
                                 .frame(maxWidth: .infinity, maxHeight: 180)
                         }
-                        .frame(height: 180)
                         .padding(.horizontal, 20)
                         
                         HStack {
@@ -86,7 +110,8 @@ struct DoctorDashboardView: View {
                             } label: {
                                 Text("View All")
                             }
-                        }.padding()
+                        }
+                        .padding()
                         
                         DoctorAppointmentsTable()
                             .onAppear {
@@ -117,7 +142,6 @@ struct DoctorDashboardView: View {
             }
         }
     }
-
 #Preview {
     DoctorDashboardView()
 }
