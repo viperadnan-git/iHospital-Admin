@@ -16,7 +16,7 @@ struct AdminSidebarView: View {
                 NavigationLink(destination: AdminDashboardView()) {
                     Label("Dashboard", systemImage: "house")
                 }
-                NavigationLink(destination: AdminAppointments()) {
+                NavigationLink(destination: AdminAppointmentsTable()) {
                     Label("Appointments", systemImage: "calendar")
                 }
                 NavigationLink(destination: AdminDepartmentView()) {

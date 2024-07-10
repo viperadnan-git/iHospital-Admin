@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct AdminDoctorListView: View {
+    @State private var searchText = ""
+
     let department: Department
     @StateObject private var adminDoctorViewModel = AdminDoctorViewModel()
     @State private var showingForm = false
@@ -35,7 +37,7 @@ struct AdminDoctorListView: View {
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 15) {
-                        ForEach(adminDoctorViewModel.doctors, id: \.userId) { doctor in
+                        ForEach(filteredDoctors, id: \.userId) { doctor in
                             DoctorView(doctor: doctor)
                         }
                         .padding(.horizontal,4)
@@ -57,6 +59,21 @@ struct AdminDoctorListView: View {
         }
         .task {
             adminDoctorViewModel.fetchDoctors(department: department)
+        }
+        .searchable(text: $searchText)
+    }
+    
+    
+    private var filteredDoctors: [Doctor] {
+        if searchText.isEmpty {
+            return adminDoctorViewModel.doctors
+        } else {
+            return adminDoctorViewModel.doctors.filter { doctor in
+                doctor.name.lowercased().contains(searchText.lowercased())
+                || doctor.email.lowercased().contains(searchText.lowercased())
+                || doctor.phoneNumber.string.contains(searchText.lowercased())
+
+            }
         }
     }
 }

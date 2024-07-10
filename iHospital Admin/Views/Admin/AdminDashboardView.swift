@@ -23,9 +23,8 @@ var totalPatients = [
 ]
 
 struct AdminDashboardView: View {
-    @State private var searchText = ""
-
-    @State private var appointmentsCount: String?
+    @State private var appointments: [Appointment] = []
+    @State private var isLoading = false
     
     var body: some View {
         ScrollView {
@@ -33,17 +32,17 @@ struct AdminDashboardView: View {
                 HStack(spacing: 30){
                     VStack(alignment:.leading,spacing: 15) {
                         Text("Today's Overview")
-                            .padding([.top,.leading,.trailing],20)
+                            .padding([.top,.trailing],20)
                             .font(.title3)
                             .bold()
 
                         HStack(spacing: 20) {
-                            OverviewCard(title: $appointmentsCount, subtitle: "Appointments", color: .pink)
+                            OverviewCard(title: .constant(appointments.count.string), subtitle: "Appointments", color: .pink)
                                 .frame(maxWidth: .infinity)
                             OverviewCard(title: .constant("5"), subtitle: "New Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
                         }
-                        .padding([.leading,.trailing],30)
+                        .padding([.trailing],30)
                         .frame(maxWidth: .infinity)
 
                         HStack(spacing: 20) {
@@ -51,7 +50,7 @@ struct AdminDashboardView: View {
                             OverviewCard(title: .constant("13"), subtitle: "Lab Tests", color: .blue)
                         }
                         .padding(.top,0)
-                        .padding([.leading,.trailing],30)
+                        .padding(.trailing,30)
                         .padding(.bottom,20)
                         .padding(.top,14)
                         .frame(maxWidth: .infinity)
@@ -61,19 +60,21 @@ struct AdminDashboardView: View {
                     Divider()
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Today's Revenue")
-                            .padding([.top,.leading,.trailing],20)
+                            .padding([.top,.trailing],20)
                             .font(.title3)
                             .bold()
                         
                         VStack(){
                             OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
-                                .padding([.leading,.trailing],30)
+                                .padding([.trailing],30)
+                                .padding(.bottom,15)
+
                                 .padding(.top,10)
 
                             OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
-                                .padding([.leading,.trailing],30)
+                                .padding([.trailing],30)
                                 .padding(.bottom,25)
-                                .padding(.top,10)
+                                .padding(.top,5)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -84,11 +85,11 @@ struct AdminDashboardView: View {
                 
                 VStack(alignment: .leading){
                     Text("Today's Appointments")
-                        .padding([.top,.leading,.trailing],20)
+                        .padding([.top,.trailing],20)
                         .font(.title3)
                         .bold()
                     
-                    AdminAppointmentsList(searchText: $searchText)
+                    AdminAppointmentsList(appointments: $appointments)
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                 }
@@ -103,9 +104,14 @@ struct AdminDashboardView: View {
     
     func fetchAppointments() {
         Task {
+            isLoading = true
+            defer {
+                isLoading = false
+            }
+            
             do {
-                let appointments = try await Appointment.fetchAppointments()
-                self.appointmentsCount = String(appointments.count)
+                let appointments = try await Appointment.fetchAppointments(forDate: Date())
+                self.appointments = appointments
             } catch {
                 print("Error fetching appointments: \(error.localizedDescription)")
             }
@@ -144,8 +150,7 @@ struct OverviewCard: View {
 
 //to display all the Appointment Lists
 struct AdminAppointmentsList: View {
-    @Binding var searchText: String
-    @State private var appointments: [Appointment] = []
+    @Binding var appointments: [Appointment]
 
     var body: some View {
         VStack {
@@ -163,32 +168,13 @@ struct AdminAppointmentsList: View {
                 .frame(maxWidth: .infinity,alignment: .leading)
             .padding()
             
-            ForEach(filteredAppointments(), id: \.id) { appointment in
+            ForEach(appointments, id: \.id) { appointment in
                 AppointmentRow(appointment: appointment)
                 Divider()
             }
             .frame(maxWidth: .infinity)
-            .padding(.leading,20)
-        }
-        .onAppear(perform: fetchAppointments)
-    }
-
-    func filteredAppointments() -> [Appointment] {
-        if searchText.isEmpty {
-            return appointments
-        } else {
-            return appointments.filter { $0.patient.name.lowercased().contains(searchText.lowercased()) }
-        }
-    }
-    
-    func fetchAppointments() {
-        Task {
-            do {
-                let appointments = try await Appointment.fetchAppointments()
-                self.appointments = appointments
-            } catch {
-                print("Error fetching appointments: \(error.localizedDescription)")
-            }
+            .padding(.leading)
+            .padding(.trailing)
         }
     }
 }
@@ -205,12 +191,12 @@ struct AppointmentRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(formattedTime(date: appointment.createdAt))")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("\(appointment.doctor.name)")
+                Text("\(appointment.doctor.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                 StatusIndicator(status: "Upcoming")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
+//                Image(systemName: "chevron.right")
+//                    .foregroundColor(.gray)
             }
             // TODO: use auto colors
             .foregroundColor(Color(.label))
