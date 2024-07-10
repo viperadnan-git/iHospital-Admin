@@ -52,11 +52,12 @@ struct PatientInfoDoctorView: View {
                             .padding(10)
                             .foregroundColor(.primary)
                         }
+                        
                         .padding(40)
                         
                     }
                     .frame(width: geometry.size.width * 0.4, height: geometry.size.height * 0.97)
-                    .background(Color(uiColor: .systemBackground))
+                    .background(Color(uiColor: .systemGray6))
                     .foregroundColor(Color(uiColor: .label))
                     .cornerRadius(15)
                 }
@@ -112,7 +113,7 @@ struct PatientInfoDoctorView: View {
                         }
                     }
                     .padding()
-                    .background(Color(uiColor: .systemBackground))
+                    .background(Color(uiColor: .systemGray6))
                     .foregroundColor(Color(uiColor: .label))
                     .cornerRadius(15)
                     
@@ -141,7 +142,7 @@ struct PatientInfoDoctorView: View {
                         }
                     }
                     .padding()
-                    .background(Color(uiColor: .systemBackground))
+                    .background(Color(uiColor: .systemGray6))
                     .foregroundColor(Color(uiColor: .label))
                     .cornerRadius(15)
 //                    .background(Color(UIColor.secondarySystemBackground))
@@ -152,7 +153,7 @@ struct PatientInfoDoctorView: View {
             }
             .padding()
 //            .background(Color(.systemBackground).edgesIgnoringSafeArea(.all))
-            .background(Color(UIColor.secondarySystemBackground))
+            
         }
         .navigationTitle("Dashboard")
     }
@@ -368,7 +369,7 @@ struct MedicalRecordCardView: View {
             }
         }
         .padding(12)
-        .background(Color(UIColor.systemGray6))
+        .background(Color(.systemBackground))
         .cornerRadius(15)
         .frame(width: 250)
     }
