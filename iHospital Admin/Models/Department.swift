@@ -6,18 +6,30 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct Department: Decodable {
     let id: UUID
     let name: String
     let phoneNumber: Int?
+    let hex: String?
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case phoneNumber = "phone_number"
+        case hex
     }
+    
+    var hexColor: Color {
+        if let hex = hex {
+            // TODO: Custom hex color
+            return Color.accentColor
+        }
+        return Color.accentColor
+    }
+    
+    static var sample = Department(id: UUID(), name: "Cardiology", phoneNumber: 1234567890, hex: nil)
     
     static var all: [Department]?
     

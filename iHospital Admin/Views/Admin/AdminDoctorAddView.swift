@@ -247,5 +247,5 @@ struct AdminDoctorAddView: View {
 }
 
 #Preview {
-    AdminDoctorAddView(department: Department(id: UUID(), name: "Cardiology", phoneNumber: nil))
+    AdminDoctorAddView(department: Department.sample)
 }

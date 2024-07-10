@@ -134,6 +134,7 @@ struct LoginView: View {
             }.padding(40)
         }.errorAlert(errorAlertMessage: errorAlertMessage)
             .onOpenURL(perform: handleOpenURL)
+            .ignoresSafeArea(.keyboard)
     }
     
     private func validateEmail() {
