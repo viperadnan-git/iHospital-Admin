@@ -40,6 +40,8 @@ struct AdminDepartmentView: View {
                     .padding()
                 }
             }
+        }.refreshable {
+            viewModel.fetchDepartments(showLoader: false, force: true)
         }
         .navigationTitle("Departments")
     }

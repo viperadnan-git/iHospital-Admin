@@ -48,7 +48,7 @@ struct AdminAppointmentsTable: View {
         .navigationTitle("Appointments")
         .searchable(text: $searchText)
         .onAppear {
-            fetchAppointments(true)
+            fetchAppointments()
         }
     }
 
@@ -66,9 +66,9 @@ struct AdminAppointmentsTable: View {
         }
     }
 
-    func fetchAppointments(_ showIndicator: Bool = true) {
+    func fetchAppointments(_ showLoader: Bool = true) {
         Task {
-            isLoading = showIndicator
+            isLoading = showLoader
             do {
                 let appointments = try await Appointment.fetchAppointments()
                 self.appointments = appointments

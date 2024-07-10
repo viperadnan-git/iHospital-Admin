@@ -183,7 +183,6 @@ struct AppointmentRow: View {
     var appointment: Appointment
 
     var body: some View {
-        NavigationLink(destination: AdminPatientDetailsView(patient: appointment.patient)) {
             HStack {
                 Text("\(appointment.patient.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -200,7 +199,6 @@ struct AppointmentRow: View {
             }
             // TODO: use auto colors
             .foregroundColor(Color(.label))
-        }
     }
 
     func formattedTime(date: Date) -> String {
