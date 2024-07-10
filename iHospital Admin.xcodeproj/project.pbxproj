@@ -60,6 +60,7 @@
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
 		B0839B8B2C39B13A00930FC9 /* PatientInfoDoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
+		D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BF32A02C3E50FB00717C28 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,7 @@
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
 		B0839B8A2C39B13A00930FC9 /* PatientInfoDoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientInfoDoctorView.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
+		D5BF32A02C3E50FB00717C28 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +239,7 @@
 				3213A8752C3BFC5B00509BCB /* String.swift */,
 				325042312C3DB13F00452C0C /* TextField.swift */,
 				325042352C3DC60100452C0C /* Int.swift */,
+				D5BF32A02C3E50FB00717C28 /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
+				D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */,
 				3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */,
 				325042322C3DB13F00452C0C /* TextField.swift in Sources */,
 				3213A8702C3BE17800509BCB /* User.swift in Sources */,

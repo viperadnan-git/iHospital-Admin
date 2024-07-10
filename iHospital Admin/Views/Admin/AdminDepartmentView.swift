@@ -71,7 +71,7 @@ struct CardView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-        .background(backgroundColor(for: department.name))
+        .background(department.hexColor)
         .cornerRadius(15)
         .foregroundColor(.white)
     }
@@ -100,35 +100,7 @@ struct CardView: View {
             return "building.2.crop.circle"
         }
     }
-    
-    func backgroundColor(for departmentName: String) -> Color {
-        switch departmentName {
-        case "Cardiology":
-            return Color.red
-        case "Neurology":
-            return Color.purple
-        case "Dermatology":
-            return Color.orange
-        case "Gastroenterology":
-            return Color.green
-        case "Hematology":
-            return Color.red.opacity(0.8)
-        case "Infectious Disease":
-            return Color.yellow
-        case "Orthopedics":
-            return Color.blue
-        case "Pediatrics":
-            return Color.pink
-        case "Radiology":
-            return Color.gray
-        default:
-            return Color.blue.opacity(0.5)
-        }
-    }
 }
-
-
 #Preview {
     AdminDepartmentView()
 }
-

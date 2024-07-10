@@ -23,10 +23,9 @@ struct Department: Decodable {
     
     var hexColor: Color {
         if let hex = hex {
-            // TODO: Custom hex color
-            return Color.accentColor
+            return Color(hex: "#\(hex)")
         }
-        return Color.accentColor
+        return Color.blue
     }
     
     static var sample = Department(id: UUID(), name: "Cardiology", phoneNumber: 1234567890, hex: nil)
