@@ -401,7 +401,7 @@
 				325042342C3DB85B00452C0C /* DoctorAppointmentsTable.swift in Sources */,
 				4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */,
 				B02E88812C3E9A0A00A383F4 /* PrescriptionModels.swift in Sources */,
-				4850DB5E2C369E56001D10A1 /* AdminAppointmentsList.swift in Sources */,
+				4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */,
 				8201C86D2C3736550034B93F /* AdminStaffView.swift in Sources */,
 				32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
@@ -565,7 +565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = H9XUCNUTMK;
+				DEVELOPMENT_TEAM = QZMU65G2C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";
@@ -596,7 +596,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = H9XUCNUTMK;
+				DEVELOPMENT_TEAM = QZMU65G2C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";

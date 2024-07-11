@@ -13,6 +13,8 @@ struct AdminAppointmentsTable: View {
     @State private var searchText = ""
     @State private var appointments: [Appointment] = []
     @State private var isLoading = false
+    
+    @State private var sortOrder = [ KeyPathComparator(\Appointment.date, order: .forward)]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -26,22 +28,21 @@ struct AdminAppointmentsTable: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundColor(Color(.systemGray))
             } else {
-                Table(filteredAppointments) {
+                Table(filteredAppointments,sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.patient.name)
                     TableColumn("Gender", value: \.patient.gender.id.capitalized)
-                    TableColumn("Phone No.") { appointment in
-                        Text(appointment.patient.phoneNumber.string)
-                    }
-                    TableColumn("Time") { appointment in
-                        Text(appointment.date.timeString)
-                    }
-                    TableColumn("Date") { appointment in
-                        Text(appointment.date.dateString)
+                    TableColumn("Phone No.", value: \.patient.phoneNumber.string)
+                    TableColumn("Time", value:\.date) { appointment in
+                        Text(appointment.date.dateTimeString)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .refreshable {
                     fetchAppointments(false)
+                }
+                .onChange(of: sortOrder) { neworder in
+                    appointments.sort(using: neworder)
+                    
                 }
             }
         }
@@ -58,9 +59,8 @@ struct AdminAppointmentsTable: View {
         } else {
             return appointments.filter { appointment in
                 appointment.patient.name.lowercased().contains(searchText.lowercased())
-                || appointment.patient.dateOfBirth.age.lowercased().contains(searchText.lowercased())
                 || appointment.patient.gender.id.lowercased().contains(searchText.lowercased())
-                || appointment.date.timeString.lowercased().contains(searchText.lowercased())
+                || appointment.date.dateTimeString.lowercased().contains(searchText.lowercased())
                 || appointment.patient.phoneNumber.string.lowercased().contains(searchText.lowercased())
             }
         }

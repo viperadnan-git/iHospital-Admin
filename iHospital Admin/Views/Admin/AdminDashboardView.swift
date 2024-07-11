@@ -86,12 +86,20 @@ struct AdminDashboardView: View {
                 VStack(alignment: .leading){
                     Text("Today's Appointments")
                         .padding([.top,.trailing],20)
+                        .padding(.leading,12)
                         .font(.title3)
                         .bold()
                     
-                    AdminAppointmentsList(appointments: $appointments)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    
+                    else{
+                        AdminAppointmentsList(appointments: $appointments)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(12)
+                    }
                 }
                 .background(Color(.systemGroupedBackground))
                 .cornerRadius(12)
@@ -111,7 +119,7 @@ struct AdminDashboardView: View {
             
             do {
                 let appointments = try await Appointment.fetchAppointments(forDate: Date())
-                self.appointments = appointments
+                self.appointments = appointments.sorted(by: { $0.date < $1.date })
             } catch {
                 print("Error fetching appointments: \(error.localizedDescription)")
             }
@@ -188,7 +196,7 @@ struct AppointmentRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text(String(appointment.patient.phoneNumber))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("\(formattedTime(date: appointment.createdAt))")
+                Text("\(appointment.date.timeString)")
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(appointment.doctor.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
