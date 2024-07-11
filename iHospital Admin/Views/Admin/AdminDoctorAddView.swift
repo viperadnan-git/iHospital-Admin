@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AdminDoctorAddView: View {
     let department: Department
+    var doctor: Doctor? = nil
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var adminDoctorViewModel: AdminDoctorViewModel
@@ -66,6 +67,7 @@ struct AdminDoctorAddView: View {
                             .focused($focusedField, equals: .firstName)
                             .onChange(of: firstName) { _ in validateFirstName() }
                             .overlay(validationIcon(for: firstNameError), alignment: .trailing)
+                        Divider()
                         
                         TextField("Last Name", text: $lastName)
                             .textContentType(.familyName)
@@ -112,8 +114,10 @@ struct AdminDoctorAddView: View {
                     DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
                 }
             }
-            .navigationTitle("Add Doctor")
+            .navigationTitle("\(doctor == nil ? "Add New":"Edit") Doctor")
             .navigationBarTitleDisplayMode(.inline)
+            
+            
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
@@ -122,6 +126,23 @@ struct AdminDoctorAddView: View {
                 }
             }.disabled(isSaving))
             .errorAlert(errorAlertMessage: errorAlertMessage)
+            .onAppear(perform:onAppear)
+        }
+    }
+    
+    
+    func onAppear() {
+        if let doctor = doctor {
+            firstName = doctor.firstName
+            lastName = doctor.lastName
+            gender = doctor.gender
+            dateOfBirth = doctor.dateOfBirth
+            phoneNumber = doctor.phoneNumber.string
+            email = doctor.email
+            experienceSince = doctor.experienceSince
+            qualifications = doctor.qualification
+            dateOfJoining = doctor.dateOfJoining
+            
         }
     }
     

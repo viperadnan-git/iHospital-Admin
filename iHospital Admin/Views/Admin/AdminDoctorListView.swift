@@ -38,9 +38,15 @@ struct AdminDoctorListView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 15) {
                         ForEach(filteredDoctors, id: \.userId) { doctor in
-                            DoctorView(doctor: doctor)
+                            
+                            NavigationLink(destination: AdminDoctorInfoView(doctor: doctor, doctorsDepartment: department)){
+                                
+                                DoctorView(doctor: doctor)
+                            }
+                        
                         }
                         .padding(.horizontal,4)
+                        .foregroundColor(Color(.label))
                     }
                     .padding()
                 }
