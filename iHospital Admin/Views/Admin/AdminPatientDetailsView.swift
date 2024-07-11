@@ -21,7 +21,7 @@ struct AdminPatientDetailsView: View {
                         Text("\(patient.name)").font(.title)
                             .bold()
                         Text("\(patient.userId)").font(.system(size: 12))
-                        Text("Age: \(calculateAge(from: patient.dateOfBirth))")
+                        Text("Age: \(patient.dateOfBirth.age)")
                         Text("Phone No:  \(patient.phoneNumber.string)")
                         Text("Address: \(patient.address)")
                     }

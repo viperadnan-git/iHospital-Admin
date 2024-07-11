@@ -21,9 +21,9 @@ struct AdminInPatientView: View {
 //                .background(Color.gray)
 //                .padding()
             }
-            ScrollView{
-                PatientDetailsList(searchText: $searchtext)
-            }
+//            ScrollView{
+//                PatientDetailsList(searchText: $searchtext)
+//            }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()

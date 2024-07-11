@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct Patient: Codable {
-    let patientId: UUID
+struct Patient: Codable, Identifiable {
+    let id: UUID
     let userId: UUID
     let firstName: String
     let lastName: String
@@ -22,7 +22,7 @@ struct Patient: Codable {
     let address: String
     
     enum CodingKeys: String, CodingKey {
-        case patientId = "id"
+        case id = "id"
         case userId = "user_id"
         case firstName = "first_name"
         case lastName = "last_name"
@@ -45,7 +45,7 @@ struct Patient: Codable {
         return formatter
     }()
     
-    static let sample = Patient(patientId: UUID(),
+    static let sample = Patient(id: UUID(),
                                 userId: UUID(),
                                 firstName: "John",
                                 lastName: "Doe",
@@ -62,7 +62,7 @@ struct Patient: Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        patientId = try container.decode(UUID.self, forKey: .patientId)
+        id = try container.decode(UUID.self, forKey: .id)
         userId = try container.decode(UUID.self, forKey: .userId)
         firstName = try container.decode(String.self, forKey: .firstName)
         lastName = try container.decode(String.self, forKey: .lastName)
@@ -81,8 +81,8 @@ struct Patient: Codable {
         address = try container.decode(String.self, forKey: .address)
     }
     
-    init(patientId: UUID, userId: UUID, firstName: String, lastName:String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
-        self.patientId = patientId
+    init(id: UUID, userId: UUID, firstName: String, lastName:String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
+        self.id = id
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -97,7 +97,7 @@ struct Patient: Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(patientId, forKey: .patientId)
+        try container.encode(id, forKey: .id)
         try container.encode(userId, forKey: .userId)
         try container.encode(firstName, forKey: .firstName)
         try container.encode(lastName, forKey: .lastName)
@@ -116,7 +116,6 @@ struct Patient: Codable {
             .select()
             .execute()
             .value
-        
         
         return response
     }

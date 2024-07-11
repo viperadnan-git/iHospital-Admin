@@ -17,8 +17,7 @@ struct AdminAppointmentsTable: View {
     @State private var sortOrder = [ KeyPathComparator(\Appointment.date, order: .forward)]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            
+        VStack(alignment: .leading) {
             if isLoading {
                 Spacer()
                 ProgressView()
@@ -38,7 +37,7 @@ struct AdminAppointmentsTable: View {
                 }
                 .frame(maxWidth: .infinity)
                 .refreshable {
-                    fetchAppointments(false)
+                    fetchAppointments(showLoader: false, force: true)
                 }
                 .onChange(of: sortOrder) { neworder in
                     appointments.sort(using: neworder)
@@ -66,16 +65,19 @@ struct AdminAppointmentsTable: View {
         }
     }
 
-    func fetchAppointments(_ showLoader: Bool = true) {
+    func fetchAppointments(showLoader: Bool = true, force: Bool = false) {
         Task {
             isLoading = showLoader
+            defer {
+                isLoading = false
+            }
+            
             do {
-                let appointments = try await Appointment.fetchAppointments()
+                let appointments = try await Appointment.fetchAppointments(force: force)
                 self.appointments = appointments
             } catch {
                 print("Error fetching appointments: \(error.localizedDescription)")
             }
-            isLoading = false
         }
     }
 }

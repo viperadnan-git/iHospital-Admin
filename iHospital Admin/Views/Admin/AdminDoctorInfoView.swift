@@ -15,11 +15,7 @@ struct AdminDoctorInfoView: View {
 
     
     var body: some View {
-       
-        
-        
-        Form{
-            
+        Form {
             VStack{
                 Image(systemName: "person.crop.circle.fill")
                     .resizable()
@@ -97,3 +93,4 @@ struct AdminDoctorInfoView: View {
 //#Preview {
 //    AdminDoctorInfoView(d)
 //}
+

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DoctorAppointmentsTable: View {
-    @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
+    @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
     @State private var searchText = ""
     
     var body: some View {
@@ -70,5 +70,5 @@ struct DoctorAppointmentsTable: View {
 
 #Preview {
     DoctorAppointmentsTable()
-        .environmentObject(DoctorDetailViewModel())
+        .environmentObject(DoctorViewModel())
 }

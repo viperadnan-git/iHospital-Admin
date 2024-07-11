@@ -83,7 +83,14 @@ struct Appointment: Codable, Hashable, Identifiable {
         appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
     }
     
-    static func fetchAppointments() async throws -> [Appointment] {
+    
+    static var allAppointments: [Appointment] = []
+    
+    static func fetchAppointments(force: Bool = false) async throws -> [Appointment] {
+        if !force, !allAppointments.isEmpty {
+            return allAppointments
+        }
+
         let response:[Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)

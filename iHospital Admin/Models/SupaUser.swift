@@ -14,7 +14,7 @@ struct SupaUser: Codable {
             if let shared = shared {
                 shared.saveUser()
             } else {
-                UserDefaults.standard.removeObject(forKey: USER_INFO_KEY)
+                UserDefaults.standard.removeObject(forKey: Constants.userInfoKey)
             }
         }
     }
@@ -25,7 +25,7 @@ struct SupaUser: Codable {
     static let sample: SupaUser = SupaUser(user: Auth.User(id: UUID(), appMetadata: [:], userMetadata: [:], aud: "", createdAt: Date(), updatedAt: Date()), role: .admin)
     
     static func loadUser() -> SupaUser? {
-        guard let data = UserDefaults.standard.data(forKey: USER_INFO_KEY) else {
+        guard let data = UserDefaults.standard.data(forKey: Constants.userInfoKey) else {
             print("User data not found")
             return nil
         }
@@ -41,7 +41,7 @@ struct SupaUser: Codable {
     func saveUser() {
         let encoder = JSONEncoder()
         if let data = try? encoder.encode(self) {
-            UserDefaults.standard.set(data, forKey: USER_INFO_KEY)
+            UserDefaults.standard.set(data, forKey: Constants.userInfoKey)
         }
     }
     

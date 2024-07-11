@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DoctorAppointmentsView: View {
-    @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
+    @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
     
     @State private var isLoading = false
     @State private var appointments:[Appointment] = []
@@ -90,6 +90,6 @@ struct DoctorAppointmentsView: View {
 
 #Preview {
     DoctorAppointmentsView()
-        .environmentObject(DoctorDetailViewModel())
+        .environmentObject(DoctorViewModel())
 }
 

@@ -37,6 +37,5 @@ class AdminDoctorViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.doctors.append(doctor)
         }
-        
     }
 }

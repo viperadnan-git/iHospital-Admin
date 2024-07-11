@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DoctorDetailsColumn: View {
-    @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
+    @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
     
     @StateObject var errorAlertMessage = ErrorAlertMessage()
     
@@ -84,6 +84,6 @@ struct DoctorDetailsColumn: View {
 }
 
 #Preview {
-    DoctorDetailsColumn().environmentObject(DoctorDetailViewModel())
+    DoctorDetailsColumn().environmentObject(DoctorViewModel())
 }
 

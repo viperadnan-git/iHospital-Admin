@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DoctorSettingView: View {
-    @EnvironmentObject var doctorDetailViewModel: DoctorDetailViewModel
+    @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
     
     @State private var priorBookingDays = 7
     @State private var startTime = Date()
     @State private var endTime = Date()
     @State private var selectedDays: Set<String> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    @State private var fee = String(DEFAULT_DOCTOR_FEES)
+    @State private var fee = String(Constants.doctorFee)
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Invalid Input")
     
     @State private var isSaving = false
@@ -201,5 +201,5 @@ struct DoctorSettingView: View {
 }
 
 #Preview {
-    DoctorSettingView().environmentObject(DoctorDetailViewModel())
+    DoctorSettingView().environmentObject(DoctorViewModel())
 }

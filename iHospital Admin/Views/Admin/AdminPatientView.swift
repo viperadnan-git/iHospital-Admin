@@ -14,8 +14,8 @@ struct AdminPatientView: View {
         
         VStack{
             Picker("Choose side", selection: $selectedSide){
-                Text("InPatient").tag("InPatient")
-                Text("OutPatient").tag("OutPatient")
+                Text("In Patient").tag("InPatient")
+                Text("Out Patient").tag("OutPatient")
             }
             .pickerStyle(.segmented)
             .colorMultiply(Color(.systemGray))
