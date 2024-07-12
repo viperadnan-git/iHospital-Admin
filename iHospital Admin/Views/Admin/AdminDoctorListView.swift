@@ -1,3 +1,10 @@
+//
+//  SideBarMenu.swift
+//  iHospital Admin
+//
+//  Created by Aditya on 05/07/24.
+//
+
 import SwiftUI
 
 struct AdminDoctorListView: View {
@@ -27,12 +34,12 @@ struct AdminDoctorListView: View {
                 Image(systemName: "xmark.bin")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 100, height: 100)
                     .padding()
                     .foregroundColor(Color(.systemGray6))
                 
                 Text("Tap the + button to add a doctor to this department")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.gray)
             } else {
                 ScrollView {
@@ -41,7 +48,7 @@ struct AdminDoctorListView: View {
                             
                             NavigationLink(destination: AdminDoctorInfoView(doctor: doctor, doctorsDepartment: department)){
                                 
-                                DoctorView(doctor: doctor)
+                                DoctorCard(doctor: doctor)
                             }
                         
                         }
@@ -84,7 +91,7 @@ struct AdminDoctorListView: View {
     }
 }
 
-struct DoctorView: View {
+struct DoctorCard: View {
     let doctor: Doctor
 
     var body: some View {

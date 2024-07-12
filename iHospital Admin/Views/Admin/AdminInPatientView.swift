@@ -12,19 +12,20 @@ struct AdminInPatientView: View {
     var body: some View {
         VStack{
             
-            HStack{
-                SearchBar(text: $searchtext).padding(.top)
+//            HStack{
+//                SearchBar(text: $searchtext).padding(.top)
 //                HStack{
 //                    Image(systemName: "plus").padding()
 //                    Text("Add Patient").padding()
 //                }
 //                .background(Color.gray)
 //                .padding()
-            }
+//            }
 //            ScrollView{
 //                PatientDetailsList(searchText: $searchtext)
 //            }
         }
+        .searchable(text: $searchtext)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
             

@@ -25,6 +25,7 @@ var totalPatients = [
 struct AdminDashboardView: View {
     @State private var appointments: [Appointment] = []
     @State private var isLoading = false
+    @StateObject var patientViewModel = PatientViewModel()
     
     var body: some View {
         ScrollView {
@@ -39,7 +40,7 @@ struct AdminDashboardView: View {
                         HStack(spacing: 20) {
                             OverviewCard(title: .constant(appointments.count.string), subtitle: "Appointments", color: .pink)
                                 .frame(maxWidth: .infinity)
-                            OverviewCard(title: .constant("5"), subtitle: "New Patients", color: .purple)
+                            OverviewCard(title: .constant(patientViewModel.patients.count.string), subtitle: "New Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
                         }
                         .padding([.trailing],30)
