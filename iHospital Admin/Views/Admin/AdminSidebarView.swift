@@ -29,6 +29,10 @@ struct AdminSidebarView: View {
                 ) {
                     Label("Staff", systemImage: "person")
                 }
+                NavigationLink(destination: AdminBedView()
+                ) {
+                    Label("Bed Management", systemImage: "bed.double")
+                }
             }
             .listStyle(SidebarListStyle())
             .navigationTitle("iHospital")
