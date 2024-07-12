@@ -201,7 +201,7 @@ struct AppointmentRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(appointment.doctor.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StatusIndicator(status: "Upcoming")
+                StatusIndicator(status: appointment.status)
                     .frame(maxWidth: .infinity, alignment: .leading)
 //                Image(systemName: "chevron.right")
 //                    .foregroundColor(.gray)
@@ -218,30 +218,15 @@ struct AppointmentRow: View {
 }
 
 struct StatusIndicator: View {
-    let status: String
+    let status: AppointmentStatus
 
     var body: some View {
         HStack {
             Circle()
-                .fill(statusColor(status: status))
+                .fill(status.color)
                 .frame(width: 10, height: 10)
-            Text(status)
+            Text(status.rawValue.capitalized)
                 .font(.footnote)
-        }
-    }
-
-    func statusColor(status: String) -> Color {
-        switch status {
-        case "Upcoming":
-            return .green
-        case "Completed":
-            return .blue
-        case "Cancelled":
-            return .red
-        case "Pending":
-            return .orange
-        default:
-            return .gray
         }
     }
 }

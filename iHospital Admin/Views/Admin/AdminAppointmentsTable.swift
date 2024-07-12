@@ -41,7 +41,6 @@ struct AdminAppointmentsTable: View {
                 }
                 .onChange(of: sortOrder) { neworder in
                     appointments.sort(using: neworder)
-                    
                 }
             }
         }

@@ -58,6 +58,8 @@
 		32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E3790B2C371A380076F2C4 /* TimePicker.swift */; };
 		32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E3790D2C3721F30076F2C4 /* DoctorDetailsColumn.swift */; };
 		32E379102C3725210076F2C4 /* DoctorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E3790F2C3725210076F2C4 /* DoctorSettings.swift */; };
+		32E379142C373F980076F2C4 /* AdminStaffAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E379132C373F980076F2C4 /* AdminStaffAddView.swift */; };
+		480D32052C40E9480028BC62 /* AdminStaffInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */; };
 		4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */; };
 		4850DB602C36BB50001D10A1 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB5F2C36BB50001D10A1 /* Appointment.swift */; };
 		4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB672C39876C001D10A1 /* AdminPatientView.swift */; };
@@ -126,6 +128,8 @@
 		32E3790B2C371A380076F2C4 /* TimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePicker.swift; sourceTree = "<group>"; };
 		32E3790D2C3721F30076F2C4 /* DoctorDetailsColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorDetailsColumn.swift; sourceTree = "<group>"; };
 		32E3790F2C3725210076F2C4 /* DoctorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSettings.swift; sourceTree = "<group>"; };
+		32E379132C373F980076F2C4 /* AdminStaffAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffAddView.swift; sourceTree = "<group>"; };
+		480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffInfoView.swift; sourceTree = "<group>"; };
 		4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAppointmentsTable.swift; sourceTree = "<group>"; };
 		4850DB5F2C36BB50001D10A1 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
 		4850DB672C39876C001D10A1 /* AdminPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientView.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				324C9CD62C355D4800712E84 /* iHospital Admin */,
 				324C9CD52C355D4800712E84 /* Products */,
 				324C9CF62C35D7E200712E84 /* Frameworks */,
+				480D32062C4168F40028BC62 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -310,6 +315,7 @@
 				4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */,
 				4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */,
 				3265EFBF2C4006F8005E9603 /* AdminDoctorInfoView.swift */,
+				480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -338,6 +344,14 @@
 				3265EFBB2C3FB6D7005E9603 /* DoctorAddPatientMedicalRecordView.swift */,
 			);
 			path = Doctor;
+			sourceTree = "<group>";
+		};
+		480D32062C4168F40028BC62 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				32E379132C373F980076F2C4 /* AdminStaffAddView.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,6 +446,8 @@
 				32E379062C370ADE0076F2C4 /* DoctorViewModel.swift in Sources */,
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */,
+				32E379142C373F980076F2C4 /* AdminStaffAddView.swift in Sources */,
+				480D32052C40E9480028BC62 /* AdminStaffInfoView.swift in Sources */,
 				3284098D2C380C0600473841 /* BloodGroup.swift in Sources */,
 				3213A8722C3BE58100509BCB /* Date.swift in Sources */,
 				3265EFC22C4031E7005E9603 /* PatientViewModel.swift in Sources */,
@@ -613,7 +629,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = JZN7WN2NCM;
+				DEVELOPMENT_TEAM = QZMU65G2C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";
@@ -644,7 +660,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = JZN7WN2NCM;
+				DEVELOPMENT_TEAM = QZMU65G2C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";

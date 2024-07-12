@@ -32,6 +32,9 @@ struct DoctorAppointmentsTable: View {
                 TableColumn("Time") { appointment in
                     Text(appointment.date.timeString)
                 }
+                TableColumn("Status") { appointment in
+                    StatusIndicator(status: appointment.status)
+                }
             }
             .frame(maxWidth: .infinity)
             .refreshable {

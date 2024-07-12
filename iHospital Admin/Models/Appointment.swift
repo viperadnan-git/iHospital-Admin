@@ -7,6 +7,7 @@
 
 import Foundation
 import Supabase
+import SwiftUI
 
 class Appointment: Codable, Hashable, Identifiable {
     let id: Int
@@ -144,6 +145,19 @@ enum AppointmentStatus: String, Codable {
     case confirmed
     case pending
     case cancelled
+    
+    var color: Color {
+        switch self {
+        case .completed:
+            return .green
+        case .confirmed:
+            return .blue
+        case .pending:
+            return .yellow
+        case .cancelled:
+            return .red
+        }
+    }
 }
 
 enum AppointmentError: Error, LocalizedError {

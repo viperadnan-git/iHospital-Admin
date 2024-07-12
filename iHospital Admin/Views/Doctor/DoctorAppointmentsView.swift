@@ -15,30 +15,23 @@ struct DoctorAppointmentsView: View {
     @State private var appointments:[Appointment] = []
     @State private var searchText = ""
     
+    @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
+    
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Error fetching appointments")
+    
+    
     
     var body: some View {
         VStack {
-            HStack {
-                SearchBar(text: $searchText)
-                    .padding(.horizontal)
-            }
-            
-            
-            Table(filteredAppointments) {
+          
+            Table(filteredAppointments, sortOrder: $sortOrder) {
                 TableColumn("Name", value: \.patient.name)
-                TableColumn("Age") { appointment in
-                    Text(appointment.patient.dateOfBirth.age)
-                }
+                TableColumn("Age", value: \.patient.dateOfBirth.age)
                 TableColumn("Gender", value: \.patient.gender.id.capitalized)
-                TableColumn("Phone No.") { appointment in
-                    Text(appointment.patient.phoneNumber.string)
-                }
-                TableColumn("Time") { appointment in
-                    Text(appointment.date.timeString)
-                }
-                TableColumn("Date") { appointment in
-                    Text(appointment.date.dateString)
+                TableColumn("Phone No.", value: \.patient.phoneNumber.string)
+                
+                TableColumn("Time", value:\.date) { appointment in
+                    Text(appointment.date.dateTimeString)
                 }
                 TableColumn("Edit") { appointment in
                     Button(action: {
@@ -56,8 +49,12 @@ struct DoctorAppointmentsView: View {
             .onAppear {
                 fetchAppointments()
             }
+            .onChange(of: sortOrder) { neworder in
+                appointments.sort(using: neworder)
+            }
         }.errorAlert(errorAlertMessage: errorAlertMessage)
             .navigationTitle("All Appointments")
+            .searchable(text: $searchText)
     }
     
     private var filteredAppointments: [Appointment] {
