@@ -15,7 +15,7 @@ class Appointment: Codable, Hashable, Identifiable {
     let user: User
     let date: Date
     var paymentStatus: PaymentStatus
-    var appointmentStatus: AppointmentStatus
+    var status: AppointmentStatus
     let createdAt: Date
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ class Appointment: Codable, Hashable, Identifiable {
         case user
         case date
         case paymentStatus = "payment_status"
-        case appointmentStatus = "appointment_status"
+        case status = "appointment_status"
         case createdAt = "created_at"
     }
     
@@ -46,18 +46,18 @@ class Appointment: Codable, Hashable, Identifiable {
         doctor: Doctor.sample,
         date: Date(),
         paymentStatus: .pending,
-        appointmentStatus: .pending,
+        status: .pending,
         user: User.sample,
         createdAt: Date()
     )
 
-    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, paymentStatus: PaymentStatus, appointmentStatus: AppointmentStatus, user: User, createdAt: Date = Date()) {
+    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, paymentStatus: PaymentStatus, status: AppointmentStatus, user: User, createdAt: Date = Date()) {
         self.id = id
         self.patient = patient
         self.doctor = doctor
         self.date = date
         self.paymentStatus = paymentStatus
-        self.appointmentStatus = appointmentStatus
+        self.status = status
         self.user = user
         self.createdAt = createdAt
     }
@@ -80,7 +80,7 @@ class Appointment: Codable, Hashable, Identifiable {
         self.date = date
         self.createdAt = createdAt
         paymentStatus = try container.decode(PaymentStatus.self, forKey: .paymentStatus)
-        appointmentStatus = try container.decode(AppointmentStatus.self, forKey: .appointmentStatus)
+        status = try container.decode(AppointmentStatus.self, forKey: .status)
     }
     
     
@@ -122,8 +122,8 @@ class Appointment: Codable, Hashable, Identifiable {
         return response.path
     }
     
-    func markStatus(status: AppointmentStatus) async throws {
-        self.appointmentStatus = status
+    func updateStatus(_ status: AppointmentStatus) async throws {
+        self.status = status
         try await supabase.from(SupabaseTable.appointments.id)
             .update([
                 "appointment_status": status.rawValue

@@ -20,27 +20,17 @@ struct DoctorAppointmentsTable: View {
             
             
             Table(filteredAppointments) {
-                TableColumn("Name", value: \.patient.name)
-                TableColumn("Age") { appointment in
-                    Text(appointment.patient.dateOfBirth.age)
+                TableColumn("Name") { appointment in
+                    Text(appointment.patient.name)
+                        .foregroundStyle((appointment.status == AppointmentStatus.completed) ? Color(.systemGray6) : Color(.label))
                 }
+                TableColumn("Age", value: \.patient.dateOfBirth.age)
                 TableColumn("Gender", value: \.patient.gender.id.capitalized)
                 TableColumn("Phone No.") { appointment in
                     Text(appointment.patient.phoneNumber.string)
                 }
                 TableColumn("Time") { appointment in
                     Text(appointment.date.timeString)
-                }
-                TableColumn("Date") { appointment in
-                    Text(appointment.date.dateString)
-                }
-                TableColumn("Edit") { appointment in
-                    Button(action: {
-                        print("Edit button tapped for appointment \(appointment.id)")
-                    }) {
-                        Text("Edit")
-                            .foregroundColor(.blue)
-                    }
                 }
             }
             .frame(maxWidth: .infinity)

@@ -40,8 +40,7 @@ struct MedicalRecord: Codable {
             .single()
             .execute()
             .value
-    
-        try await appointment.markStatus(status: .completed)
+
         return response
     }
 }

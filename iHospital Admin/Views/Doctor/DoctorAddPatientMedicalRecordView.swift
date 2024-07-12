@@ -163,6 +163,8 @@ struct DoctorAddPatientMedicalRecordView: View {
                     appointment: appointment
                 )
                 print(response)
+                try await doctorViewModel.markStatusCompleted(for: appointment)
+                unwind()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }

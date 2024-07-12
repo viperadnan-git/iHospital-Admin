@@ -51,6 +51,11 @@ class DoctorViewModel: ObservableObject {
         }
     }
     
+    func markStatusCompleted(for appointment: Appointment) async throws {
+        try await appointment.updateStatus(.completed)
+        fetchAppointments(for: Date())
+    }
+    
     private func startAppointmentTimer() {
         let now = Date()
         let calendar = Calendar.current
@@ -76,14 +81,14 @@ class DoctorViewModel: ObservableObject {
         nextAppointment = nil
         
         for appointment in appointments {
-            if appointment.date <= now && appointment.date.nextQuarter >= now {
+            if appointment.date <= now && appointment.date.nextQuarter >= now && (appointment.status == .pending || appointment.status == .confirmed) {
                 currentAppointment = appointment
                 break
             }
         }
         
         if currentAppointment == nil {
-            for appointment in appointments where appointment.date > now {
+            for appointment in appointments where appointment.date > now && (appointment.status == .pending || appointment.status == .confirmed) {
                 nextAppointment = appointment
                 break
             }
