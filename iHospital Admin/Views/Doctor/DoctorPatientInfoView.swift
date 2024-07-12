@@ -1,3 +1,10 @@
+//
+//  DoctorPatientInfoView.swift
+//  iHospital Admin
+//
+//  Created by Adnan Ahmad on 11/07/24.
+//
+
 import SwiftUI
 import PencilKit
 import PDFKit
@@ -6,6 +13,12 @@ struct DoctorPatientInfoView: View {
     var patient: Patient
     @State private var showingModal = false
     @State private var documentData: Data? = nil
+    
+    @State private var note: String = ""
+    @State private var canvasView = PKCanvasView()
+    @State private var medicines: [Medicine] = []
+    @State private var labTests: [LabTestItem] = []
+    @State private var canvasHeight: CGFloat = 200
     
     var body: some View {
         GeometryReader { geometry in
@@ -73,7 +86,6 @@ struct DoctorPatientInfoView: View {
                     }
                 }
                 
-                
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading) {
                         HStack {
@@ -92,7 +104,11 @@ struct DoctorPatientInfoView: View {
                             .sheet(isPresented: $showingModal) {
                                 DoctorAddPatientMedicalRecordView(
                                     isPresented: $showingModal,
-                                    patient: patient
+                                    note: $note,
+                                    canvasView: $canvasView,
+                                    medicines: $medicines,
+                                    labTests: $labTests,
+                                    canvasHeight: $canvasHeight
                                 )
                             }
                         }
@@ -115,8 +131,6 @@ struct DoctorPatientInfoView: View {
                             .padding(.horizontal)
                         }
                     }
-                    
-                    
                     
                     VStack(alignment: .leading) {
                         Text("Test Reports")
@@ -259,7 +273,3 @@ struct PatientInfoDoctorView_Previews: PreviewProvider {
         DoctorPatientInfoView(patient: Patient.sample)
     }
 }
-
-
-
-

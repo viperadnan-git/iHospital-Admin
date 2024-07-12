@@ -9,19 +9,23 @@ import SwiftUI
 import PencilKit
 
 struct DoctorAddPatientMedicalRecordView: View {
-    @Binding var isPresented: Bool
-    var patient: Patient
+    @Environment(\.displayScale) var displayScale
+    @EnvironmentObject private var doctorViewModel: DoctorViewModel
+    @EnvironmentObject private var navigation: NavigationManager
     
-    @State private var note: String = ""
-    @State private var canvasChanged = false
-    @State private var canvasImage: UIImage? = nil
-    @State private var medicines: [Medicine] = []
-    @State private var labTests: [LabTestItem] = [LabTestItem()]
+    @Binding var isPresented: Bool
+    @Binding var note: String
+    @Binding var canvasView: PKCanvasView
+    @Binding var medicines: [Medicine]
+    @Binding var labTests: [LabTestItem]
+    @Binding var canvasHeight: CGFloat
+
+    @State private var dragOffset: CGSize = .zero
+    @StateObject private var errorAlertMessage = ErrorAlertMessage()
 
     let predefinedLabTests = ["Complete Blood Count", "Blood Sugar", "Lipid Profile", "Liver Function Test", "Kidney Function Test"]
-    let dosageTimings = ["Once a day", "Twice a day", "Three times a day"]
     let usageTypes = ["Oral", "Injection", "Topical"]
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -31,32 +35,55 @@ struct DoctorAddPatientMedicalRecordView: View {
                         .padding(.horizontal, 4)
                 }
 
-                Section(header: Text("Penic Notes")) {
-                    DrawingCanvasView(canvasChanged: $canvasChanged, canvasImage: $canvasImage)
-                        .frame(height: 200)
-                        .background(Color(UIColor.systemGray5))
-                        .cornerRadius(10)
+                Section(header: Text("Pencil Notes")) {
+                    VStack {
+                        DrawingCanvasView(canvasView: $canvasView)
+                            .frame(height: canvasHeight)
+                            .background(Color(UIColor.systemGray5))
+                            .cornerRadius(10)
+
+                        Image(systemName: "ellipsis.rectangle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(Color(.systemGray))
+                            .padding(.top, 6)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        dragOffset = value.translation
+                                        let newHeight = canvasHeight + dragOffset.height
+                                        if newHeight >= 100 && newHeight <= 600 {
+                                            canvasHeight = newHeight
+                                        }
+                                    }
+                                    .onEnded { _ in
+                                        dragOffset = .zero
+                                    }
+                            )
+                    }
                 }
 
                 Section(header: Text("Medicines")) {
                     ForEach($medicines) { $medicine in
                         VStack {
-                            TextField("Medicine Name", text: $medicine.name)
+                            HStack {
+                                TextField("Medicine Name", text: $medicine.name)
+                                    .padding(.vertical, 4)
+                                Picker("Dosage", selection: $medicine.dosage) {
+                                    ForEach(MedicineDosage.allCases, id: \.self) {
+                                        Text($0.rawValue)
+                                    }
+                                }
+                                .pickerStyle(MenuPickerStyle())
                                 .padding(.vertical, 4)
-                            Picker("Usage", selection: $medicine.usage) {
-                                ForEach(usageTypes, id: \.self) {
-                                    Text($0)
-                                }
+                                Divider()
+                                Image(systemName: "minus.circle.fill")
+                                    .foregroundColor(.red)
+                                    .onTapGesture {
+                                        if let index = medicines.firstIndex(where: { $0.id == medicine.id }) {
+                                            medicines.remove(at: index)
+                                        }
+                                    }
                             }
-                            .pickerStyle(MenuPickerStyle())
-                            .padding(.vertical, 4)
-                            Picker("Dosage", selection: $medicine.dosage) {
-                                ForEach(dosageTimings.indices, id: \.self) {
-                                    Text(dosageTimings[$0])
-                                }
-                            }
-                            .pickerStyle(MenuPickerStyle())
-                            .padding(.vertical, 4)
                         }
                     }
                     HStack {
@@ -89,6 +116,13 @@ struct DoctorAddPatientMedicalRecordView: View {
                             } label: {
                                 Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.selectedTest)
                             }
+                            Divider()
+                            Image(systemName: "minus.circle.fill")
+                                .foregroundColor(.red).onTapGesture {
+                                    if let index = labTests.firstIndex(where: { $0.id == labTest.id }) {
+                                        labTests.remove(at: index)
+                                    }
+                                }
                         }
                     }
                     HStack {
@@ -114,62 +148,68 @@ struct DoctorAddPatientMedicalRecordView: View {
             })
         }
     }
-    
-    func onAdd() {
-        defer {
-            isPresented = false
-        }
-        
-        print(note)
-        
-        for medicine in medicines {
-            print(medicine.name)
-            print(medicine.usage)
-            print(medicine.dosage)
-        }
 
-        for labTest in labTests {
-            print(labTest.name)
+    func onAdd() {
+        guard let appointment = doctorViewModel.appointments.first else {
+            return
         }
         
-        if let pngData = canvasImage?.pngData() {
-            print("png data")
-            print(pngData)
+        Task {
+            do {
+                let response = try await MedicalRecord.new(
+                    note: note,
+                    image: canvasView.drawing.image(from: canvasView.bounds, scale: 1).pngData()!,
+                    medicines: medicines,
+                    appointment: appointment
+                )
+                print(response)
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
+            }
         }
     }
+    
+    func unwind() {
+        isPresented = false
+        navigation.path.removeLast(navigation.path.count)
+    }
 }
+
+enum MedicineDosage:String, Codable, CaseIterable {
+    case onceADay = "Once a day"
+    case twiceADay = "Twice a day"
+    case thriceADay = "Three times a day"
+}
+
 
 struct Medicine: Identifiable {
     let id: UUID
     var name: String
-    var usage: String
-    var dosage: Int
-    
-    init(id: UUID = UUID(), name: String = "", usage: String = "", dosage: Int = 0) {
+    var dosage: MedicineDosage
+
+    init(id: UUID = UUID(), name: String = "", dosage: MedicineDosage = .onceADay) {
         self.id = id
         self.name = name
-        self.usage = usage
         self.dosage = dosage
     }
     
-    static var sample = Medicine(name: "Paracetamol", usage: "Oral", dosage: 1)
+    var text: String {
+        "\(name) - \(dosage.rawValue)"
+    }
+
+    static var sample = Medicine(name: "Paracetamol", dosage: .onceADay)
 }
 
 struct LabTestItem: Identifiable {
     let id: UUID
     var name: String
     var selectedTest: String
-    
+
     init(id: UUID = UUID(), name: String = "", selectedTest: String = "") {
         self.id = id
         self.name = name
         self.selectedTest = selectedTest
     }
-    
+
     static var sample = LabTestItem(name: "Complete Blood Count", selectedTest: "Complete Blood Count")
-}
-
-
-#Preview {
-    DoctorAddPatientMedicalRecordView(isPresented: .constant(true), patient: Patient.sample)
 }

@@ -12,6 +12,7 @@ struct DoctorDashboardView: View {
     @StateObject private var doctorViewModel = DoctorViewModel()
     @State private var searchText = ""
     @State private var appointments: [Appointment] = []
+    @StateObject private var navigation = NavigationManager()
     
     var body: some View {
         if doctorViewModel.isLoading {
@@ -19,11 +20,10 @@ struct DoctorDashboardView: View {
                 .progressViewStyle(.circular)
                 .scaleEffect(2)
         } else {
-            NavigationStack {
+            NavigationStack(path: $navigation.path) {
                 GeometryReader { geometry in
                     let screenWidth = geometry.size.width
                     let boxWidth = screenWidth * 0.4
-                    let remainingWidth = screenWidth * 0.6
                     
                     VStack(alignment: .leading) {
                         HStack(spacing: 10) {
@@ -54,7 +54,7 @@ struct DoctorDashboardView: View {
                                     .fill(Color.purple)
                                     .overlay(
                                         VStack(alignment: .leading, spacing: 10) {
-                                            Text(9800.formatted(.currency(code: "INR")))
+                                            Text(9800.formatted(.currency(code: Constants.currencyCode)))
                                                 .foregroundColor(.white)
                                                 .font(.system(size: 60, weight: .bold))
                                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,8 +72,7 @@ struct DoctorDashboardView: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                if let currentAppointment = doctorViewModel.appointments.first  {
-                                    
+                                if let currentAppointment = doctorViewModel.appointments.first {
                                     HStack(alignment: .top) {
                                         Text("Current Appointment")
                                             .font(.title3)
@@ -105,13 +104,14 @@ struct DoctorDashboardView: View {
                                             .font(.title)
                                             .bold()
                                         Spacer()
-                                        NavigationLink(destination: DoctorPatientInfoView(patient: currentAppointment.patient)) {
-                                            // TODO: Fix style with native methods only
+                                        Button(action: {
+                                            navigation.path.append(currentAppointment.patient)
+                                        }) {
                                             RoundedRectangle(cornerRadius: 20)
                                                 .fill(Color.white)
                                                 .overlay(
                                                     Text("View")
-                                                        .foregroundColor(.accent)
+                                                        .foregroundColor(.accentColor)
                                                         .padding(.horizontal, 2)
                                                         .padding(.vertical, 2)
                                                 ).frame(maxWidth: 20)
@@ -158,8 +158,14 @@ struct DoctorDashboardView: View {
                                     
                                 }
                                 else {
-                                    Text("No current appointment")
-                                        .foregroundColor(.white)
+                                    HStack {
+                                        Text("No Appointments\nfor today")
+                                            .font(.title3)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                    }
+                                    Spacer()
                                 }
                             }.padding()
                                 .frame(width: boxWidth, height: 180)
@@ -175,8 +181,8 @@ struct DoctorDashboardView: View {
                                 .font(.title2)
                                 .fontWeight(.semibold)
                             Spacer()
-                            NavigationLink {
-                                DoctorAppointmentsView().environmentObject(doctorViewModel)
+                            Button {
+                                navigation.path.append("allAppointments")
                             } label: {
                                 Text("View All")
                             }
@@ -197,20 +203,37 @@ struct DoctorDashboardView: View {
                     }
                     .navigationTitle("Hello \(doctorViewModel.doctor?.firstName ?? "Doctor")")
                     .navigationBarTitleDisplayMode(.large)
+                    .navigationDestination(for: String.self) { value in
+                        switch value {
+                            case "settings":
+                                DoctorSettingView()
+                            case "allAppointments":
+                                DoctorAppointmentsView()
+                            default:
+                               EmptyView()
+                        }
+                    }
+                    .navigationDestination(for: Patient.self) { patient in
+                        DoctorPatientInfoView(patient: patient)
+                    }
                     .navigationBarItems(
-                        trailing: NavigationLink(destination: DoctorSettingView().environmentObject(doctorViewModel)) {
-                            Image(systemName: "person.crop.circle")
+                        trailing: Button {
+                            navigation.path.append("settings")
+                        } label: {
+                            Image(systemName: "person.crop.circle.fill")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                         }
                     )
-                    .environmentObject(doctorViewModel)
                 }
-            }
+            }.environmentObject(navigation)
+            .environmentObject(doctorViewModel)
         }
     }
 }
+
+
 #Preview {
     DoctorDashboardView()
 }

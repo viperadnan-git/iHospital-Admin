@@ -37,6 +37,10 @@
 		3265EFBE2C3FBB65005E9603 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFBD2C3FBB65005E9603 /* Double.swift */; };
 		3265EFC02C4006F8005E9603 /* AdminDoctorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFBF2C4006F8005E9603 /* AdminDoctorInfoView.swift */; };
 		3265EFC22C4031E7005E9603 /* PatientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC12C4031E7005E9603 /* PatientViewModel.swift */; };
+		3265EFC52C4044F5005E9603 /* PrescriptionPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC42C4044F5005E9603 /* PrescriptionPDFView.swift */; };
+		3265EFC72C40534D005E9603 /* MedicalRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC62C40534D005E9603 /* MedicalRecord.swift */; };
+		3265EFC92C4055F3005E9603 /* LabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC82C4055F3005E9603 /* LabTest.swift */; };
+		3265EFCB2C40DC03005E9603 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFCA2C40DC03005E9603 /* NavigationManager.swift */; };
 		3284098D2C380C0600473841 /* BloodGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098C2C380C0600473841 /* BloodGroup.swift */; };
 		32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378EB2C365A790076F2C4 /* Doctor.swift */; };
 		32E378EE2C365AA90076F2C4 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378ED2C365AA90076F2C4 /* Gender.swift */; };
@@ -65,7 +69,6 @@
 		8201C86D2C3736550034B93F /* AdminStaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C86C2C3736540034B93F /* AdminStaffView.swift */; };
 		823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */; };
 		82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBE7882C366F250033B971 /* AdminDoctorListView.swift */; };
-		B02E887F2C3E999F00A383F4 /* InfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B02E887E2C3E999F00A383F4 /* InfoRow.swift */; };
 		B0839B8B2C39B13A00930FC9 /* DoctorPatientInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0839B8A2C39B13A00930FC9 /* DoctorPatientInfoView.swift */; };
 		D54FB27F2C3672270011304E /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54FB27E2C3672270011304E /* Patient.swift */; };
 		D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BF32A02C3E50FB00717C28 /* Color.swift */; };
@@ -100,6 +103,10 @@
 		3265EFBD2C3FBB65005E9603 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		3265EFBF2C4006F8005E9603 /* AdminDoctorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorInfoView.swift; sourceTree = "<group>"; };
 		3265EFC12C4031E7005E9603 /* PatientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientViewModel.swift; sourceTree = "<group>"; };
+		3265EFC42C4044F5005E9603 /* PrescriptionPDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrescriptionPDFView.swift; sourceTree = "<group>"; };
+		3265EFC62C40534D005E9603 /* MedicalRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecord.swift; sourceTree = "<group>"; };
+		3265EFC82C4055F3005E9603 /* LabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTest.swift; sourceTree = "<group>"; };
+		3265EFCA2C40DC03005E9603 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		3284098C2C380C0600473841 /* BloodGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGroup.swift; sourceTree = "<group>"; };
 		32E378EB2C365A790076F2C4 /* Doctor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
 		32E378ED2C365AA90076F2C4 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
@@ -129,7 +136,6 @@
 		8201C86C2C3736540034B93F /* AdminStaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffView.swift; sourceTree = "<group>"; };
 		823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		82CBE7882C366F250033B971 /* AdminDoctorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDoctorListView.swift; sourceTree = "<group>"; };
-		B02E887E2C3E999F00A383F4 /* InfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRow.swift; sourceTree = "<group>"; };
 		B0839B8A2C39B13A00930FC9 /* DoctorPatientInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorPatientInfoView.swift; sourceTree = "<group>"; };
 		D54FB27E2C3672270011304E /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		D5BF32A02C3E50FB00717C28 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -205,6 +211,7 @@
 		324C9CEB2C35CB6D00712E84 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3265EFC32C4044E8005E9603 /* PDF */,
 				3213A8792C3C80A600509BCB /* Auth */,
 				32E379022C3709970076F2C4 /* Doctor */,
 				32E378F12C367B4A0076F2C4 /* Admin */,
@@ -241,7 +248,8 @@
 				4850DB5F2C36BB50001D10A1 /* Appointment.swift */,
 				3284098C2C380C0600473841 /* BloodGroup.swift */,
 				3213A86F2C3BE17800509BCB /* User.swift */,
-				B02E887E2C3E999F00A383F4 /* InfoRow.swift */,
+				3265EFC62C40534D005E9603 /* MedicalRecord.swift */,
+				3265EFC82C4055F3005E9603 /* LabTest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -275,6 +283,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		3265EFC32C4044E8005E9603 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				3265EFC42C4044F5005E9603 /* PrescriptionPDFView.swift */,
+			);
+			path = PDF;
+			sourceTree = "<group>";
+		};
 		32E378F12C367B4A0076F2C4 /* Admin */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +319,7 @@
 				32E379002C36FB5E0076F2C4 /* AuthViewModel.swift */,
 				32E379052C370ADE0076F2C4 /* DoctorViewModel.swift */,
 				3265EFC12C4031E7005E9603 /* PatientViewModel.swift */,
+				3265EFCA2C40DC03005E9603 /* NavigationManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -404,7 +421,7 @@
 				32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */,
 				3213A8762C3BFC5B00509BCB /* String.swift in Sources */,
 				32E378FA2C36820B0076F2C4 /* AdminDepartmentView.swift in Sources */,
-				B02E887F2C3E999F00A383F4 /* InfoRow.swift in Sources */,
+				3265EFC52C4044F5005E9603 /* PrescriptionPDFView.swift in Sources */,
 				324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */,
 				4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */,
 				B0839B8B2C39B13A00930FC9 /* DoctorPatientInfoView.swift in Sources */,
@@ -427,6 +444,7 @@
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
 				D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */,
 				3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */,
+				3265EFCB2C40DC03005E9603 /* NavigationManager.swift in Sources */,
 				325042322C3DB13F00452C0C /* TextField.swift in Sources */,
 				3213A8702C3BE17800509BCB /* User.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,
@@ -452,7 +470,9 @@
 				325042362C3DC60100452C0C /* Int.swift in Sources */,
 				32E378F52C367CF70076F2C4 /* AdminSidebarView.swift in Sources */,
 				32E379082C3715A80076F2C4 /* DoctorSettingView.swift in Sources */,
+				3265EFC92C4055F3005E9603 /* LabTest.swift in Sources */,
 				8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */,
+				3265EFC72C40534D005E9603 /* MedicalRecord.swift in Sources */,
 				4850DB602C36BB50001D10A1 /* Appointment.swift in Sources */,
 				3250423A2C3DD75900452C0C /* DoctorAppointmentsView.swift in Sources */,
 			);

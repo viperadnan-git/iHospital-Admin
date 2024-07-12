@@ -93,12 +93,14 @@ struct AdminDoctorAddView: View {
                         .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
                         .overlay(validationIcon(for: phoneNumberError), alignment: .trailing)
                     
-                    TextField("Email", text: $email)
-                        .textInputAutocapitalization(.never)
-                        .textContentType(.emailAddress)
-                        .focused($focusedField, equals: .email)
-                        .onChange(of: email) { _ in validateEmail() }
-                        .overlay(validationIcon(for: emailError), alignment: .trailing)
+                    if doctor == nil {
+                        TextField("Email", text: $email)
+                            .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
+                            .focused($focusedField, equals: .email)
+                            .onChange(of: email) { _ in validateEmail() }
+                            .overlay(validationIcon(for: emailError), alignment: .trailing)
+                    }
                     
                     TextField("Address", text: $address)
                         .focused($focusedField, equals: .address)
@@ -180,18 +182,30 @@ struct AdminDoctorAddView: View {
         }
         
         do {
-            try await adminDoctorViewModel.addDoctor(
-                firstName: firstName.trimmed.capitalized,
-                lastName: lastName.trimmed.capitalized,
-                dateOfBirth: dateOfBirth,
-                gender: gender,
-                phoneNumber: phoneNumber,
-                email: email.trimmed,
-                qualification: qualifications.trimmed,
-                experienceSince: experienceSince,
-                dateOfJoining: dateOfJoining,
-                departmentId: department.id
-            )
+            if let doctor = doctor {
+                doctor.firstName = firstName.trimmed.capitalized
+                doctor.lastName = lastName.trimmed.capitalized
+                doctor.dateOfBirth = dateOfBirth
+                doctor.gender = gender
+                doctor.phoneNumber = phoneNumber
+                doctor.qualification = qualifications.trimmed
+                doctor.experienceSince = experienceSince
+                doctor.dateOfJoining = dateOfJoining
+                try await doctor.save()
+            } else {
+                try await adminDoctorViewModel.addDoctor(
+                    firstName: firstName.trimmed.capitalized,
+                    lastName: lastName.trimmed.capitalized,
+                    dateOfBirth: dateOfBirth,
+                    gender: gender,
+                    phoneNumber: phoneNumber,
+                    email: email.trimmed,
+                    qualification: qualifications.trimmed,
+                    experienceSince: experienceSince,
+                    dateOfJoining: dateOfJoining,
+                    departmentId: department.id
+                )
+            }
             presentationMode.wrappedValue.dismiss()
         } catch {
             errorAlertMessage.message = error.localizedDescription

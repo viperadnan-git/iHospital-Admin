@@ -8,18 +8,18 @@
 import Foundation
 import Supabase
 
-struct Doctor: Codable, Hashable {
+class Doctor: Codable, Hashable {
     let userId: UUID
-    let firstName: String
-    let lastName: String
-    let dateOfBirth: Date
-    let gender: Gender
-    let phoneNumber: Int
+    var firstName: String
+    var lastName: String
+    var dateOfBirth: Date
+    var gender: Gender
+    var phoneNumber: Int
     let email: String
-    let qualification: String
-    let experienceSince: Date
-    let dateOfJoining: Date
-    let departmentId: UUID
+    var qualification: String
+    var experienceSince: Date
+    var dateOfJoining: Date
+    var departmentId: UUID
     var doctorSettings: DoctorSettings?
     
     enum CodingKeys: String, CodingKey {
@@ -83,7 +83,7 @@ struct Doctor: Codable, Hashable {
         return encoder
     }()
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decode(UUID.self, forKey: .userId)
         firstName = try container.decode(String.self, forKey: .firstName)
@@ -124,6 +124,24 @@ struct Doctor: Codable, Hashable {
         self.dateOfJoining = dateOfJoining
         self.departmentId = departmentId
         self.doctorSettings = doctorSettings
+    }
+    
+    func save() async throws {
+        try await supabase.from(SupabaseTable.doctors.id)
+            .update(
+                [
+                    "first_name": firstName,
+                    "last_name": lastName,
+                    "date_of_birth": Doctor.dateFormatter.string(from: dateOfBirth),
+                    "gender": gender.id,
+                    "phone_number": phoneNumber.string,
+                    "qualification": qualification,
+                    "experience_since": Doctor.dateFormatter.string(from: experienceSince),
+                    "date_of_joining": Doctor.dateFormatter.string(from: dateOfJoining),
+                    "department_id": departmentId.uuidString
+                ]
+            )
+            .execute()
     }
     
     static func fetchDepartmentWise(departmentId: UUID) async throws -> [Doctor] {

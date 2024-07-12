@@ -20,11 +20,5 @@ struct Constants {
     
     // MARK: - Defaults
     static let doctorFee = 499
-    
-    // MARK: - PDF Defaults
-    struct PDF {
-        static let dotsPerInch: CGFloat = 72.0
-        static let pageWidth: CGFloat = 8.5
-        static let pageHeight: CGFloat = 11.0
-    }
+    static let currencyCode = "INR"
 }

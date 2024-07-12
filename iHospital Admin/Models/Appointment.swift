@@ -8,14 +8,14 @@
 import Foundation
 import Supabase
 
-struct Appointment: Codable, Hashable, Identifiable {
+class Appointment: Codable, Hashable, Identifiable {
     let id: Int
     let patient: Patient
     let doctor: Doctor
     let user: User
     let date: Date
-    let paymentStatus: PaymentStatus
-    let appointmentStatus: AppointmentStatus
+    var paymentStatus: PaymentStatus
+    var appointmentStatus: AppointmentStatus
     let createdAt: Date
 
     enum CodingKeys: String, CodingKey {
@@ -62,7 +62,7 @@ struct Appointment: Codable, Hashable, Identifiable {
         self.createdAt = createdAt
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int.self, forKey: .id)
         patient = try container.decode(Patient.self, forKey: .patient)
@@ -111,6 +111,26 @@ struct Appointment: Codable, Hashable, Identifiable {
         
         return response
     }
+    
+    func saveImage(fileName:String, data: Data) async throws -> String {
+        let name = "\(id.string)/\(fileName).png"
+        print(name)
+        let response = try await supabase.storage.from(SupabaseBucket.medicalRecords.id).upload(path: name, file: data)
+        
+        print(response)
+        
+        return response.path
+    }
+    
+    func markStatus(status: AppointmentStatus) async throws {
+        self.appointmentStatus = status
+        try await supabase.from(SupabaseTable.appointments.id)
+            .update([
+                "appointment_status": status.rawValue
+            ])
+            .eq("id", value: id)
+            .execute()
+    }
 }
 
 enum PaymentStatus: String, Codable {
@@ -120,6 +140,7 @@ enum PaymentStatus: String, Codable {
 }
 
 enum AppointmentStatus: String, Codable {
+    case completed
     case confirmed
     case pending
     case cancelled

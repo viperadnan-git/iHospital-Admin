@@ -10,31 +10,34 @@ import SwiftUI
 import PDFKit
 
 class PDFCreator {
+    static let shared = PDFCreator()
+    
     private let metaData = [
         kCGPDFContextAuthor: "iHospital",
         kCGPDFContextSubject: "Patient Records",
     ]
     
     private var rect: CGRect {
-        return CGRect(x: 0, y: 0, width: Constants.PDF.pageWidth * Constants.PDF.dotsPerInch, height: Constants.PDF.pageHeight * Constants.PDF.dotsPerInch)
+        return CGRect(x: 0, y: 0, width: 8.5 * 72, height: 11 * 72) // Standard US Letter size
     }
     
     @MainActor
     func createPDFData<V: View>(fileName: String, pages: [V], displayScale: CGFloat) -> URL {
         let format = UIGraphicsPDFRendererFormat()
-        format.documentInfo = metaData as [String : Any]
+        format.documentInfo = metaData as [String: Any]
         let renderer = UIGraphicsPDFRenderer(bounds: rect, format: format)
         
         let tempFolder = FileManager.default.temporaryDirectory
-        let fileName = fileName + ".pdf"
-        let tempURL = tempFolder.appendingPathComponent(fileName)
+        let tempURL = tempFolder.appendingPathComponent(fileName).appendingPathExtension("pdf")
         
         try? renderer.writePDF(to: tempURL) { context in
-            for Page in pages {
+            for page in pages {
                 context.beginPage()
-                let imageRenderer = ImageRenderer(content: Page)
+                let imageRenderer = ImageRenderer(content: page)
                 imageRenderer.scale = displayScale
-                imageRenderer.uiImage?.draw(at: CGPoint.zero)
+                if let uiImage = imageRenderer.uiImage {
+                    uiImage.draw(in: rect)
+                }
             }
         }
 

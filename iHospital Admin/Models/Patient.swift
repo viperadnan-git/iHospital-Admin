@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Patient: Codable, Identifiable {
+struct Patient: Codable, Hashable, Identifiable {
     let id: UUID
     let userId: UUID
     let firstName: String

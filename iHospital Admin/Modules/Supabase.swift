@@ -24,6 +24,16 @@ enum SupabaseTable: String {
     case departments = "departments"
     case patients = "patients"
     case appointments = "appointments"
+    case medicalRecords = "medical_records"
+    
+    var id: String {
+        self.rawValue
+    }
+}
+
+enum SupabaseBucket: String {
+    case avatar = "avatars"
+    case medicalRecords = "medical_records"
     
     var id: String {
         self.rawValue
