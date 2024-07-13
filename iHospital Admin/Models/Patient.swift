@@ -39,12 +39,6 @@ struct Patient: Codable, Hashable, Identifiable {
         "\(firstName) \(lastName)"
     }
     
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
-    
     static let sample = Patient(id: UUID(),
                                 userId: UUID(),
                                 firstName: "John",
@@ -71,7 +65,7 @@ struct Patient: Codable, Hashable, Identifiable {
         bloodGroup = try container.decode(BloodGroup.self, forKey: .bloodGroup)
         
         let dateString = try container.decode(String.self, forKey: .dateOfBirth)
-        guard let date = Patient.dateFormatter.date(from: dateString) else {
+        guard let date = DateFormatter.dateFormatter.date(from: dateString) else {
             throw DecodingError.dataCorruptedError(forKey: .dateOfBirth, in: container, debugDescription: "Invalid date format")
         }
         dateOfBirth = date
@@ -104,7 +98,7 @@ struct Patient: Codable, Hashable, Identifiable {
         try container.encode(gender, forKey: .gender)
         try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(bloodGroup, forKey: .bloodGroup)
-        try container.encode(Patient.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)
+        try container.encode(DateFormatter.dateFormatter.string(from: dateOfBirth), forKey: .dateOfBirth)
         try container.encodeIfPresent(height, forKey: .height)
         try container.encodeIfPresent(weight, forKey: .weight)
         try container.encode(address, forKey: .address)

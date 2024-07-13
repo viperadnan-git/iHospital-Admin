@@ -19,4 +19,10 @@ extension DateFormatter {
         formatter.timeStyle = .short
         return formatter
     }()
+    
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }

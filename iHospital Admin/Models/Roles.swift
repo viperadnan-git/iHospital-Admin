@@ -11,7 +11,7 @@ import Foundation
 enum Roles: String, Codable {
     case admin = "admin"
     case doctor = "doctor"
-    case lab_tech = "lab_tech"
+    case labTech = "lab_tech"
 }
 
 

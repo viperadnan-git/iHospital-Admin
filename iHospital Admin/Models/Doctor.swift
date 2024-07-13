@@ -153,7 +153,7 @@ class Doctor: Codable, Hashable {
         return try JSONDecoder().decode([Doctor].self, from: response.data)
     }
     
-    static func addDoctor(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws -> Doctor {
+    static func new(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws -> Doctor {
         let session = try await supabase.auth.signUp(email: email, password: UUID().uuidString)
         
         let doctor: Doctor = try await supabase.from(SupabaseTable.doctors.id)
