@@ -8,7 +8,6 @@
 import SwiftUI
 import PencilKit
 import PDFKit
-import CachedAsyncImage
 
 struct DoctorPatientInfoView: View {
     var appointment: Appointment

@@ -59,7 +59,7 @@ struct MedicalRecord: Codable, Identifiable {
                 ]
             }
 
-            let labTests = try await supabase.from(SupabaseTable.labTests.id)
+            try await supabase.from(SupabaseTable.labTests.id)
                 .insert(labTestParsed)
                 .select(LabTest.supabaseSelectQuery)
                 .execute()
