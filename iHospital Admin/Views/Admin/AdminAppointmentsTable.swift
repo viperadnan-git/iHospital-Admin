@@ -14,7 +14,7 @@ struct AdminAppointmentsTable: View {
     @State private var appointments: [Appointment] = []
     @State private var isLoading = false
     
-    @State private var sortOrder = [ KeyPathComparator(\Appointment.date, order: .forward)]
+    @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,7 +27,7 @@ struct AdminAppointmentsTable: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundColor(Color(.systemGray))
             } else {
-                Table(filteredAppointments,sortOrder: $sortOrder) {
+                Table(filteredAppointments, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.patient.name)
                     TableColumn("Gender", value: \.patient.gender.id.capitalized)
                     TableColumn("Phone No.", value: \.patient.phoneNumber.string)

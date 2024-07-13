@@ -43,6 +43,7 @@
 		3265EFC92C4055F3005E9603 /* LabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC82C4055F3005E9603 /* LabTest.swift */; };
 		3265EFCB2C40DC03005E9603 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFCA2C40DC03005E9603 /* NavigationManager.swift */; };
 		3284098D2C380C0600473841 /* BloodGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098C2C380C0600473841 /* BloodGroup.swift */; };
+		328FECB62C43098D00EFA273 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328FECB52C43098D00EFA273 /* Image.swift */; };
 		32E378EC2C365A790076F2C4 /* Doctor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378EB2C365A790076F2C4 /* Doctor.swift */; };
 		32E378EE2C365AA90076F2C4 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378ED2C365AA90076F2C4 /* Gender.swift */; };
 		32E378F02C365BE20076F2C4 /* Department.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E378EF2C365BE20076F2C4 /* Department.swift */; };
@@ -111,6 +112,7 @@
 		3265EFC82C4055F3005E9603 /* LabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTest.swift; sourceTree = "<group>"; };
 		3265EFCA2C40DC03005E9603 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		3284098C2C380C0600473841 /* BloodGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGroup.swift; sourceTree = "<group>"; };
+		328FECB52C43098D00EFA273 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		32E378EB2C365A790076F2C4 /* Doctor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doctor.swift; sourceTree = "<group>"; };
 		32E378ED2C365AA90076F2C4 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		32E378EF2C365BE20076F2C4 /* Department.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Department.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				325042352C3DC60100452C0C /* Int.swift */,
 				D5BF32A02C3E50FB00717C28 /* Color.swift */,
 				3265EFBD2C3FBB65005E9603 /* Double.swift */,
+				328FECB52C43098D00EFA273 /* Image.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 			mainGroup = 324C9CCB2C355D4800712E84;
 			packageReferences = (
 				324C9CF12C35D7D900712E84 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				328FECB02C42FA8600EFA273 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = 324C9CD52C355D4800712E84 /* Products */;
 			projectDirPath = "";
@@ -440,6 +444,7 @@
 				3265EFC52C4044F5005E9603 /* PrescriptionPDFView.swift in Sources */,
 				324C9CF02C35D7B200712E84 /* Supabase.swift in Sources */,
 				4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */,
+				328FECB62C43098D00EFA273 /* Image.swift in Sources */,
 				B0839B8B2C39B13A00930FC9 /* DoctorPatientInfoView.swift in Sources */,
 				32E379042C370A2F0076F2C4 /* DoctorDashboardView.swift in Sources */,
 				32E379062C370ADE0076F2C4 /* DoctorViewModel.swift in Sources */,
@@ -711,6 +716,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.5.1;
+			};
+		};
+		328FECB02C42FA8600EFA273 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

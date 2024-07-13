@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct DoctorAppointmentsTable: View {
-    @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
+    @EnvironmentObject var doctorViewModel: DoctorViewModel
+    
     @State private var searchText = ""
+    @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
+    
+    @State private var appointments: [Appointment] = []
     
     var body: some View {
         VStack {
@@ -18,39 +22,38 @@ struct DoctorAppointmentsTable: View {
                     .padding(.horizontal)
             }
             
-            
-            Table(filteredAppointments) {
-                TableColumn("Name") { appointment in
-                    Text(appointment.patient.name)
-                        .foregroundStyle((appointment.status == AppointmentStatus.completed) ? Color(.systemGray6) : Color(.label))
-                }
+            Table(appointments, sortOrder: $sortOrder) {
+                TableColumn("Name", value: \.patient.name)
                 TableColumn("Age", value: \.patient.dateOfBirth.age)
                 TableColumn("Gender", value: \.patient.gender.id.capitalized)
-                TableColumn("Phone No.") { appointment in
-                    Text(appointment.patient.phoneNumber.string)
-                }
-                TableColumn("Time") { appointment in
+                TableColumn("Phone No.", value: \.patient.phoneNumber.string)
+                TableColumn("Time", value: \.date) { appointment in
                     Text(appointment.date.timeString)
                 }
                 TableColumn("Status") { appointment in
-                    StatusIndicator(status: appointment.status)
+                    AppointmentStatusIndicator(status: appointment.status)
                 }
             }
             .frame(maxWidth: .infinity)
-            .refreshable {
-                doctorDetailViewModel.fetchAppointments(for: Date())
+            .onChange(of: sortOrder) { newOrder in
+                refresh()
             }
-            .onAppear {
-                doctorDetailViewModel.fetchAppointments(for: Date())
+            .refreshable {
+               doctorViewModel.fetchAppointments(for: Date())
+               refresh()
+            }.onAppear {
+                refresh()
+            }.onChange(of: doctorViewModel.appointments) { _ in
+                refresh()
             }
         }
     }
     
-    private var filteredAppointments: [Appointment] {
+    func refresh() {
         if searchText.isEmpty {
-            return doctorDetailViewModel.appointments
+            appointments = doctorViewModel.appointments.sorted(using: sortOrder)
         } else {
-            return doctorDetailViewModel.appointments.filter { appointment in
+            appointments = doctorViewModel.appointments.filter { appointment in
                 appointment.patient.name.lowercased().contains(searchText.lowercased())
                 || appointment.patient.dateOfBirth.age.lowercased().contains(searchText.lowercased())
                 || appointment.patient.gender.id.lowercased().contains(searchText.lowercased())

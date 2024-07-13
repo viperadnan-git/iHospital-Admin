@@ -9,6 +9,8 @@ import SwiftUI
 import PencilKit
 
 struct DoctorAddPatientMedicalRecordView: View {
+    var appointment: Appointment
+    
     @Environment(\.displayScale) var displayScale
     @EnvironmentObject private var doctorViewModel: DoctorViewModel
     @EnvironmentObject private var navigation: NavigationManager
@@ -24,7 +26,6 @@ struct DoctorAddPatientMedicalRecordView: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
 
     let predefinedLabTests = ["Complete Blood Count", "Blood Sugar", "Lipid Profile", "Liver Function Test", "Kidney Function Test"]
-    let usageTypes = ["Oral", "Injection", "Topical"]
 
     var body: some View {
         NavigationView {
@@ -146,23 +147,20 @@ struct DoctorAddPatientMedicalRecordView: View {
             }, trailing: Button(action: onAdd) {
                 Text("Add")
             })
+            .errorAlert(errorAlertMessage: errorAlertMessage)
         }
     }
 
     func onAdd() {
-        guard let appointment = doctorViewModel.appointments.first else {
-            return
-        }
-        
         Task {
             do {
-                let response = try await MedicalRecord.new(
+                try await MedicalRecord.new(
                     note: note,
                     image: canvasView.drawing.image(from: canvasView.bounds, scale: 1).pngData()!,
                     medicines: medicines,
+                    labTests: labTests,
                     appointment: appointment
                 )
-                print(response)
                 try await doctorViewModel.markStatusCompleted(for: appointment)
                 unwind()
             } catch {

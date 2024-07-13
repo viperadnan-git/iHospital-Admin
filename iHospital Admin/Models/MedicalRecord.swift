@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct MedicalRecord: Codable {
+struct MedicalRecord: Codable, Identifiable {
     var id: Int
     var note: String
     var imagePath: String
     var medicines: [String]
     var appointment: Appointment
+    var patient: Patient
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -20,27 +21,48 @@ struct MedicalRecord: Codable {
         case imagePath = "image_path"
         case medicines
         case appointment
+        case patient
     }
     
-    static let supabaseSelectQuery = "*, appointment:appointment_id(\(Appointment.supabaseSelectQuery))"
+    static let supabaseSelectQuery = "*, appointment:appointment_id(\(Appointment.supabaseSelectQuery)), patient:patient_id(*)"
     
-    static func new(note:String, image: Data, medicines:[Medicine], appointment: Appointment) async throws -> MedicalRecord {
+    func loadImage() async throws -> Data {
+        try await supabase.storage.from(SupabaseBucket.medicalRecords.id).download(path: imagePath)
+    }
+    
+    static func new(note:String, image: Data, medicines:[Medicine], labTests:[LabTestItem], appointment: Appointment) async throws {
         let imagePath = try await appointment.saveImage(fileName: UUID().uuidString, data: image)
         
         let medicinesString = "{" + medicines.map { $0.text }.joined(separator: ", ") + "}"
         
-        let response: MedicalRecord = try await supabase.from(SupabaseTable.medicalRecords.id)
+        try await supabase.from(SupabaseTable.medicalRecords.id)
             .insert([
                 "note": note,
                 "image_path": imagePath,
                 "medicines": medicinesString,
-                "appointment_id": appointment.id.string
+                "appointment_id": appointment.id.string,
+                "patient_id": appointment.patient.id.uuidString
             ])
             .select(supabaseSelectQuery)
             .single()
             .execute()
             .value
+        
+        
+        if !labTests.isEmpty {
+            let labTestParsed = labTests.map { item in
+                [
+                    "name": item.name,
+                    "status": LabTestStatus.pending.rawValue,
+                    "patient_id": appointment.patient.id.uuidString,
+                    "appointment_id": appointment.id.string
+                ]
+            }
 
-        return response
+            let labTests = try await supabase.from(SupabaseTable.labTests.id)
+                .insert(labTestParsed)
+                .select(LabTest.supabaseSelectQuery)
+                .execute()
+        }
     }
 }

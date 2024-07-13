@@ -119,4 +119,24 @@ struct Patient: Codable, Hashable, Identifiable {
         
         return response
     }
+    
+    func fetchMedicalRecords() async throws -> [MedicalRecord] {
+        let response: [MedicalRecord] = try await supabase.from(SupabaseTable.medicalRecords.id)
+            .select(MedicalRecord.supabaseSelectQuery)
+            .eq("patient_id", value: id.uuidString)
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func fetchLabTests() async throws -> [LabTest] {
+        let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
+            .select(LabTest.supabaseSelectQuery)
+            .eq("patient_id", value: id.uuidString)
+            .execute()
+            .value
+        
+        return response
+    }
 }

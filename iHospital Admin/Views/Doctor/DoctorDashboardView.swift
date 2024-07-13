@@ -10,12 +10,11 @@ import SwiftUI
 
 struct DoctorDashboardView: View {
     @StateObject private var doctorViewModel = DoctorViewModel()
-    @State private var searchText = ""
-    @State private var appointments: [Appointment] = []
     @StateObject private var navigation = NavigationManager()
     
-    
-    
+    @State private var searchText = ""
+    @State private var appointments: [Appointment] = []
+
     var body: some View {
         if doctorViewModel.isLoading {
             ProgressView()
@@ -77,7 +76,7 @@ struct DoctorDashboardView: View {
                                 if let currentAppointment = doctorViewModel.nextAppointment {
                                     HStack(alignment: .top) {
                                         Text("Current Appointment")
-                                            .font(.title3)
+                                            .font(.title)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
                                         Spacer()
@@ -106,27 +105,21 @@ struct DoctorDashboardView: View {
                                             .font(.title)
                                             .bold()
                                         Spacer()
-                                        Button(action: {
-                                            navigation.path.append(currentAppointment.patient)
-                                        }) {
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(Color.white)
-                                                .overlay(
-                                                    Text("View")
-                                                        .foregroundColor(.accentColor)
-                                                        .padding(.horizontal, 2)
-                                                        .padding(.vertical, 2)
-                                                ).frame(maxWidth: 20)
+                                        Button {
+                                            navigation.path.append(currentAppointment)
+                                        } label: {
+                                            Image(systemName: "arrow.right.circle.fill")
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                                .foregroundColor(.white)
                                         }
-                                        .padding(.bottom, 10)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    
                                 } else if let nextAppointment = doctorViewModel.nextAppointment {
                                     VStack(alignment: .leading, spacing: 4) {
                                         HStack(alignment: .top) {
                                             Text("Next Appointment")
-                                                .font(.title3)
+                                                .font(.title)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)
                                             Spacer()
@@ -162,7 +155,7 @@ struct DoctorDashboardView: View {
                                 else {
                                     HStack {
                                         Text("No Appointments\nfor today")
-                                            .font(.title3)
+                                            .font(.title)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
                                         Spacer()
@@ -171,7 +164,7 @@ struct DoctorDashboardView: View {
                                 }
                             }.padding()
                                 .frame(width: boxWidth, height: 180)
-                                .background(Color(hex: "ef9c66"))
+                                .background(Color(.systemGreen))
                                 .cornerRadius(10)
                             
                         }
@@ -192,15 +185,6 @@ struct DoctorDashboardView: View {
                         .padding()
                         
                         DoctorAppointmentsTable()
-                            .onAppear {
-                                Task {
-                                    do {
-                                        appointments = try await Appointment.fetchAppointments()
-                                    } catch {
-                                        print("Error fetching appointments: \(error.localizedDescription)")
-                                    }
-                                }
-                            }
                         Spacer()
                     }
                     .navigationTitle("Hello \(doctorViewModel.doctor?.firstName ?? "Doctor")")
@@ -215,8 +199,8 @@ struct DoctorDashboardView: View {
                             EmptyView()
                         }
                     }
-                    .navigationDestination(for: Patient.self) { patient in
-                        DoctorPatientInfoView(patient: patient)
+                    .navigationDestination(for: Appointment.self) { appointment in
+                        DoctorPatientInfoView(appointment: appointment)
                     }
                     .navigationBarItems(
                         trailing: Button {
@@ -230,7 +214,7 @@ struct DoctorDashboardView: View {
                     )
                 }
             }.environmentObject(navigation)
-                .environmentObject(doctorViewModel)
+            .environmentObject(doctorViewModel)
         }
     }
 }

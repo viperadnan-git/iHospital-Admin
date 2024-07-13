@@ -201,7 +201,7 @@ struct AppointmentRow: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("\(appointment.doctor.firstName)")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                StatusIndicator(status: appointment.status)
+                AppointmentStatusIndicator(status: appointment.status)
                     .frame(maxWidth: .infinity, alignment: .leading)
 //                Image(systemName: "chevron.right")
 //                    .foregroundColor(.gray)
@@ -217,7 +217,7 @@ struct AppointmentRow: View {
     }
 }
 
-struct StatusIndicator: View {
+struct AppointmentStatusIndicator: View {
     let status: AppointmentStatus
 
     var body: some View {

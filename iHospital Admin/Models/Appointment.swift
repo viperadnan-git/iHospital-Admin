@@ -115,10 +115,7 @@ class Appointment: Codable, Hashable, Identifiable {
     
     func saveImage(fileName:String, data: Data) async throws -> String {
         let name = "\(id.string)/\(fileName).png"
-        print(name)
         let response = try await supabase.storage.from(SupabaseBucket.medicalRecords.id).upload(path: name, file: data)
-        
-        print(response)
         
         return response.path
     }

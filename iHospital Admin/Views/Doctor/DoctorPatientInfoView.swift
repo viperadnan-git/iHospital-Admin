@@ -8,9 +8,10 @@
 import SwiftUI
 import PencilKit
 import PDFKit
+import CachedAsyncImage
 
 struct DoctorPatientInfoView: View {
-    var patient: Patient
+    var appointment: Appointment
     @State private var showingModal = false
     @State private var documentData: Data? = nil
     
@@ -21,6 +22,7 @@ struct DoctorPatientInfoView: View {
     @State private var canvasHeight: CGFloat = 200
     
     var body: some View {
+        let patient = appointment.patient
         GeometryReader { geometry in
             HStack(spacing: 12) {
                 Form {
@@ -103,6 +105,7 @@ struct DoctorPatientInfoView: View {
                             }
                             .sheet(isPresented: $showingModal) {
                                 DoctorAddPatientMedicalRecordView(
+                                    appointment: appointment,
                                     isPresented: $showingModal,
                                     note: $note,
                                     canvasView: $canvasView,
@@ -114,22 +117,7 @@ struct DoctorPatientInfoView: View {
                         }
                         
                         // Horizontal scroll view for medical history
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(0..<3) { index in
-                                    MedicalRecordCardView(
-                                        title: "Apollo Hospital",
-                                        date: "19/07/2024",
-                                        documentData: documentData
-                                    )
-                                    .frame(width: 250)
-                                    .cornerRadius(10)
-                                    .padding(.vertical)
-                                    
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
+                        PatientMedicalRecords(patient: patient)
                     }
                     
                     VStack(alignment: .leading) {
@@ -138,21 +126,7 @@ struct DoctorPatientInfoView: View {
                             .bold()
                         
                         // Horizontal scroll view for test results
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(0..<4) { index in
-                                    MedicalRecordCardView(
-                                        title: "Blood Test Report",
-                                        date: "19/07/2024",
-                                        documentData: documentData
-                                    )
-                                    .frame(width: 250)
-                                    .cornerRadius(10)
-                                    .padding(.vertical)
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
+                        PatientLabTestReports(patient: patient)
                     }
                 }
                 .frame(width: geometry.size.width * 0.56)
@@ -164,41 +138,68 @@ struct DoctorPatientInfoView: View {
 }
 
 
-
-
+struct PatientMedicalRecords: View {
+    var patient: Patient
+    
+    @State private var isLoading: Bool = false
+    @State private var medicalRecords: [MedicalRecord] = []
+    
+    @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load medical records")
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(medicalRecords) { medicalRecord in
+                    MedicalRecordCardView(medicalRecord: medicalRecord)
+                    .frame(width: 250)
+                    .cornerRadius(10)
+                    .padding(.vertical)
+                }
+            }
+            .padding(.horizontal)
+            .errorAlert(errorAlertMessage: errorMessageAlert)
+            .onAppear {
+                fetchMedicalRecords()
+            }
+        }
+        Spacer()
+    }
+    
+    func fetchMedicalRecords() {
+        Task {
+            do {
+                medicalRecords = try await patient.fetchMedicalRecords()
+            } catch {
+                errorMessageAlert.message = error.localizedDescription
+            }
+        }
+    }
+}
 
 
 struct MedicalRecordCardView: View {
-    var title: String
-    var date: String
-    var documentData: Data?
+    var medicalRecord: MedicalRecord
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(title)
+                    Text("By \(medicalRecord.appointment.doctor.name)")
                         .font(.headline)
-                    Text(date)
+                    Text(medicalRecord.appointment.date.dateString)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
                 Spacer()
             }
             
-            .padding(.bottom, 8)
+            Text(medicalRecord.note)
+                .font(.subheadline)
+                .lineLimit(3)
+                .multilineTextAlignment(.leading)
             
-            // Document preview
-            if let data = documentData {
-                DocumentPreviewView(data: data)
-                    .frame(height: 80)
-                    .cornerRadius(10)
-            } else {
-                Rectangle()
-                    .fill(Color(UIColor.systemGray5))
-                    .frame(height: 80)
-                    .cornerRadius(10)
-            }
+            Image.asyncImage(loadData: medicalRecord.loadImage)
+                .frame(maxWidth: .infinity)
             
             Spacer()
             
@@ -213,14 +214,86 @@ struct MedicalRecordCardView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                
+            }
+        }
+        .padding(12)
+        .background(Color(.systemGray6))
+        .cornerRadius(15)
+        .frame(width: 250)
+    }
+}
+
+struct PatientLabTestReports: View {
+    var patient: Patient
+    
+    @State private var isLoading: Bool = false
+    @State private var labTests: [LabTest] = []
+    
+    @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load lab tests")
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 20) {
+                ForEach(labTests) { labTest in
+                    LabTestCardView(labTest: labTest)
+                        .frame(width: 250)
+                        .cornerRadius(10)
+                        .padding(.vertical)
+                }
+            }
+            .padding(.horizontal)
+            .errorAlert(errorAlertMessage: errorMessageAlert)
+            .onAppear {
+                fetchLabTests()
+            }
+        }
+        Spacer()
+    }
+    
+    func fetchLabTests() {
+        Task {
+            do {
+                labTests = try await patient.fetchLabTests()
+            } catch {
+                errorMessageAlert.message = error.localizedDescription
+            }
+        }
+    }
+}
+
+struct LabTestCardView: View {
+    var labTest: LabTest
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("By \(labTest.appointment.doctor.name)")
+                        .font(.headline)
+                    Text(labTest.appointment.date.dateString)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+            }
+            
+            Text(labTest.name)
+                .font(.title)
+                .lineLimit(3)
+                .multilineTextAlignment(.leading)
+            
+            LabTestStatusIndicator(status: labTest.status)
+            
+            Spacer()
+            
+            HStack(spacing: 8) {
                 Button(action: {
-                    // Download document action
+                    
                 }) {
-                    Text("Download")
+                    Text("View")
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray)
+                        .background(Color.accentColor)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -233,43 +306,21 @@ struct MedicalRecordCardView: View {
     }
 }
 
-struct DocumentPreviewView: View {
-    var data: Data
-    
+struct LabTestStatusIndicator: View {
+    let status: LabTestStatus
+
     var body: some View {
-        if let pdfDocument = PDFDocument(data: data) {
-            PDFViewWrapper(document: pdfDocument)
-        } else if let image = UIImage(data: data) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(10)
-        } else {
-            Text("No Preview Available")
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(UIColor.systemGray5))
+        HStack {
+            Circle()
+                .fill(status.color)
+                .frame(width: 10, height: 10)
+            Text(status.rawValue.capitalized)
+                .font(.footnote)
         }
     }
 }
 
-struct PDFViewWrapper: UIViewRepresentable {
-    var document: PDFDocument
-    
-    func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView()
-        pdfView.document = document
-        pdfView.displayMode = .singlePageContinuous
-        pdfView.autoScales = true
-        return pdfView
-    }
-    
-    func updateUIView(_ uiView: PDFView, context: Context) {}
-}
 
-
-struct PatientInfoDoctorView_Previews: PreviewProvider {
-    static var previews: some View {
-        DoctorPatientInfoView(patient: Patient.sample)
-    }
+#Preview {
+        DoctorPatientInfoView(appointment: Appointment.sample)
 }
