@@ -1,11 +1,27 @@
 import SwiftUI
 
+struct Bed: Identifiable {
+    var id = UUID()
+    var bedNumber: UUID
+    var wardType: String
+    var roomNumber: String
+    var floorNumber: String
+    var status: String
+    var statusColor: Color
+}
+
 struct AdminBedView: View {
     @State var searchtext = ""
     @State private var showAddBedForm = false
     @State private var searchBed = ""
     @State private var selectedFloor = "All Floors"
     let floors = ["All Floors", "Floor 1", "Floor 2", "Floor 3"]
+    
+    let beds = [
+            Bed(bedNumber: UUID(), wardType: "General", roomNumber: "101", floorNumber: "1", status: "Available", statusColor: .green),
+            Bed(bedNumber: UUID(), wardType: "ICU", roomNumber: "202", floorNumber: "2", status: "Occupied", statusColor: .red),
+            Bed(bedNumber: UUID(), wardType: "Private", roomNumber: "303", floorNumber: "3", status: "Under Maintenance", statusColor: .yellow)
+        ]
     
     let columns = [
         GridItem(.flexible()),
@@ -66,23 +82,40 @@ struct AdminBedView: View {
                             
                         }
                         .padding(.horizontal,20)
-                        
                         Spacer().frame(height: 30)
-                        
-                        LazyVGrid(columns: columns, spacing: 15) {
-                            ForEach(0..<6) { index in
-                                BedDetailCard(bedNumber: "Bed No.  \(index + 1)", roomNumber: "Room No.\(index + 1)", bedType: "Type of Bed \(index + 1)")
-                                    .buttonStyle(PlainButtonStyle())
-                                    .frame(height: 150)
-                                    .padding(.horizontal, 4)
+                      
+                        VStack{
+                            Table(beds) {
+                                        TableColumn("Bed Number") { bed in
+                                            Text(bed.bedNumber.uuidString)
+                                        }
+                                        TableColumn("Ward Type") { bed in
+                                            Text(bed.wardType)
+                                        }
+                                        TableColumn("Room Number") { bed in
+                                            Text(bed.roomNumber)
+                                        }
+                                        TableColumn("Floor Number") { bed in
+                                            Text(bed.floorNumber)
+                                        }
+                                        TableColumn("Status") { bed in
+                                            HStack {
+                                                Circle()
+                                                    .fill(bed.statusColor)
+                                                    .frame(width: 10, height: 10)
+                                                Text(bed.status)
+                                            }
+                                        }
+                                    }
+                            .padding(.leading,10)
                             }
-                        }
-                        
-                    }.frame(maxWidth: .infinity,maxHeight: .infinity)
+                            .foregroundColor(.white)
+                        Spacer()
+                          }
+                    .frame(maxWidth: .infinity,maxHeight: .infinity)
                     .padding(20)
                 }
             }
-        
     }
 }
 
@@ -191,34 +224,6 @@ struct BedDetailCard: View {
         .cornerRadius(8)
     }
 }
-
-
-struct BedInfoView: View{
-    var body: some View{
-        VStack{
-            NavigationView{
-                VStack{
-                    Text("bed no. ")
-                    Text("ward type")
-                    Text("bed no. ")
-                    Text("ward type")
-                    
-                }
-            }
-            
-        }
-        .frame(maxWidth: .infinity,maxHeight: .infinity)
-        .background(Color(uiColor: .systemGray6))
-        .navigationTitle("bed no.")
-        
-        
-    }
-}
-
-
-
-
-
 
 #Preview {
     AdminBedView()
