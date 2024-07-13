@@ -20,6 +20,8 @@ struct DoctorPatientInfoView: View {
     @State private var medicines: [Medicine] = []
     @State private var labTests: [LabTestItem] = []
     @State private var canvasHeight: CGFloat = 200
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         let patient = appointment.patient
@@ -134,6 +136,25 @@ struct DoctorPatientInfoView: View {
         }
         .navigationTitle("\(patient.name)'s Profile")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: {
+            showAlert = true
+        }) {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Back")
+            }
+        })
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Discard Draft"),
+                message: Text("Your draft prescription will be cleared if you go back. Are you sure you want to discard the draft?"),
+                primaryButton: .destructive(Text("Discard")) {
+                    self.presentationMode.wrappedValue.dismiss()
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
 

@@ -24,6 +24,8 @@ struct DoctorAddPatientMedicalRecordView: View {
 
     @State private var dragOffset: CGSize = .zero
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
+    @State private var showAlert = false
+    @State private var isLoading = false
 
     let predefinedLabTests = ["Complete Blood Count", "Blood Sugar", "Lipid Profile", "Liver Function Test", "Kidney Function Test"]
 
@@ -69,13 +71,18 @@ struct DoctorAddPatientMedicalRecordView: View {
                             HStack {
                                 TextField("Medicine Name", text: $medicine.name)
                                     .padding(.vertical, 4)
-                                Picker("Dosage", selection: $medicine.dosage) {
-                                    ForEach(MedicineDosage.allCases, id: \.self) {
-                                        Text($0.rawValue)
+                                Menu {
+                                    ForEach(MedicineDosage.allCases, id: \.self) { dosage in
+                                        Button(action: {
+                                            medicine.dosage = dosage
+                                        }) {
+                                            Text(dosage.rawValue)
+                                        }
                                     }
+                                } label: {
+                                    Text(medicine.dosage.rawValue)
+                                        .padding(.vertical, 4)
                                 }
-                                .pickerStyle(MenuPickerStyle())
-                                .padding(.vertical, 4)
                                 Divider()
                                 Image(systemName: "minus.circle.fill")
                                     .foregroundColor(.red)
@@ -143,15 +150,34 @@ struct DoctorAddPatientMedicalRecordView: View {
             .navigationTitle("New Prescription")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button("Cancel") {
-                isPresented = false
-            }, trailing: Button(action: onAdd) {
-                Text("Add")
+                if !isLoading {
+                    isPresented = false
+                }
+            }.disabled(isLoading), trailing: Button(action: {
+                showAlert = true
+            }) {
+                if isLoading {
+                    ProgressView()
+                } else {
+                    Text("Add")
+                }
             })
             .errorAlert(errorAlertMessage: errorAlertMessage)
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Confirm Save"),
+                    message: Text("Are you sure you want to save this prescription?"),
+                    primaryButton: .default(Text("Save")) {
+                        onAdd()
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
     }
 
     func onAdd() {
+        isLoading = true
         Task {
             do {
                 try await MedicalRecord.new(
@@ -166,6 +192,7 @@ struct DoctorAddPatientMedicalRecordView: View {
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }
+            isLoading = false
         }
     }
     
@@ -175,12 +202,11 @@ struct DoctorAddPatientMedicalRecordView: View {
     }
 }
 
-enum MedicineDosage:String, Codable, CaseIterable {
+enum MedicineDosage: String, Codable, CaseIterable {
     case onceADay = "Once a day"
     case twiceADay = "Twice a day"
     case thriceADay = "Three times a day"
 }
-
 
 struct Medicine: Identifiable {
     let id: UUID

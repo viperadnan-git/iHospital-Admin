@@ -34,7 +34,7 @@ struct DoctorDashboardView: View {
                                     .overlay(
                                         VStack(alignment: .leading) {
                                             HStack(alignment: .bottom) {
-                                                Text(doctorViewModel.appointments.count.string + "/")
+                                                Text(doctorViewModel.pendingAppointments.count.string + "/")
                                                     .font(.system(size: 80, weight: .bold))
                                                 Text(doctorViewModel.appointments.count.string)
                                             }.foregroundColor(.white)
@@ -42,6 +42,11 @@ struct DoctorDashboardView: View {
                                             
                                             Spacer()
                                             
+                                            Text("Pending / Total")
+                                                .font(.caption)
+                                                .textCase(.uppercase)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(.white)
                                             Text("Appointments")
                                                 .font(.title2)
                                                 .fontWeight(.semibold)

@@ -56,6 +56,10 @@ class DoctorViewModel: ObservableObject {
         fetchAppointments(for: Date())
     }
     
+    var pendingAppointments: [Appointment] {
+        appointments.filter { $0.status == .pending }
+    }
+    
     private func startAppointmentTimer() {
         let now = Date()
         let calendar = Calendar.current

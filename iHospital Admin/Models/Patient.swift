@@ -124,6 +124,7 @@ struct Patient: Codable, Hashable, Identifiable {
         let response: [MedicalRecord] = try await supabase.from(SupabaseTable.medicalRecords.id)
             .select(MedicalRecord.supabaseSelectQuery)
             .eq("patient_id", value: id.uuidString)
+            .order("created_at", ascending: false)
             .execute()
             .value
         
@@ -134,6 +135,7 @@ struct Patient: Codable, Hashable, Identifiable {
         let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
             .select(LabTest.supabaseSelectQuery)
             .eq("patient_id", value: id.uuidString)
+            .order("created_at", ascending: false)
             .execute()
             .value
         
