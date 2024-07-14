@@ -8,71 +8,88 @@
 import SwiftUI
 
 struct AdminStaffInfoView: View {
+    let staffId: Int
+    
+    @State private var isEditMode: Bool = false
+    
+    @EnvironmentObject var staffViewModel: AdminStaffViewModel
+    
     var body: some View {
-        Form {
-            VStack{
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .padding()
-                    .foregroundColor(Color(.systemGray))
-                    .frame(maxWidth: .infinity)
+        if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
+            Form {
+                VStack {
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .padding()
+                        .foregroundColor(Color(.systemGray))
+                        .frame(maxWidth: .infinity)
+                    
+                    Text(staff.name)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                }
                 
-                Text("Staff Name")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
-            }
-            
-            Section(header: Text("Staff Information")) {
-                
-                
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text("Staff Name")
+                Section(header: Text("Staff Information")) {
+                    HStack {
+                        Text("Name")
+                        Spacer()
+                        Text(staff.name)
+                    }
+                    HStack {
+                        Text("Date of Birth")
+                        Spacer()
+                        Text(DateFormatter.dateFormatter.string(from: staff.dateOfBirth))
+                    }
+                    HStack {
+                        Text("Gender")
+                        Spacer()
+                        Text(staff.gender.rawValue.capitalized)
+                    }
+                    HStack {
+                        Text("Phone Number")
+                        Spacer()
+                        Text("\(staff.phoneNumber)")
+                    }
+                    HStack {
+                        Text("Email")
+                        Spacer()
+                        Text(staff.email)
+                    }
+                    HStack {
+                        Text("Qualification")
+                        Spacer()
+                        Text(staff.qualification)
+                    }
+                    HStack {
+                        Text("Experience Since")
+                        Spacer()
+                        Text(DateFormatter.dateFormatter.string(from: staff.experienceSince))
+                    }
+                    HStack {
+                        Text("Date of Joining")
+                        Spacer()
+                        Text(DateFormatter.dateFormatter.string(from: staff.dateOfJoining))
+                    }
+                    HStack {
+                        Text("Address")
+                        Spacer()
+                        Text(staff.address)
+                    }
                 }
-                HStack {
-                    Text("Date of Birth")
-                    Spacer()
-                    Text("Date of Birth")
+            }.navigationTitle("Staff Details")
+                .navigationBarItems(trailing: Button("Edit") {
+                    isEditMode = true
+                })
+                .sheet(isPresented: $isEditMode) {
+                    AdminStaffAddView(staffType: staff.type, staffId: staff.id)
                 }
-                HStack {
-                    Text("Gender")
-                    Spacer()
-                    Text("Gender")
-                }
-                HStack {
-                    Text("Phone Number")
-                    Spacer()
-                    Text("Phone Number")
-                }
-                HStack {
-                    Text("Email")
-                    Spacer()
-                    Text("Email")
-                }
-                HStack {
-                    Text("Qualification")
-                    Spacer()
-                    Text("Qualification")
-                }
-                HStack {
-                    Text("Experience Since")
-                    Spacer()
-                    Text("Experience Since")
-                }
-                HStack {
-                    Text("Date of Joining")
-                    Spacer()
-                    Text("Date of Joining")
-                }
-            }
         }
     }
 }
 
 #Preview {
-    AdminStaffInfoView()
+    AdminStaffInfoView(staffId: Staff.sample.id)
 }

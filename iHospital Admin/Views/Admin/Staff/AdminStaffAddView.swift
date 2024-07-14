@@ -9,20 +9,21 @@ import SwiftUI
 
 struct AdminStaffAddView: View {
     var staffType: StaffDepartment
+    var staffId: Int?
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject private var staffViewModel: AdminStaffViewModel
 
-    @State private var firstName = ""
-    @State private var lastName = ""
-    @State private var gender = Gender.male
-    @State private var dob = Date()
-    @State private var phoneNumber = ""
-    @State private var email = ""
-    @State private var address = ""
-    @State private var qualifications = ""
-    @State private var dateOfJoining = Date()
-    @State private var experienceSince = Date()
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
+    @State private var gender: Gender = .male
+    @State private var dob: Date = Date()
+    @State private var phoneNumber: String = ""
+    @State private var email: String = ""
+    @State private var address: String = ""
+    @State private var qualifications: String = ""
+    @State private var dateOfJoining: Date = Date()
+    @State private var experienceSince: Date = Date()
     @State private var isSaving = false
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to save")
@@ -55,7 +56,7 @@ struct AdminStaffAddView: View {
                     DatePicker("Experience Since", selection: $experienceSince, displayedComponents: .date)
                 }
             }
-            .navigationTitle("Add Profile")
+            .navigationTitle(staffId == nil ? "Add Profile" : "Edit Profile")
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }
@@ -67,6 +68,22 @@ struct AdminStaffAddView: View {
         }
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .interactiveDismissDisabled()
+        .onAppear {
+            if let staffId = staffId {
+                if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
+                    firstName = staff.firstName
+                    lastName = staff.lastName
+                    gender = staff.gender
+                    dob = staff.dateOfBirth
+                    phoneNumber = String(staff.phoneNumber)
+                    email = staff.email
+                    address = staff.address
+                    qualifications = staff.qualification
+                    dateOfJoining = staff.dateOfJoining
+                    experienceSince = staff.experienceSince
+                }
+            }
+        }
     }
 
     private func saveProfile() {
@@ -77,19 +94,39 @@ struct AdminStaffAddView: View {
             }
             
             do {
-                try await staffViewModel.newStaff(
-                    firstName: firstName,
-                    lastName: lastName,
-                    dateOfBirth: dob,
-                    gender: gender,
-                    email: email,
-                    phoneNumber: Int(phoneNumber) ?? 0,
-                    address: address,
-                    dateOfJoining: dateOfJoining,
-                    qualification: qualifications,
-                    experienceSince: experienceSince,
-                    type: staffType
-                )
+                if let staffId = staffId {
+                    guard let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) else {
+                        errorAlertMessage.message = "Staff not found"
+                        return
+                    }
+                    
+                    staff.firstName = firstName
+                    staff.lastName = lastName
+                    staff.gender = gender
+                    staff.dateOfBirth = dob
+                    staff.phoneNumber = Int(phoneNumber) ?? 0
+                    staff.email = email
+                    staff.address = address
+                    staff.qualification = qualifications
+                    staff.dateOfJoining = dateOfJoining
+                    staff.experienceSince = experienceSince
+
+                    try await staffViewModel.save(staff: staff)
+                } else {
+                    try await staffViewModel.newStaff(
+                        firstName: firstName,
+                        lastName: lastName,
+                        dateOfBirth: dob,
+                        gender: gender,
+                        email: email,
+                        phoneNumber: Int(phoneNumber) ?? 0,
+                        address: address,
+                        dateOfJoining: dateOfJoining,
+                        qualification: qualifications,
+                        experienceSince: experienceSince,
+                        type: staffType
+                    )
+                }
                 presentationMode.wrappedValue.dismiss()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
@@ -101,4 +138,5 @@ struct AdminStaffAddView: View {
 
 #Preview {
     AdminStaffAddView(staffType: .nursing)
+        .environmentObject(AdminStaffViewModel())
 }

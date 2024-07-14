@@ -193,7 +193,7 @@ struct AdminDoctorAddView: View {
                 doctor.dateOfJoining = dateOfJoining
                 try await doctor.save()
             } else {
-                try await adminDoctorViewModel.addDoctor(
+                try await adminDoctorViewModel.new(
                     firstName: firstName.trimmed.capitalized,
                     lastName: lastName.trimmed.capitalized,
                     dateOfBirth: dateOfBirth,

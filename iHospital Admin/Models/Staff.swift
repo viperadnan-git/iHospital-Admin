@@ -10,6 +10,7 @@ import Supabase
 import Auth
 
 class Staff: Codable, Identifiable, Hashable {
+    let id: Int
     let userId: UUID?
     var firstName: String
     var lastName: String
@@ -24,6 +25,7 @@ class Staff: Codable, Identifiable, Hashable {
     var type: StaffDepartment
     
     enum CodingKeys: String, CodingKey {
+        case id
         case userId = "user_id"
         case firstName = "first_name"
         case lastName = "last_name"
@@ -53,7 +55,8 @@ class Staff: Codable, Identifiable, Hashable {
     static let supabaseSelectQuery = "*"
     
     static var sample: Staff {
-        return Staff(userId: UUID(),
+        return Staff(id: 1,
+                     userId: UUID(),
                      firstName: "Jane",
                      lastName: "Doe",
                      dateOfBirth: Date(),
@@ -75,6 +78,7 @@ class Staff: Codable, Identifiable, Hashable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
         userId = try container.decodeIfPresent(UUID.self, forKey: .userId)
         firstName = try container.decode(String.self, forKey: .firstName)
         lastName = try container.decode(String.self, forKey: .lastName)
@@ -100,7 +104,8 @@ class Staff: Codable, Identifiable, Hashable {
         type = try container.decode(StaffDepartment.self, forKey: .type)
     }
     
-    init(userId: UUID?, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, email:String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) {
+    init(id: Int, userId: UUID?, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, email:String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) {
+        self.id = id
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -129,12 +134,13 @@ class Staff: Codable, Identifiable, Hashable {
             "type": type.rawValue
         ]
         
-        if type == .clinicalLaboratory, let userId = userId {
-            updateData["user_id"] = userId.uuidString
+        if type != .clinicalLaboratory{
+            updateData["email"] = email
         }
         
         try await supabase.from(SupabaseTable.staffs.id)
             .update(updateData)
+            .eq("id", value: id)
             .execute()
     }
     
@@ -146,7 +152,7 @@ class Staff: Codable, Identifiable, Hashable {
         
         return try JSONDecoder().decode([Staff].self, from: response.data)
     }
-
+    
     static func fetchAllStaff(for department: StaffDepartment) async throws -> [Staff] {
         let response = try await supabase.from(SupabaseTable.staffs.id)
             .select(supabaseSelectQuery)

@@ -32,7 +32,7 @@ class AdminDoctorViewModel: ObservableObject {
         }
     }
     
-    func addDoctor(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws {
+    func new(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws {
         let doctor = try await Doctor.new(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email, qualification: qualification, experienceSince: experienceSince, dateOfJoining: dateOfJoining, departmentId: departmentId)
         DispatchQueue.main.async {
             self.doctors.append(doctor)

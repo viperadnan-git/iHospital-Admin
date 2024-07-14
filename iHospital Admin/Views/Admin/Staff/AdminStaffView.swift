@@ -111,8 +111,8 @@ struct AdminStaffListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 15) {
                 ForEach(staffViewModel.staffs) { staff in
-                    NavigationLink(destination: StaffDetailed(staff: staff)) {
-                        StaffInfoCard(staff: staff)
+                    NavigationLink(destination: AdminStaffInfoView(staffId: staff.id).environmentObject(staffViewModel)) {
+                        StaffInfoCard(staffId: staff.id)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .frame(height: 150)
@@ -146,42 +146,35 @@ struct AdminStaffListView: View {
 
 // Cards on list of staff page
 struct StaffInfoCard: View {
-    let staff: Staff
+    let staffId: Int
+    
+    @EnvironmentObject private var staffViewModel: AdminStaffViewModel
 
     var body: some View {
-        VStack {
-            Text(staff.name)
-                .font(.headline)
-            Text(staff.email)
-                .font(.subheadline)
+        if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
+            VStack {
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .padding()
+                    .foregroundColor(Color(.systemGray))
+                    .frame(maxWidth: .infinity)
+                Text(staff.name)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+                HStack(spacing: 8) {
+                    Image(systemName: "envelope.fill")
+                    Text(staff.email)
+                        .foregroundColor(Color(.systemGray))
+                }.font(.subheadline)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .background(Color.blue.opacity(0.2))
+            .cornerRadius(10)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
-        .background(Color.blue.opacity(0.2))
-        .cornerRadius(10)
-    }
-}
-
-// Profile detail page of staff
-struct StaffDetailed: View {
-    let staff: Staff
-
-    @State private var showingForm = false
-
-    var body: some View {
-        VStack {
-            Text("Profile \(staff.name)")
-                .font(.largeTitle)
-                .padding()
-            Spacer()
-        }
-        .navigationTitle("Profile")
-        .navigationBarItems(trailing: Button(action: {
-            showingForm = true
-        }) {
-            Text("Edit")
-                .font(.title2)
-        })
     }
 }
 

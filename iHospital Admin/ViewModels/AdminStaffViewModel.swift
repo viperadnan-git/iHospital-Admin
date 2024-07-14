@@ -11,6 +11,7 @@ import Combine
 class AdminStaffViewModel: ObservableObject {
     @Published var staffs: [Staff] = []
     @Published var isLoading: Bool = false
+    @Published var selectedStaff: Staff?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -32,6 +33,19 @@ class AdminStaffViewModel: ObservableObject {
         let newStaff = try await Staff.new(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth, gender: gender, email: email, phoneNumber: phoneNumber, address: address, dateOfJoining: dateOfJoining, qualification: qualification, experienceSince: experienceSince, type: type)
         DispatchQueue.main.async {
             self.staffs.append(newStaff)
+            self.isLoading = false
+        }
+    }
+    
+    @MainActor
+    func save(staff: Staff) async throws {
+        isLoading = true
+        
+        try await staff.save()
+        DispatchQueue.main.async {
+            if let index = self.staffs.firstIndex(where: { $0.id == staff.id }) {
+                self.staffs[index] = staff
+            }
             self.isLoading = false
         }
     }
