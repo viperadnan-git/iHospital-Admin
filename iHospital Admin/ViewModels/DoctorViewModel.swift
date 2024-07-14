@@ -1,4 +1,5 @@
 import SwiftUI
+import Supabase
 
 class DoctorViewModel: ObservableObject {
     @Published var doctor: Doctor?
@@ -29,6 +30,15 @@ class DoctorViewModel: ObservableObject {
                 self.fetchAppointments(for: Date())
             } catch {
                 print("Error fetching current doctor: \(error)")
+                if let error = error as? PostgrestError {
+                    if let errorCode = error.code {
+                        // doctor not found in doctors table
+                        if errorCode == "PGRST116"  {
+                            print("Doctor not found in doctors table, logging out...")
+                            try await SupaUser.logOut()
+                        }
+                    }
+                }
             }
         }
     }
