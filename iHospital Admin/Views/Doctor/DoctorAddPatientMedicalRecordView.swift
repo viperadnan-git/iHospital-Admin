@@ -23,11 +23,10 @@ struct DoctorAddPatientMedicalRecordView: View {
     @Binding var canvasHeight: CGFloat
 
     @State private var dragOffset: CGSize = .zero
+    @State private var labTestTypes: [LabTestType] = LabTestType.all
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     @State private var showAlert = false
     @State private var isLoading = false
-
-    let predefinedLabTests = ["Complete Blood Count", "Blood Sugar", "Lipid Profile", "Liver Function Test", "Kidney Function Test"]
 
     var body: some View {
         NavigationView {
@@ -111,18 +110,19 @@ struct DoctorAddPatientMedicalRecordView: View {
                     ForEach($labTests) { $labTest in
                         HStack {
                             TextField("Lab Test Name", text: $labTest.name)
+                                .disabled(true)
                             Spacer()
                             Menu {
-                                ForEach(predefinedLabTests, id: \.self) { test in
+                                ForEach(labTestTypes, id: \.id) { test in
                                     Button(action: {
-                                        labTest.selectedTest = test
-                                        labTest.name = test
+                                        labTest.selectedTest = test.id.string
+                                        labTest.name = test.name
                                     }) {
-                                        Text(test)
+                                        Text(test.name)
                                     }
                                 }
                             } label: {
-                                Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.selectedTest)
+                                Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.name)
                             }
                             Divider()
                             Button {
@@ -173,6 +173,14 @@ struct DoctorAddPatientMedicalRecordView: View {
                     },
                     secondaryButton: .cancel()
                 )
+            }.onAppear {
+                Task {
+                    do {
+                        labTestTypes = try await LabTestType.fetchAll()
+                    } catch {
+                        errorAlertMessage.message = error.localizedDescription
+                    }
+                }
             }
         }
     }
@@ -181,11 +189,12 @@ struct DoctorAddPatientMedicalRecordView: View {
         isLoading = true
         Task {
             do {
+                let selectedLabTestIds = labTests.map { Int($0.selectedTest) ?? 0 }
                 try await MedicalRecord.new(
                     note: note,
                     image: canvasView.drawing.image(from: canvasView.bounds, scale: 1).pngData()!,
                     medicines: medicines,
-                    labTests: labTests,
+                    labTests: selectedLabTestIds,
                     appointment: appointment
                 )
                 try await doctorViewModel.markStatusCompleted(for: appointment)
@@ -239,4 +248,18 @@ struct LabTestItem: Identifiable {
     }
 
     static var sample = LabTestItem(name: "Complete Blood Count", selectedTest: "Complete Blood Count")
+}
+
+#Preview {
+    DoctorAddPatientMedicalRecordView(
+        appointment: Appointment.sample,
+        isPresented: .constant(true),
+        note: .constant(""),
+        canvasView: .constant(PKCanvasView()),
+        medicines: .constant([]),
+        labTests: .constant([]),
+        canvasHeight: .constant(300)
+    )
+    .environmentObject(DoctorViewModel())
+    .environmentObject(NavigationManager())
 }

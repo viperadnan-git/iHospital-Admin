@@ -44,7 +44,7 @@ struct LabTestView: View {
                             HStack {
                                 Text("Test Name")
                                 Spacer()
-                                Text(test.name)
+                                Text(test.test.name)
                             }
                             HStack {
                                 Text("Test Date")

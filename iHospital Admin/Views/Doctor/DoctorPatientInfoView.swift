@@ -117,7 +117,6 @@ struct DoctorPatientInfoView: View {
                             }
                         }
                         
-                        // Horizontal scroll view for medical history
                         PatientMedicalRecords(patient: patient)
                     }
                     
@@ -126,7 +125,6 @@ struct DoctorPatientInfoView: View {
                             .font(.title3)
                             .bold()
                         
-                        // Horizontal scroll view for test results
                         PatientLabTestReports(patient: patient)
                     }
                 }
@@ -275,6 +273,7 @@ struct PatientLabTestReports: View {
             do {
                 labTests = try await patient.fetchLabTests()
             } catch {
+                print(error)
                 errorMessageAlert.message = error.localizedDescription
             }
         }
@@ -297,7 +296,7 @@ struct LabTestCardView: View {
                 Spacer()
             }
             
-            Text(labTest.name)
+            Text(labTest.test.name)
                 .font(.title)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)

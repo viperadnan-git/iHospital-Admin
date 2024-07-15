@@ -51,7 +51,7 @@ struct LabTechnicianView: View {
                         TableColumn("Name", value: \.patient.name)
                         TableColumn("Gender", value:\.patient.gender.id.capitalized)
                         TableColumn("Age", value: \.patient.dateOfBirth.ago)
-                        TableColumn("Test", value: \.name)
+                        TableColumn("Test", value: \.test.name)
                         TableColumn("Status") { test in
                             LabTestStatusIndicator(status: test.status)
                         }

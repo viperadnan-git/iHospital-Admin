@@ -30,7 +30,7 @@ struct MedicalRecord: Codable, Identifiable {
         try await supabase.storage.from(SupabaseBucket.medicalRecords.id).download(path: imagePath)
     }
     
-    static func new(note:String, image: Data, medicines:[Medicine], labTests:[LabTestItem], appointment: Appointment) async throws {
+    static func new(note:String, image: Data, medicines:[Medicine], labTests:[Int], appointment: Appointment) async throws {
         let imagePath = try await appointment.saveImage(fileName: UUID().uuidString, data: image)
         
         let medicinesString = "{" + medicines.map { $0.text }.joined(separator: ", ") + "}"
@@ -52,7 +52,7 @@ struct MedicalRecord: Codable, Identifiable {
         if !labTests.isEmpty {
             let labTestParsed = labTests.map { item in
                 [
-                    "name": item.name,
+                    "test_id": item.string,
                     "status": LabTestStatus.pending.rawValue,
                     "patient_id": appointment.patient.id.uuidString,
                     "appointment_id": appointment.id.string

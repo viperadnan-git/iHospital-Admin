@@ -9,7 +9,7 @@ import SwiftUI
 
 class LabTest: Codable, Identifiable {
     let id: Int
-    let name: String
+    let test: LabTestType
     let patient: Patient
     var status: LabTestStatus
     let appointment: Appointment
@@ -22,7 +22,7 @@ class LabTest: Codable, Identifiable {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case name
+        case test
         case patient
         case status
         case appointment
@@ -30,13 +30,13 @@ class LabTest: Codable, Identifiable {
         case reportPath = "report_path"
     }
     
-    static let supabaseSelectQuery = "*, patient:patient_id(*), appointment:appointment_id(\(Appointment.supabaseSelectQuery))"
+    static let supabaseSelectQuery = "*, test:test_id(*), patient:patient_id(*), appointment:appointment_id(\(Appointment.supabaseSelectQuery))"
     
-    static let sample = LabTest(id: 1, name: "X-Ray", patient: Patient.sample, status: .pending, appointment: Appointment.sample, sampleID: nil, reportPath: nil)
+    static let sample = LabTest(id: 1, test: LabTestType.sample, patient: Patient.sample, status: .pending, appointment: Appointment.sample, sampleID: nil, reportPath: nil)
     
-    init(id: Int, name: String, patient: Patient, status: LabTestStatus, appointment: Appointment, sampleID: String?, reportPath: String?) {
+    init(id: Int, test: LabTestType, patient: Patient, status: LabTestStatus, appointment: Appointment, sampleID: String?, reportPath: String?) {
         self.id = id
-        self.name = name
+        self.test = test
         self.patient = patient
         self.status = status
         self.appointment = appointment
@@ -82,13 +82,13 @@ class LabTest: Codable, Identifiable {
         
         let fileName = "\(id)_\(reportName)"
         
-        if let url = FileManager.tempFileExists(fileName: reportName) {
+        if let url = FileManager.tempFileExists(fileName: fileName) {
             return url
         }
         
         let response = try await supabase.storage.from(SupabaseBucket.labReports.id).download(path: reportPath)
         
-        let url = try FileManager.saveToTempDirectory(fileName: reportName, data: response)
+        let url = try FileManager.saveToTempDirectory(fileName: fileName, data: response)
         
         return url
     }
@@ -115,5 +115,36 @@ enum LabTestStatus: String, Codable, CaseIterable {
         case .completed:
             return .green
         }
+    }
+}
+
+
+struct LabTestType: Codable {
+    let id: Int
+    let name: String
+    let price: Int
+    let description: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case price
+        case description
+    }
+    
+    static let supabaseSelectQuery = "*"
+    
+    static let sample = LabTestType(id: 1, name: "X-Ray", price: 100, description: "X-Ray of the chest")
+    
+    static var all: [LabTestType] = []
+    
+    static func fetchAll(force: Bool = false) async throws -> [LabTestType] {
+        if !force, !all.isEmpty {
+            return all
+        }
+        
+        let response:[LabTestType] = try await supabase.from(SupabaseTable.labTestTypes.id).select(supabaseSelectQuery).execute().value
+        all = response
+        return response
     }
 }

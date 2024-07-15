@@ -28,8 +28,9 @@ struct iHospital_AdminApp: App {
                 }
                 else {
                     LoginView()
-                }
-            }.environmentObject(authViewModel)
+                }   
+            }
+            .environmentObject(authViewModel)
         }
     }
 }

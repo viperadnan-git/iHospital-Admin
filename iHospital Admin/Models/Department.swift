@@ -32,7 +32,7 @@ struct Department: Decodable {
     
     static var all: [Department]?
     
-    static func fetchAll(force: Bool) async throws -> [Department] {
+    static func fetchAll(force: Bool = false) async throws -> [Department] {
         if !force, let all = all {
             return all
         }
