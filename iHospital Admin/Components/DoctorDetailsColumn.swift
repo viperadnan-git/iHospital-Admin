@@ -59,6 +59,11 @@ struct DoctorDetailsColumn: View {
                         Spacer()
                         Text(doctor.dateOfJoining.dateString)
                     }
+                    HStack {
+                        Text("Fee")
+                        Spacer()
+                        Text(doctor.fee.formatted(.currency(code: Constants.currencyCode)))
+                    }
                 }
                 
                 Section(header: Text("Danger zone")) {

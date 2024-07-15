@@ -63,8 +63,10 @@ struct AdminStaffAddView: View {
                         .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
                         .overlay(Image.validationIcon(for: phoneNumberError), alignment: .trailing)
                     TextField("Email", text: $email)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
                         .onChange(of: email) { _ in validateEmail() }
-                        .disabled(staffType == .labTechnician)
+                        .disabled(staffType == .labTechnician && staffId != nil)
                         .overlay(Image.validationIcon(for: emailError), alignment: .trailing)
                     TextField("Address", text: $address)
                         .onChange(of: address) { _ in validateAddress() }
@@ -134,12 +136,12 @@ struct AdminStaffAddView: View {
             return
         }
         
-        isSaving = true
-        defer {
-            isSaving = false
-        }
-        
         Task {
+            isSaving = true
+            defer {
+                isSaving = false
+            }
+            
             do {
                 if let staffId = staffId {
                     guard let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) else {
@@ -176,7 +178,6 @@ struct AdminStaffAddView: View {
                 presentationMode.wrappedValue.dismiss()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
-                print("Failed to save staff: \(error)")
             }
         }
     }

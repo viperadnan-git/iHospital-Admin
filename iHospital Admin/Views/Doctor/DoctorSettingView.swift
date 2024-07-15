@@ -36,19 +36,6 @@ struct DoctorSettingView: View {
             DoctorDetailsColumn()
             
             Form {
-                Section(header: Text("Consultancy Fees")) {
-                    HStack {
-                        TextField("Fees", text: $fee)
-                            .withIcon("indianrupeesign")
-                            .keyboardType(.numberPad)
-                            .focused($focusedField, equals: .fee)
-                            .onChange(of: fee) { _ in
-                                validateFee()
-                            }
-                            .overlay(Image.validationIcon(for: feeError), alignment: .trailing)
-                    }
-                }
-                
                 Section(header: Text("Set Availability Time")) {
                     HStack {
                         VStack {
@@ -133,12 +120,9 @@ struct DoctorSettingView: View {
                                         second: 0,
                                         of: Date()) ?? Date()
         selectedDays = Set(settings.selectedDays)
-        fee = String(settings.fee)
     }
     
     private func saveSettings() {
-        validateFee()
-        
         guard feeError == nil else {
             errorAlertMessage.message = "Please correct the errors before saving."
             return
@@ -162,7 +146,6 @@ struct DoctorSettingView: View {
                 settings.startTime = startTime
                 settings.endTime = endTime
                 settings.selectedDays = Array(selectedDays)
-                settings.fee = fee
                 
                 try await settings.save()
                 
@@ -172,18 +155,6 @@ struct DoctorSettingView: View {
                 errorAlertMessage.message = "Failed to save settings: \(error.localizedDescription)"
             }
             isSaving = false
-        }
-    }
-    
-    private func validateFee() {
-        if let fee = Int(fee) {
-            if fee >= 10000 {
-                feeError = "Fee must be less than 10,000."
-            } else {
-                feeError = nil
-            }
-        } else {
-            feeError = "Fee must be a number."
         }
     }
 }

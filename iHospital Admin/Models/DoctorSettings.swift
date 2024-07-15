@@ -13,7 +13,6 @@ class DoctorSettings: Codable {
     var startTime: Date
     var endTime: Date
     var selectedDays: [String]
-    var fee: Int
     
     enum CodingKeys: String, CodingKey {
         case doctorId = "doctor_id"
@@ -21,24 +20,17 @@ class DoctorSettings: Codable {
         case startTime = "start_time"
         case endTime = "end_time"
         case selectedDays = "selected_days"
-        case fee
     }
     
-    static let timeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        return formatter
-    }()
+    static let sample = DoctorSettings(doctorId: UUID(), priorBookingDays: 7, startTime: Date(), endTime: Date(), selectedDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(doctorId, forKey: .doctorId)
         try container.encode(priorBookingDays, forKey: .priorBookingDays)
-        try container.encode(DoctorSettings.timeFormatter.string(from: startTime), forKey: .startTime)
-        try container.encode(DoctorSettings.timeFormatter.string(from: endTime), forKey: .endTime)
+        try container.encode(DateFormatter.timeFormatter.string(from: startTime), forKey: .startTime)
+        try container.encode(DateFormatter.timeFormatter.string(from: endTime), forKey: .endTime)
         try container.encode(selectedDays, forKey: .selectedDays)
-        try container.encode(fee, forKey: .fee)
     }
     
     required init(from decoder: Decoder) throws {
@@ -49,24 +41,22 @@ class DoctorSettings: Codable {
         let startTimeString = try container.decode(String.self, forKey: .startTime)
         let endTimeString = try container.decode(String.self, forKey: .endTime)
         
-        guard let startTime = DoctorSettings.timeFormatter.date(from: startTimeString.prefix(8).description),
-              let endTime = DoctorSettings.timeFormatter.date(from: endTimeString.prefix(8).description) else {
+        guard let startTime = DateFormatter.timeFormatter.date(from: startTimeString.prefix(8).description),
+              let endTime = DateFormatter.timeFormatter.date(from: endTimeString.prefix(8).description) else {
             throw DecodingError.dataCorruptedError(forKey: .startTime, in: container, debugDescription: "Invalid time format")
         }
 
         self.startTime = startTime
         self.endTime = endTime
         selectedDays = try container.decode([String].self, forKey: .selectedDays)
-        fee = try container.decode(Int.self, forKey: .fee)
     }
     
-    init(doctorId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String], fee: Int) {
+    init(doctorId: UUID, priorBookingDays: Int, startTime: Date, endTime: Date, selectedDays: [String]) {
         self.doctorId = doctorId
         self.priorBookingDays = priorBookingDays
         self.startTime = startTime
         self.endTime = endTime
         self.selectedDays = selectedDays
-        self.fee = fee
     }
     
     static func getDefaultSettings(userId: UUID) -> DoctorSettings {
@@ -79,8 +69,7 @@ class DoctorSettings: Codable {
             priorBookingDays: 7,
             startTime: startTime,
             endTime: endTime,
-            selectedDays: selectedDays,
-            fee: 499
+            selectedDays: selectedDays
         )
     }
     
@@ -108,7 +97,7 @@ class DoctorSettings: Codable {
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
             let dateStr = try container.decode(String.self)
-            if let date = DoctorSettings.timeFormatter.date(from: dateStr.prefix(8).description) {
+            if let date = DateFormatter.timeFormatter.date(from: dateStr.prefix(8).description) {
                 return date
             }
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date format")

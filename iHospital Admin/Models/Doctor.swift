@@ -20,6 +20,7 @@ class Doctor: Codable, Hashable {
     var experienceSince: Date
     var dateOfJoining: Date
     var departmentId: UUID
+    var fee: Int
     var doctorSettings: DoctorSettings?
     
     enum CodingKeys: String, CodingKey {
@@ -34,6 +35,7 @@ class Doctor: Codable, Hashable {
         case experienceSince = "experience_since"
         case dateOfJoining = "date_of_joining"
         case departmentId = "department_id"
+        case fee
         case doctorSettings = "doctor_settings"
     }
     
@@ -68,6 +70,7 @@ class Doctor: Codable, Hashable {
                       experienceSince: Date(),
                       dateOfJoining: Date(),
                       departmentId: UUID(),
+                      fee: 399,
                       doctorSettings: DoctorSettings.getDefaultSettings(userId: userId))
     }
     
@@ -107,11 +110,12 @@ class Doctor: Codable, Hashable {
         email = try container.decode(String.self, forKey: .email)
         qualification = try container.decode(String.self, forKey: .qualification)
         departmentId = try container.decode(UUID.self, forKey: .departmentId)
+        fee = try container.decode(Int.self, forKey: .fee)
         
         doctorSettings = try? container.decodeIfPresent(DoctorSettings.self, forKey: .doctorSettings)
     }
     
-    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, doctorSettings: DoctorSettings) {
+    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee: Int, doctorSettings: DoctorSettings) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -123,6 +127,7 @@ class Doctor: Codable, Hashable {
         self.experienceSince = experienceSince
         self.dateOfJoining = dateOfJoining
         self.departmentId = departmentId
+        self.fee = fee
         self.doctorSettings = doctorSettings
     }
     
@@ -153,22 +158,23 @@ class Doctor: Codable, Hashable {
         return try JSONDecoder().decode([Doctor].self, from: response.data)
     }
     
-    static func new(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID) async throws -> Doctor {
-        let session = try await supabase.auth.signUp(email: email, password: UUID().uuidString)
+    static func new(doctor: Doctor) async throws -> Doctor {
+        let session = try await supabase.auth.signUp(email: doctor.email, password: UUID().uuidString)
         
-        let doctor: Doctor = try await supabase.from(SupabaseTable.doctors.id)
+        let newDoctor: Doctor = try await supabase.from(SupabaseTable.doctors.id)
             .insert([
                 "user_id": session.user.id.uuidString,
-                "first_name": firstName,
-                "last_name": lastName,
-                "date_of_birth": dateFormatter.string(from: dateOfBirth),
-                "gender": gender.id,
-                "phone_number": String(phoneNumber),
-                "email": email,
-                "qualification": qualification,
-                "experience_since": dateFormatter.string(from: experienceSince),
-                "date_of_joining": dateFormatter.string(from: dateOfJoining),
-                "department_id": departmentId.uuidString
+                "first_name": doctor.firstName,
+                "last_name": doctor.lastName,
+                "date_of_birth": dateFormatter.string(from: doctor.dateOfBirth),
+                "gender": doctor.gender.id,
+                "phone_number": doctor.phoneNumber.string,
+                "email": doctor.email,
+                "qualification": doctor.qualification,
+                "experience_since": dateFormatter.string(from: doctor.experienceSince),
+                "date_of_joining": dateFormatter.string(from: doctor.dateOfJoining),
+                "fee": doctor.fee.string,
+                "department_id": doctor.departmentId.uuidString
             ])
             .select(supabaseSelectQuery)
             .single()
@@ -179,7 +185,7 @@ class Doctor: Codable, Hashable {
             .insert(Role(userId: session.user.id, role: .doctor))
             .execute()
         
-        return doctor
+        return newDoctor
     }
     
     static func getMe() async throws -> Doctor {

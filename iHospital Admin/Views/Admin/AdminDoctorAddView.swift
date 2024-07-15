@@ -24,6 +24,7 @@ struct AdminDoctorAddView: View {
     @State private var address = ""
     @State private var qualifications = ""
     @State private var dateOfJoining = Date()
+    @State private var fee = ""
     
     @StateObject var errorAlertMessage = ErrorAlertMessage(title: "Unable to add")
     
@@ -36,6 +37,7 @@ struct AdminDoctorAddView: View {
     @State private var phoneNumberError: String?
     @State private var addressError: String?
     @State private var qualificationsError: String?
+    @State private var feeError: String?
 
     enum Field {
         case firstName
@@ -113,13 +115,17 @@ struct AdminDoctorAddView: View {
                     
                     DatePicker("Date of Joining", selection: $dateOfJoining, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
                     DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
+                    TextField("Fee", text: $fee)
+                        .keyboardType(.numberPad)
+                        .onChange(of: fee) { _ in validateFee() }
+                        .overlay(Image.validationIcon(for: feeError), alignment: .trailing)
                 }
             }
             .navigationTitle("\(doctor == nil ? "Add New":"Edit") Doctor")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
-            }, trailing: Button("Save") {
+            }.disabled(isSaving), trailing: Button("Save") {
                 Task {
                     await saveDoctor()
                 }
@@ -129,7 +135,7 @@ struct AdminDoctorAddView: View {
         }
     }
     
-    func onAppear() {
+    private func onAppear() {
         if let doctor = doctor {
             firstName = doctor.firstName
             lastName = doctor.lastName
@@ -143,7 +149,7 @@ struct AdminDoctorAddView: View {
         }
     }
     
-    func saveDoctor() async {
+    private func saveDoctor() async {
         validateFirstName()
         validateLastName()
         validateEmail()
@@ -171,6 +177,11 @@ struct AdminDoctorAddView: View {
             return
         }
         
+        guard let fee = Int(fee) else {
+            errorAlertMessage.message = "Invalid fee amount."
+            return
+        }
+        
         isSaving = true
         defer {
             isSaving = false
@@ -188,18 +199,8 @@ struct AdminDoctorAddView: View {
                 doctor.dateOfJoining = dateOfJoining
                 try await doctor.save()
             } else {
-                try await adminDoctorViewModel.new(
-                    firstName: firstName.trimmed.capitalized,
-                    lastName: lastName.trimmed.capitalized,
-                    dateOfBirth: dateOfBirth,
-                    gender: gender,
-                    phoneNumber: phoneNumber,
-                    email: email.trimmed,
-                    qualification: qualifications.trimmed,
-                    experienceSince: experienceSince,
-                    dateOfJoining: dateOfJoining,
-                    departmentId: department.id
-                )
+                let doctor = Doctor(userId: UUID(), firstName: firstName.trimmed.capitalized, lastName: lastName.trimmed.capitalized, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email.trimmed, qualification: email.trimmed, experienceSince: experienceSince, dateOfJoining: dateOfJoining, departmentId: department.id, fee: fee, doctorSettings: DoctorSettings.sample)
+                try await adminDoctorViewModel.new(doctor: doctor)
             }
             presentationMode.wrappedValue.dismiss()
         } catch {
@@ -207,7 +208,7 @@ struct AdminDoctorAddView: View {
         }
     }
     
-    func validateFirstName() {
+    private func validateFirstName() {
         if firstName.isEmpty {
             firstNameError = "First name is required."
         } else if !firstName.isAlphabets {
@@ -217,7 +218,7 @@ struct AdminDoctorAddView: View {
         }
     }
 
-    func validateLastName() {
+    private func validateLastName() {
         if lastName.isEmpty {
             lastNameError = "Last name is required."
         } else if !lastName.isAlphabetsAndSpace {
@@ -227,7 +228,7 @@ struct AdminDoctorAddView: View {
         }
     }
 
-    func validateEmail() {
+    private func validateEmail() {
         if email.isEmpty {
             emailError = "Email is required."
         } else if !email.isEmail {
@@ -237,7 +238,7 @@ struct AdminDoctorAddView: View {
         }
     }
 
-    func validatePhoneNumber() {
+    private func validatePhoneNumber() {
         if phoneNumber.isEmpty {
             phoneNumberError = "Phone number is required."
         } else if !phoneNumber.isPhoneNumber {
@@ -247,7 +248,7 @@ struct AdminDoctorAddView: View {
         }
     }
 
-    func validateAddress() {
+    private func validateAddress() {
         if address.isEmpty {
             addressError = "Address is required."
         } else {
@@ -255,11 +256,25 @@ struct AdminDoctorAddView: View {
         }
     }
 
-    func validateQualifications() {
+    private func validateQualifications() {
         if qualifications.isEmpty {
             qualificationsError = "Qualifications are required."
         } else {
             qualificationsError = nil
+        }
+    }
+    
+    private func validateFee() {
+        if let fee = Int(fee) {
+            if fee >= 3000 {
+                feeError = "Fee must be less than 3,000."
+            } else if fee <= 299 {
+                feeError = "Fee must be equal or greater than 299."
+            } else {
+                feeError = nil
+            }
+        } else {
+            feeError = "Fee must be a number."
         }
     }
 }
