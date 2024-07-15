@@ -44,4 +44,14 @@ class LabTechViewModel: ObservableObject {
             }
         }
     }
+    
+    func uploadReport(test: LabTest, filePath: URL) async throws {
+        let updatedTest = try await test.uploadReport(filePath)
+        
+        DispatchQueue.main.async {
+            if let index = self.labTests.firstIndex(where: { $0.id == updatedTest.id }) {
+                self.labTests[index] = updatedTest
+            }
+        }
+    }
 }

@@ -1,3 +1,10 @@
+//
+//  LabTestView.swift
+//  iHospital Admin
+//
+//  Created by Adnan Ahmad on 14/07/24.
+//
+
 import SwiftUI
 import PDFKit
 import UIKit
@@ -9,11 +16,13 @@ struct LabTestView: View {
     @State private var sampleID: String = ""
     @State private var sampleIDError: String?
     
+    @State private var selectedPDFURL: URL?
+    @State private var isShowingPDF = false
+    @State private var isShowingPDFPreview = false
     @State private var isSavingSampleID = false
     @State private var isShowingDocumentPicker = false
     @State private var isShowingScanner = false
     @State private var isRequestingCameraPermission = false
-    
     @State private var isUploading = false
     
     @EnvironmentObject private var labTechViewModel: LabTechViewModel
@@ -50,38 +59,37 @@ struct LabTestView: View {
                                     Text(sampleID)
                                 }
                             }
+                            
+                            if test.reportPath != nil {
+                                HStack {
+                                    Text("Report")
+                                    Spacer()
+                                    Button {
+                                        isShowingPDF.toggle()
+                                    } label: {
+                                        Text(test.reportName)
+                                            .multilineTextAlignment(.trailing)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .sheet(isPresented: $isShowingPDF) {
+                                        LabTestPDFView(test: test)
+                                    }
+                                }
+                            }
                         }
                         
                         if test.sampleID == nil {
                             Section(header: Text("Sample Information")) {
                                 TextField("Sample ID", text: $sampleID)
                                     .disableAutocorrection(true)
-                                    .autocapitalization(.none)
-                                    .onChange(of: sampleID) { _ in validateSampleID()}
-                                    .overlay(Image.validationIcon(for: sampleIDError), alignment: .trailing)
+                                    .autocapitalization(.allCharacters)
+                                    .onChange(of: sampleID) { _ in validateSampleID() }
+                                    .overlay(validationIcon(for: sampleIDError), alignment: .trailing)
                                 
                                 HStack {
                                     Spacer()
                                     Button {
-                                        print("Sample ID: \(sampleID)")
-                                        validateSampleID()
-                                        
-                                        guard sampleIDError == nil else {
-                                            return
-                                        }
-                                        
-                                        Task {
-                                            isSavingSampleID.toggle()
-                                            defer {
-                                                isSavingSampleID.toggle()
-                                            }
-                                            
-                                            do {
-                                                try await labTechViewModel.updateSampleID(test: test, sampleID: sampleID)
-                                            } catch {
-                                                errorAlertMessage.message = error.localizedDescription
-                                            }
-                                        }
+                                        updateSampleID(test: test, sampleID: sampleID)
                                     } label: {
                                         HStack {
                                             Image(systemName: "barcode")
@@ -96,65 +104,95 @@ struct LabTestView: View {
                         
                         if test.reportPath == nil {
                             Section(header: Text("Test Report")) {
+                                if let selectedPDFURL = selectedPDFURL {
+                                    HStack {
+                                        Image(systemName: "doc.text")
+                                        Text(selectedPDFURL.lastPathComponent)
+                                        Spacer()
+                                        Button(action: {
+                                            isShowingPDFPreview = true
+                                        }) {
+                                            Image(systemName: "eye")
+                                        }
+                                        .sheet(isPresented: $isShowingPDFPreview) {
+                                            PDFKitRepresentedView(selectedPDFURL)
+                                                .edgesIgnoringSafeArea(.all)
+                                        }
+                                    }
+                                    HStack {
+                                        Spacer()
+                                        if isUploading {
+                                            ProgressView()
+                                        } else {
+                                            Button {
+                                                uploadReport(test: test, pdfURL: selectedPDFURL)
+                                            } label: {
+                                                HStack {
+                                                    Image(systemName: "arrow.up.doc")
+                                                    Text("Upload Report")
+                                                }
+                                            }
+                                            .buttonStyle(.borderless)
+                                            .disabled(isUploading)
+                                        }
+                                    }
+                                }
+                                
                                 HStack {
                                     Spacer()
-                                    if isUploading {
-                                        ProgressView()
-                                    } else {
-                                        Spacer()
-                                        Button {
-                                            isShowingDocumentPicker = true
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "square.and.arrow.up.fill")
-                                                Text("Upload Report")
+                                    Button {
+                                        isShowingDocumentPicker = true
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "square.and.arrow.up.fill")
+                                            Text("Select from File")
+                                        }
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .disabled(isUploading)
+                                    .sheet(isPresented: $isShowingDocumentPicker) {
+                                        DocumentPickerView { result in
+                                            switch result {
+                                            case .success(let url):
+                                                print("Selected PDF URL: \(url)")
+                                                selectedPDFURL = url
+                                            case .failure(let error):
+                                                errorAlertMessage.message = error.localizedDescription
                                             }
                                         }
-                                        .buttonStyle(.borderless)
-                                        .sheet(isPresented: $isShowingDocumentPicker) {
-                                            LabDocumentPickerView { result in
-                                                switch result {
-                                                case .success(let url):
-                                                    print("Selected PDF URL: \(url)")
-                                                    isUploading = true
-                                                    // Handle the PDF file URL
-                                                case .failure(let error):
-                                                    errorAlertMessage.message = error.localizedDescription
-                                                }
-                                            }
+                                    }
+                                    Divider()
+                                    Button {
+                                        requestCameraPermissions {
+                                            isShowingScanner = true
                                         }
-                                        Divider()
-                                        Button {
-                                            requestCameraPermissions {
-                                                isShowingScanner = true
-                                            }
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "camera.fill")
-                                                Text("Scan Report")
-                                            }
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "camera.fill")
+                                            Text("Scan Report")
                                         }
-                                        .buttonStyle(.borderless)
-                                        .disabled(isRequestingCameraPermission)
-                                        .sheet(isPresented: $isShowingScanner) {
-                                            LabDocumentScannerView { result in
-                                                switch result {
-                                                case .success(let url):
-                                                    print("Scanned document URL: \(url)")
-                                                    isUploading = true
-                                                    // Handle the scanned document URL
-                                                case .failure(let error):
-                                                    errorAlertMessage.message = error.localizedDescription
-                                                }
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .disabled(isUploading || isRequestingCameraPermission)
+                                    .sheet(isPresented: $isShowingScanner) {
+                                        DocumentScannerView { result in
+                                            switch result {
+                                            case .success(let url):
+                                                print("Scanned document URL: \(url)")
+                                                selectedPDFURL = url
+                                            case .failure(let error):
+                                                errorAlertMessage.message = error.localizedDescription
                                             }
                                         }
                                     }
                                 }
                             }
+                        } else {
+                            
                         }
                     }
                 }
-            }
+            }.errorAlert(errorAlertMessage: errorAlertMessage)
         } else {
             VStack {
                 Spacer()
@@ -165,7 +203,7 @@ struct LabTestView: View {
             }
         }
     }
-
+    
     private func requestCameraPermissions(completion: @escaping () -> Void) {
         isRequestingCameraPermission = true
         AVCaptureDevice.requestAccess(for: .video) { granted in
@@ -204,103 +242,51 @@ struct LabTestView: View {
             sampleIDError = nil
         }
     }
-}
-
-struct LabDocumentPickerView: UIViewControllerRepresentable {
-    var completionHandler: (Result<URL, Error>) -> Void
-
-    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
-        documentPicker.delegate = context.coordinator
-        return documentPicker
-    }
-
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        var parent: LabDocumentPickerView
-
-        init(_ parent: LabDocumentPickerView) {
-            self.parent = parent
-        }
-
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            guard let url = urls.first else {
-                parent.completionHandler(.failure(NSError(domain: "DocumentPickerError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No document was selected."])))
-                return
+    
+    func validationIcon(for error: String?) -> some View {
+        Group {
+            if let error = error {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(.red)
+                    .popover(isPresented: .constant(true)) {
+                        Text(error).padding()
+                    }
             }
-            parent.completionHandler(.success(url))
-        }
-
-        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-            parent.completionHandler(.failure(NSError(domain: "DocumentPickerError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document picker was cancelled."])))
         }
     }
-}
-
-struct LabDocumentScannerView: UIViewControllerRepresentable {
-    var completionHandler: (Result<URL, Error>) -> Void
-
-    func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
-        let scannerViewController = VNDocumentCameraViewController()
-        scannerViewController.delegate = context.coordinator
-        return scannerViewController
-    }
-
-    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, VNDocumentCameraViewControllerDelegate {
-        var parent: LabDocumentScannerView
-
-        init(_ parent: LabDocumentScannerView) {
-            self.parent = parent
+    
+    func updateSampleID(test: LabTest, sampleID: String) {
+        validateSampleID()
+        
+        guard sampleIDError == nil else {
+            return
         }
-
-        func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-            guard scan.pageCount > 0 else {
-                parent.completionHandler(.failure(NSError(domain: "ScannerError", code: -1, userInfo: [NSLocalizedDescriptionKey: "No document was scanned."])))
-                controller.dismiss(animated: true)
-                return
-            }
-            
-            // Save the scanned document as a PDF
-            let tempDir = FileManager.default.temporaryDirectory
-            let tempURL = tempDir.appendingPathComponent(UUID().uuidString).appendingPathExtension("pdf")
-            
-            let pdfDocument = PDFDocument()
-            
-            for i in 0..<scan.pageCount {
-                let pageImage = scan.imageOfPage(at: i)
-                let pdfPage = PDFPage(image: pageImage)
-                pdfDocument.insert(pdfPage!, at: i)
+        
+        Task {
+            isSavingSampleID.toggle()
+            defer {
+                isSavingSampleID.toggle()
             }
             
             do {
-                try pdfDocument.dataRepresentation()?.write(to: tempURL)
-                parent.completionHandler(.success(tempURL))
+                try await labTechViewModel.updateSampleID(test: test, sampleID: sampleID)
             } catch {
-                parent.completionHandler(.failure(error))
+                errorAlertMessage.message = error.localizedDescription
             }
-            
-            controller.dismiss(animated: true)
         }
-
-        func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            parent.completionHandler(.failure(NSError(domain: "ScannerError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Scanner was cancelled."])))
-            controller.dismiss(animated: true)
-        }
-
-        func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-            parent.completionHandler(.failure(error))
-            controller.dismiss(animated: true)
+    }
+    
+    func uploadReport(test: LabTest, pdfURL: URL) {
+        Task {
+            isUploading = true
+            defer {
+                isUploading = false
+            }
+            do {
+                try await labTechViewModel.uploadReport(test: test, filePath: pdfURL)
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
+            }
         }
     }
 }

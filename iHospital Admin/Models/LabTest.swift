@@ -16,6 +16,10 @@ class LabTest: Codable, Identifiable {
     var sampleID: String?
     var reportPath: String?
     
+    var reportName: String {
+        return URL(string: reportPath ?? "")?.lastPathComponent ?? ""
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -43,10 +47,10 @@ class LabTest: Codable, Identifiable {
     func updateSampleID(_ sampleID: String) async throws -> LabTest {
         self.sampleID = sampleID
         
-        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
+        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
             .update([CodingKeys.sampleID.rawValue: sampleID, CodingKeys.status.rawValue: LabTestStatus.inProgress.rawValue])
             .eq(CodingKeys.id.rawValue, value: self.id)
-            .select()
+            .select(LabTest.supabaseSelectQuery)
             .single()
             .execute()
             .value
@@ -55,19 +59,38 @@ class LabTest: Codable, Identifiable {
     }
     
     func uploadReport(_ filePath: URL) async throws -> LabTest {
-        let uploadedFile = try await supabase.storage.from(SupabaseBucket.medicalRecords.id).upload(path: filePath.absoluteString, file: try Data(contentsOf: filePath))
-        
+        let name = "\(id)/\(filePath.lastPathComponent)"
+        let uploadedFile = try await supabase.storage.from(SupabaseBucket.labReports.id).upload(path: name, file: try Data(contentsOf: filePath))
+
         self.reportPath = uploadedFile.path
-        
-        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
+
+        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
             .update([CodingKeys.reportPath.rawValue: uploadedFile.path, CodingKeys.status.rawValue: LabTestStatus.completed.rawValue])
             .eq(CodingKeys.id.rawValue, value: self.id)
-            .select()
+            .select(LabTest.supabaseSelectQuery)
             .single()
             .execute()
             .value
-        
+
         return response
+    }
+    
+    func downloadReport() async throws -> URL {
+        guard let reportPath = self.reportPath else {
+            throw SupabaseError.invalidData
+        }
+        
+        let fileName = "\(id)_\(reportName)"
+        
+        if let url = FileManager.tempFileExists(fileName: reportName) {
+            return url
+        }
+        
+        let response = try await supabase.storage.from(SupabaseBucket.labReports.id).download(path: reportPath)
+        
+        let url = try FileManager.saveToTempDirectory(fileName: reportName, data: response)
+        
+        return url
     }
     
     static func fetchAll() async throws -> [LabTest] {

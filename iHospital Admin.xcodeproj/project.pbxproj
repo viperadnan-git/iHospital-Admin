@@ -32,6 +32,11 @@
 		325042382C3DD12800452C0C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325042372C3DD12800452C0C /* SearchBar.swift */; };
 		3250423A2C3DD75900452C0C /* DoctorAppointmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325042392C3DD75900452C0C /* DoctorAppointmentsView.swift */; };
 		325112612C45325F007D89F1 /* LabTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112602C45325F007D89F1 /* LabTestView.swift */; };
+		325112632C45760A007D89F1 /* PDFKitRepresentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112622C45760A007D89F1 /* PDFKitRepresentedView.swift */; };
+		325112652C457756007D89F1 /* DocumentScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112642C457756007D89F1 /* DocumentScannerView.swift */; };
+		325112672C45807D007D89F1 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112662C45807D007D89F1 /* FileManager.swift */; };
+		325112692C45833D007D89F1 /* LabTestPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112682C45833D007D89F1 /* LabTestPDFView.swift */; };
+		3251126B2C4583E5007D89F1 /* CenterSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126A2C4583E5007D89F1 /* CenterSpinner.swift */; };
 		3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */; };
 		3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */; };
 		3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */; };
@@ -106,6 +111,11 @@
 		325042372C3DD12800452C0C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		325042392C3DD75900452C0C /* DoctorAppointmentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorAppointmentsView.swift; sourceTree = "<group>"; };
 		325112602C45325F007D89F1 /* LabTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestView.swift; sourceTree = "<group>"; };
+		325112622C45760A007D89F1 /* PDFKitRepresentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitRepresentedView.swift; sourceTree = "<group>"; };
+		325112642C457756007D89F1 /* DocumentScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentScannerView.swift; sourceTree = "<group>"; };
+		325112662C45807D007D89F1 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		325112682C45833D007D89F1 /* LabTestPDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestPDFView.swift; sourceTree = "<group>"; };
+		3251126A2C4583E5007D89F1 /* CenterSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterSpinner.swift; sourceTree = "<group>"; };
 		3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
 		3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
@@ -287,6 +297,7 @@
 				D5BF32A02C3E50FB00717C28 /* Color.swift */,
 				3265EFBD2C3FBB65005E9603 /* Double.swift */,
 				328FECB52C43098D00EFA273 /* Image.swift */,
+				325112662C45807D007D89F1 /* FileManager.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -301,6 +312,9 @@
 				325042372C3DD12800452C0C /* SearchBar.swift */,
 				3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */,
 				3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */,
+				325112622C45760A007D89F1 /* PDFKitRepresentedView.swift */,
+				325112642C457756007D89F1 /* DocumentScannerView.swift */,
+				3251126A2C4583E5007D89F1 /* CenterSpinner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -383,6 +397,7 @@
 			children = (
 				48CFFEB72C42FBB8002E41C8 /* LabTechnicianView.swift */,
 				325112602C45325F007D89F1 /* LabTestView.swift */,
+				325112682C45833D007D89F1 /* LabTestPDFView.swift */,
 			);
 			path = LabTech;
 			sourceTree = "<group>";
@@ -481,11 +496,13 @@
 				32E379062C370ADE0076F2C4 /* DoctorViewModel.swift in Sources */,
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */,
+				325112672C45807D007D89F1 /* FileManager.swift in Sources */,
 				480D32052C40E9480028BC62 /* AdminStaffInfoView.swift in Sources */,
 				3284098D2C380C0600473841 /* BloodGroup.swift in Sources */,
 				3213A8722C3BE58100509BCB /* Date.swift in Sources */,
 				3265EFC22C4031E7005E9603 /* PatientViewModel.swift in Sources */,
 				48CFFEB82C42FBB8002E41C8 /* LabTechnicianView.swift in Sources */,
+				325112632C45760A007D89F1 /* PDFKitRepresentedView.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,
 				325042342C3DB85B00452C0C /* DoctorAppointmentsTable.swift in Sources */,
@@ -494,6 +511,7 @@
 				4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */,
 				32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
+				3251126B2C4583E5007D89F1 /* CenterSpinner.swift in Sources */,
 				328752522C44EDF2005E5B8F /* LabTechViewModel.swift in Sources */,
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
 				D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */,
@@ -518,10 +536,12 @@
 				3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */,
 				3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */,
 				4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */,
+				325112652C457756007D89F1 /* DocumentScannerView.swift in Sources */,
 				32E378F02C365BE20076F2C4 /* Department.swift in Sources */,
 				324C9CFA2C35D7F400712E84 /* Constants.swift in Sources */,
 				328FECB82C43180900EFA273 /* Staff.swift in Sources */,
 				32E378F82C3680450076F2C4 /* AdminDepartmentViewModel.swift in Sources */,
+				325112692C45833D007D89F1 /* LabTestPDFView.swift in Sources */,
 				323D7A7B2C41719E00C6AB95 /* AdminStaffAddView.swift in Sources */,
 				324C9CFC2C35D85800712E84 /* SupaUser.swift in Sources */,
 				4850DB6A2C398BD0001D10A1 /* AdminOutPatientView.swift in Sources */,
