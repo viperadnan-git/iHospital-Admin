@@ -15,7 +15,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         HStack {
             VStack {
-                Image("fp3")
+                Image("fp2")
                     .resizable()
                     .scaledToFit()
             }
