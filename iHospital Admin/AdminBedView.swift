@@ -17,21 +17,13 @@ struct AdminBedView: View {
     @State private var selectedFloor = "All Floors"
     let floors = ["All Floors", "Floor 1", "Floor 2", "Floor 3"]
     
-    let beds = [
+    @State var beds = [
             Bed(bedNumber: UUID(), wardType: "General", roomNumber: "101", floorNumber: "1", status: "Available", statusColor: .green),
             Bed(bedNumber: UUID(), wardType: "ICU", roomNumber: "202", floorNumber: "2", status: "Occupied", statusColor: .red),
             Bed(bedNumber: UUID(), wardType: "Private", roomNumber: "303", floorNumber: "3", status: "Under Maintenance", statusColor: .yellow)
         ]
-    
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-    
+
     var body: some View {
-       
-            ScrollView {
                 VStack {
                     HStack {
                         BedCard(title: .constant("250"), subtitle: "Total Beds", color: .purple)
@@ -82,39 +74,18 @@ struct AdminBedView: View {
                             
                         }
                         .padding(.horizontal,20)
-                        Spacer().frame(height: 30)
-                      
-                        VStack{
-                            Table(beds) {
-                                        TableColumn("Bed Number") { bed in
-                                            Text(bed.bedNumber.uuidString)
-                                        }
-                                        TableColumn("Ward Type") { bed in
-                                            Text(bed.wardType)
-                                        }
-                                        TableColumn("Room Number") { bed in
-                                            Text(bed.roomNumber)
-                                        }
-                                        TableColumn("Floor Number") { bed in
-                                            Text(bed.floorNumber)
-                                        }
-                                        TableColumn("Status") { bed in
-                                            HStack {
-                                                Circle()
-                                                    .fill(bed.statusColor)
-                                                    .frame(width: 10, height: 10)
-                                                Text(bed.status)
-                                            }
-                                        }
-                                    }
-                            .padding(.leading,10)
-                            }
-                            .foregroundColor(.white)
-                        Spacer()
                           }
-                    .frame(maxWidth: .infinity,maxHeight: .infinity)
+                    .frame(maxWidth: .infinity)
                     .padding(20)
-                }
+                    Table(beds) {
+                        TableColumn("Name", value: \.wardType)
+                            TableColumn("Gender", value: \.wardType)
+                            TableColumn("Phone No.", value:  \.wardType)
+                            TableColumn("Address", value: \.wardType)
+                    }
+                    .padding(.horizontal,30)
+                    
+
             }
     }
 }

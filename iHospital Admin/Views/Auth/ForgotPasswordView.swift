@@ -15,7 +15,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         HStack {
             VStack {
-                Image("fp")
+                Image("fp3")
                     .resizable()
                     .scaledToFit()
             }
@@ -49,6 +49,7 @@ struct ForgotPasswordView: View {
                 }
                 Spacer()
             }.frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal,50)
         }.padding()
             .padding(.trailing, 40)
     }
