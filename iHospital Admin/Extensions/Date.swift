@@ -74,5 +74,6 @@ extension Date {
     }
     
     static var RANGE_MIN_24_YEARS_OLD: PartialRangeThrough<Date> {...Calendar.current.date(byAdding: .year, value: -24, to: Date())!}
+    static var RANGE_MIN_18_YEARS_OLD: PartialRangeThrough<Date> {...Calendar.current.date(byAdding: .year, value: -18, to: Date())!}
     static var RANGE_MAX_60_YEARS_AGO: ClosedRange<Date> {Calendar.current.date(byAdding: .year, value: -60, to: Date())!...Date()}
 }
