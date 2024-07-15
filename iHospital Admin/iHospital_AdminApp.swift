@@ -30,6 +30,15 @@ struct iHospital_AdminApp: App {
                     LoginView()
                 }   
             }
+            .onAppear {
+                Task {
+                    do {
+                        try await Patient.fetchInvoices()
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
             .environmentObject(authViewModel)
         }
     }

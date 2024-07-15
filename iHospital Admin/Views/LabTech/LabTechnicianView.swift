@@ -36,10 +36,7 @@ struct LabTechnicianView: View {
                 
                 
                 if labTechViewModel.isLoading {
-                    Spacer()
-                    ProgressView()
-                        .scaleEffect(2)
-                    Spacer()
+                    CenterSpinner()
                 } else if labTechViewModel.labTests.isEmpty {
                     Spacer()
                     Text("No lab tests")

@@ -92,9 +92,7 @@ struct AdminDashboardView: View {
                         .bold()
                     
                     if isLoading {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .scaleEffect(2.0)
+                        CenterSpinner()
                     }
                     
                     else{

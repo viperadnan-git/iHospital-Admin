@@ -17,9 +17,7 @@ struct AdminOutPatientView: View {
     var body: some View {
         VStack {
             if patientViewModel.isLoading {
-                Spacer()
-                ProgressView().scaleEffect(2)
-                Spacer()
+                CenterSpinner()
             } else if filteredPatients.isEmpty {
                 Spacer()
                 Text("No patients found")

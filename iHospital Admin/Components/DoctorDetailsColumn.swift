@@ -73,7 +73,7 @@ struct DoctorDetailsColumn: View {
                 }
             }.errorAlert(errorAlertMessage: errorAlertMessage)
         } else {
-            ProgressView()
+            CenterSpinner()
         }
     }
     

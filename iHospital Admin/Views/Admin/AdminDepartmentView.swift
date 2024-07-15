@@ -18,10 +18,7 @@ struct AdminDepartmentView: View {
     var body: some View {
         VStack {
             if viewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(2)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                CenterSpinner()
             } else if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)

@@ -186,8 +186,12 @@ struct DoctorAddPatientMedicalRecordView: View {
     }
 
     func onAdd() {
-        isLoading = true
         Task {
+            isLoading = true
+            defer {
+                isLoading = false
+            }
+            
             do {
                 let selectedLabTestIds = labTests.map { Int($0.selectedTest) ?? 0 }
                 try await MedicalRecord.new(
@@ -202,7 +206,6 @@ struct DoctorAddPatientMedicalRecordView: View {
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }
-            isLoading = false
         }
     }
     

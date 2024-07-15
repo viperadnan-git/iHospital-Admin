@@ -23,10 +23,7 @@ struct AdminDoctorListView: View {
     var body: some View {
         VStack {
             if adminDoctorViewModel.isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(2)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                CenterSpinner()
             } else if let errorMessage = adminDoctorViewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)

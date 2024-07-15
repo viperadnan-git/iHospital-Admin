@@ -28,6 +28,7 @@ enum SupabaseTable: String {
     case labTests = "lab_tests"
     case staffs
     case labTestTypes = "lab_test_types"
+    case invoices
     
     var id: String {
         self.rawValue

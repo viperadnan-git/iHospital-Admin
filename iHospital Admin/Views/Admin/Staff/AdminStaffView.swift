@@ -113,9 +113,7 @@ struct AdminStaffListView: View {
     var body: some View {
         VStack {
             if staffViewModel.isLoading {
-                Spacer()
-                ProgressView()
-                    .scaleEffect(2)
+                CenterSpinner()
             }
             else if staffViewModel.staffs.isEmpty {
                     Spacer()

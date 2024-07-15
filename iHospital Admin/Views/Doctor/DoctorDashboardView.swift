@@ -17,9 +17,7 @@ struct DoctorDashboardView: View {
 
     var body: some View {
         if doctorViewModel.isLoading {
-            ProgressView()
-                .progressViewStyle(.circular)
-                .scaleEffect(2)
+            CenterSpinner()
         } else {
             NavigationStack(path: $navigation.path) {
                 GeometryReader { geometry in

@@ -19,9 +19,7 @@ struct AdminAppointmentsTable: View {
     var body: some View {
         VStack(alignment: .leading) {
             if isLoading {
-                Spacer()
-                ProgressView().scaleEffect(2)
-                Spacer()
+                CenterSpinner()
             } else if filteredAppointments.isEmpty {
                 Text("No appointments found")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

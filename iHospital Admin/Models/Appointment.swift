@@ -135,6 +135,7 @@ enum PaymentStatus: String, Codable {
     case paid
     case pending
     case failed
+    case cancelled
 }
 
 enum AppointmentStatus: String, Codable {
