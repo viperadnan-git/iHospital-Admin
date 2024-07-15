@@ -26,9 +26,10 @@ struct AdminDashboardView: View {
     @State private var appointments: [Appointment] = []
     @State private var isLoading = false
     @StateObject var patientViewModel = PatientViewModel()
+    @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
     
     var body: some View {
-        ScrollView {
+//        ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 30){
                     VStack(alignment:.leading,spacing: 15) {
@@ -43,7 +44,7 @@ struct AdminDashboardView: View {
                             OverviewCard(title: .constant(patientViewModel.patients.count.string), subtitle: "New Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
                         }
-                        .padding([.trailing],30)
+                        .padding([.trailing],10)
                         .frame(maxWidth: .infinity)
 
                         HStack(spacing: 20) {
@@ -51,7 +52,7 @@ struct AdminDashboardView: View {
                             OverviewCard(title: .constant("13"), subtitle: "Lab Tests", color: .blue)
                         }
                         .padding(.top,0)
-                        .padding(.trailing,30)
+                        .padding(.trailing,10)
                         .padding(.bottom,20)
                         .padding(.top,14)
                         .frame(maxWidth: .infinity)
@@ -70,7 +71,7 @@ struct AdminDashboardView: View {
                                 .padding([.trailing],30)
                                 .padding(.bottom,15)
 
-                                .padding(.top,10)
+//                                .padding(.top,)
 
                             OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
                                 .padding([.trailing],30)
@@ -81,7 +82,6 @@ struct AdminDashboardView: View {
                     .frame(maxWidth: .infinity)
                     .cornerRadius(12)
                 }
-                
                 Divider()
                 
                 VStack(alignment: .leading){
@@ -94,21 +94,34 @@ struct AdminDashboardView: View {
                     if isLoading {
                         ProgressView()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .scaleEffect(2.0)
                     }
                     
                     else{
-                        AdminAppointmentsList(appointments: $appointments)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(12)
+                        Table(appointments,sortOrder: $sortOrder){
+                            TableColumn("Patient Name", value: \.patient.firstName)
+                            TableColumn("Mobile Number", value: \.patient.phoneNumber.string)
+                            TableColumn("Time", value: \.date.dateTimeString)
+                            TableColumn("Doctor", value: \.doctor.firstName)
+                            
+                            TableColumn("Status") { appointment in
+                                AppointmentStatusIndicator(status: appointment.status)
+                            }
+                            
+                        }
+                        .onChange(of: sortOrder) { newOrder in
+                            appointments.sort(using: newOrder)
+                        }
                     }
+                    
                 }
-                .background(Color(.systemGroupedBackground))
-                .cornerRadius(12)
+
+                
             }
             .padding()
             .navigationTitle("Dashboard")
             .onAppear(perform: fetchAppointments)
-        }
+//        }
     }
     
     func fetchAppointments() {

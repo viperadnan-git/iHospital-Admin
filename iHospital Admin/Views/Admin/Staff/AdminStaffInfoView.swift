@@ -11,8 +11,11 @@ struct AdminStaffInfoView: View {
     let staffId: Int
     
     @State private var isEditMode: Bool = false
+    @State private var showAlert: Bool = false
     
     @EnvironmentObject var staffViewModel: AdminStaffViewModel
+    @Environment(\.presentationMode) var presentationMode
+
     
     var body: some View {
         if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
@@ -78,7 +81,20 @@ struct AdminStaffInfoView: View {
                         Spacer()
                         Text(staff.address)
                     }
+              
                 }
+                Button(role: .destructive) {
+                    showAlert.toggle()
+                } label: {
+                    Text("Delete")
+                        .frame(maxWidth: .infinity,alignment: .center)
+                }
+                .alert(isPresented: $showAlert, content: {
+                    Alert(title: Text("Delete Staff"), message: Text("Are you sure you want to delete this staff?"), primaryButton: .destructive(Text("Delete"),action: {
+                        deleteStaff()
+                    }), secondaryButton: .cancel())
+                })
+                
             }.navigationTitle("Staff Details")
                 .navigationBarItems(trailing: Button("Edit") {
                     isEditMode = true
@@ -87,6 +103,11 @@ struct AdminStaffInfoView: View {
                     AdminStaffAddView(staffType: staff.type, staffId: staff.id)
                 }
         }
+    }
+    private func deleteStaff() {
+        print("Deleted Succefully")
+        presentationMode.wrappedValue.dismiss()
+
     }
 }
 

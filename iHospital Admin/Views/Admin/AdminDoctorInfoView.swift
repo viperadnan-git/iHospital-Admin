@@ -12,6 +12,9 @@ struct AdminDoctorInfoView: View {
     var doctor: Doctor
     var doctorsDepartment: Department
     @State private var showEditSheet = false
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
+
 
     
     var body: some View {
@@ -75,6 +78,20 @@ struct AdminDoctorInfoView: View {
                     Text(doctor.dateOfJoining.dateString)
                 }
             }
+            
+            Button(role: .destructive) {
+                showAlert.toggle()
+            } label: {
+                Text("Delete")
+                    .frame(maxWidth: .infinity,alignment: .center)
+            }
+            .alert(isPresented: $showAlert,content: {
+                Alert(title: Text("Delete Doctor's Info"), message: Text("Are you sure you want to delete this doctor information?"), primaryButton: .destructive(Text("Delete"),action: {
+                    deleteDoctor()
+
+                }), secondaryButton: .cancel())
+            })
+
         }
         .sheet(isPresented: $showEditSheet) {
             AdminDoctorAddView(department: doctorsDepartment,doctor: doctor)
@@ -86,8 +103,13 @@ struct AdminDoctorInfoView: View {
                 }
             }
         }
-
+   
     }
+    private func deleteDoctor(){
+         print("Deleted Succefully")
+         presentationMode.wrappedValue.dismiss()
+
+     }
 }
 
 //#Preview {

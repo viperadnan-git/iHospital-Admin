@@ -59,7 +59,10 @@ struct AdminInPatientView: View {
                         }
             }
             .padding(.leading,10)
+            
             }
+        .searchable(text: $searchtext)
+
     }
       
 }

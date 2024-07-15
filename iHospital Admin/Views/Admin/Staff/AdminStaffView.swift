@@ -101,6 +101,8 @@ struct AdminStaffListView: View {
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to fetch staffs")
 
+    @State private var searchText = ""
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -128,14 +130,15 @@ struct AdminStaffListView: View {
                         .font(.title2)
                         .foregroundColor(.gray)
             } else {
-                LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(staffViewModel.staffs) { staff in
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(filteredStaffs) { staff in
                         NavigationLink(destination: AdminStaffInfoView(staffId: staff.id).environmentObject(staffViewModel)) {
                             StaffInfoCard(staffId: staff.id)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .frame(height: 150)
-                        .padding(.all)
+                        .padding(.top,30)
+                        .padding(.horizontal,4)
                     }
                 }
                 .padding()
@@ -163,6 +166,22 @@ struct AdminStaffListView: View {
             }
         }
         .environmentObject(staffViewModel)
+        .searchable(text: $searchText)
+    }
+    
+    
+    
+    private var filteredStaffs: [Staff] {
+        if searchText.isEmpty {
+            return staffViewModel.staffs
+        } else {
+            return staffViewModel.staffs.filter { staff in
+                staff.name.lowercased().contains(searchText.lowercased())
+                || staff.email.lowercased().contains(searchText.lowercased())
+                || staff.phoneNumber.string.contains(searchText.lowercased())
+
+            }
+        }
     }
 }
 
