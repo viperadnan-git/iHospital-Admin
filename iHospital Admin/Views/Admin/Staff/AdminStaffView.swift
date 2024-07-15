@@ -8,35 +8,36 @@
 import SwiftUI
 
 enum StaffDepartment: String, CaseIterable, Identifiable, Codable {
-    case clinicalLaboratory = "clinical laboratory"
+    case labTechnician = "lab_technician"
     case nursing = "nursing"
     case housekeeping = "housekeeping"
-    case others = "others"
+    case other = "other"
 
     var id: String { self.rawValue }
+    var name: String { self.rawValue.split(separator: "_").joined(separator: " ").capitalized }
     
     var iconName: String {
         switch self {
-        case .clinicalLaboratory:
-            return "cross.case"
+        case .labTechnician:
+            return "flask.fill"
         case .nursing:
             return "stethoscope"
         case .housekeeping:
             return "house.lodge"
-        case .others:
+        case .other:
             return "building.2.crop.circle"
         }
     }
 
     var backgroundColor: Color {
         switch self {
-        case .clinicalLaboratory:
+        case .labTechnician:
             return Color(uiColor: .brown)
         case .nursing:
             return Color(uiColor: .systemRed)
         case .housekeeping:
             return Color(uiColor: .systemPurple)
-        case .others:
+        case .other:
             return Color(uiColor: .systemOrange)
         }
     }
@@ -79,7 +80,7 @@ struct StaffDepartmentCard: View {
                 Spacer()
             }
             Spacer()
-            Text(department.rawValue.capitalized)
+            Text(department.name)
                 .font(.title)
                 .fontWeight(.bold)
                 
@@ -108,20 +109,41 @@ struct AdminStaffListView: View {
 
     // Navigated to next slide where list of staff will be shown
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 15) {
-                ForEach(staffViewModel.staffs) { staff in
-                    NavigationLink(destination: AdminStaffInfoView(staffId: staff.id).environmentObject(staffViewModel)) {
-                        StaffInfoCard(staffId: staff.id)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(height: 150)
-                    .padding(.all)
-                }
+        VStack {
+            if staffViewModel.isLoading {
+                Spacer()
+                ProgressView()
+                    .scaleEffect(2)
             }
-            .padding()
+            else if staffViewModel.staffs.isEmpty {
+                    Spacer()
+                    Image(systemName: "xmark.bin")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                        .padding()
+                        .foregroundColor(Color(.systemGray6))
+                    
+                Text("Tap the + button to add a staff in \(department.name) department")
+                        .font(.title2)
+                        .foregroundColor(.gray)
+            } else {
+                LazyVGrid(columns: columns, spacing: 15) {
+                    ForEach(staffViewModel.staffs) { staff in
+                        NavigationLink(destination: AdminStaffInfoView(staffId: staff.id).environmentObject(staffViewModel)) {
+                            StaffInfoCard(staffId: staff.id)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .frame(height: 150)
+                        .padding(.all)
+                    }
+                }
+                .padding()
+                
+            }
+            Spacer()
         }
-        .navigationTitle("Staff List")
+        .navigationTitle("\(department.name) Staffs")
         .navigationBarItems(trailing: Button(action: {
             showingForm = true
         }) {

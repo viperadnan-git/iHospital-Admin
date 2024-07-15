@@ -13,18 +13,18 @@ extension Date {
         Calendar.current.dateComponents([.year], from: self, to: Date()).year ?? 0
     }
     
-    var age: String {
+    var ago: String {
         let components = Calendar.current.dateComponents([.year, .month, .day], from: self, to: Date())
         let years = components.year ?? 0
         let months = components.month ?? 0
         let days = components.day ?? 0
         
         if years > 0 {
-            return "\(years) years"
+            return "\(years) year\(years == 1 ? "" :"s")"
         } else if months > 0 {
-            return "\(months) months"
+            return "\(months) month\(months == 1 ? "" :"s")"
         } else {
-            return "\(days) days"
+            return "\(days) day\(days == 1 ? "" :"s")"
         }
     }
     
@@ -42,11 +42,6 @@ extension Date {
         let adjustedMinutes = nextQuarterMinutes % 60
         
         return calendar.date(bySettingHour: adjustedHour, minute: adjustedMinutes, second: 0, of: self) ?? self
-    }
-    
-    var yearsOfexperience : String {
-        let years = Calendar.current.dateComponents([.year], from: self, to: Date()).year ?? 0
-        return years == 0 ? "Recently joined" : "\(years) years"
     }
     
     var startOfDay: Date {

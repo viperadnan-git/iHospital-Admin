@@ -11,6 +11,18 @@ extension Image {
     static func asyncImage(loadData: @escaping () async throws -> Data, placeholder: Image = Image(systemName: "photo.fill")) -> some View {
         AsyncImage(loadData: loadData, placeholder: placeholder)
     }
+    
+    static func validationIcon(for error: String?) -> some View {
+        Group {
+            if let error = error {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(.red)
+                    .popover(isPresented: .constant(true)) {
+                        Text(error).padding()
+                    }
+            }
+        }
+    }
 }
 
 struct AsyncImage: View {

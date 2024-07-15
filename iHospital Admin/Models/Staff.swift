@@ -134,7 +134,7 @@ class Staff: Codable, Identifiable, Hashable {
             "type": type.rawValue
         ]
         
-        if type != .clinicalLaboratory{
+        if type != .labTechnician{
             updateData["email"] = email
         }
         
@@ -166,7 +166,7 @@ class Staff: Codable, Identifiable, Hashable {
         var userId: UUID? = nil
         var signupResponse: AuthResponse? = nil
         
-        if type == .clinicalLaboratory {
+        if type == .labTechnician {
             signupResponse = try await supabase.auth.signUp(email: email, password: UUID().uuidString)
             userId = signupResponse?.user.id
         }

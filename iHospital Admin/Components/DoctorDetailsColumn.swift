@@ -52,7 +52,7 @@ struct DoctorDetailsColumn: View {
                     HStack {
                         Text("Year of Experience")
                         Spacer()
-                        Text(doctor.experienceSince.yearsOfexperience)
+                        Text(doctor.experienceSince.ago)
                     }
                     HStack {
                         Text("Date of Joining")

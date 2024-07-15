@@ -84,13 +84,13 @@ struct DoctorAddPatientMedicalRecordView: View {
                                         .padding(.vertical, 4)
                                 }
                                 Divider()
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
-                                    .onTapGesture {
-                                        if let index = medicines.firstIndex(where: { $0.id == medicine.id }) {
-                                            medicines.remove(at: index)
-                                        }
+                                Button {
+                                    if let index = medicines.firstIndex(where: { $0.id == medicine.id }) {
+                                        medicines.remove(at: index)
                                     }
+                                } label: {
+                                    Image(systemName: "minus.circle.fill")
+                                }.buttonStyle(.borderless)
                             }
                         }
                     }
@@ -125,12 +125,13 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.selectedTest)
                             }
                             Divider()
-                            Image(systemName: "minus.circle.fill")
-                                .foregroundColor(.red).onTapGesture {
-                                    if let index = labTests.firstIndex(where: { $0.id == labTest.id }) {
-                                        labTests.remove(at: index)
-                                    }
+                            Button {
+                                if let index = labTests.firstIndex(where: { $0.id == labTest.id }) {
+                                    labTests.remove(at: index)
                                 }
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                            }.buttonStyle(.borderless)
                         }
                     }
                     HStack {

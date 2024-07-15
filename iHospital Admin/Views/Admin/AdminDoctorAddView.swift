@@ -66,7 +66,7 @@ struct AdminDoctorAddView: View {
                             .autocapitalization(.words)
                             .focused($focusedField, equals: .firstName)
                             .onChange(of: firstName) { _ in validateFirstName() }
-                            .overlay(validationIcon(for: firstNameError), alignment: .trailing)
+                            .overlay(Image.validationIcon(for: firstNameError), alignment: .trailing)
                         Divider()
                         
                         TextField("Last Name", text: $lastName)
@@ -74,7 +74,7 @@ struct AdminDoctorAddView: View {
                             .autocapitalization(.words)
                             .focused($focusedField, equals: .lastName)
                             .onChange(of: lastName) { _ in validateLastName() }
-                            .overlay(validationIcon(for: lastNameError), alignment: .trailing)
+                            .overlay(Image.validationIcon(for: lastNameError), alignment: .trailing)
                     }
                     
                     Picker("Gender", selection: $gender) {
@@ -82,7 +82,6 @@ struct AdminDoctorAddView: View {
                             Text(gender.rawValue.capitalized).tag(gender)
                         }
                     }
-                    .pickerStyle(SegmentedPickerStyle())
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: Date.RANGE_MIN_24_YEARS_OLD, displayedComponents: .date)
                     
@@ -91,7 +90,7 @@ struct AdminDoctorAddView: View {
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .phoneNumber)
                         .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
-                        .overlay(validationIcon(for: phoneNumberError), alignment: .trailing)
+                        .overlay(Image.validationIcon(for: phoneNumberError), alignment: .trailing)
                     
                     if doctor == nil {
                         TextField("Email", text: $email)
@@ -99,18 +98,18 @@ struct AdminDoctorAddView: View {
                             .textContentType(.emailAddress)
                             .focused($focusedField, equals: .email)
                             .onChange(of: email) { _ in validateEmail() }
-                            .overlay(validationIcon(for: emailError), alignment: .trailing)
+                            .overlay(Image.validationIcon(for: emailError), alignment: .trailing)
                     }
                     
                     TextField("Address", text: $address)
                         .focused($focusedField, equals: .address)
                         .onChange(of: address) { _ in validateAddress() }
-                        .overlay(validationIcon(for: addressError), alignment: .trailing)
+                        .overlay(Image.validationIcon(for: addressError), alignment: .trailing)
                     
                     TextField("Qualifications", text: $qualifications)
                         .focused($focusedField, equals: .qualifications)
                         .onChange(of: qualifications) { _ in validateQualifications() }
-                        .overlay(validationIcon(for: qualificationsError), alignment: .trailing)
+                        .overlay(Image.validationIcon(for: qualificationsError), alignment: .trailing)
                     
                     DatePicker("Date of Joining", selection: $dateOfJoining, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
                     DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
@@ -118,8 +117,6 @@ struct AdminDoctorAddView: View {
             }
             .navigationTitle("\(doctor == nil ? "Add New":"Edit") Doctor")
             .navigationBarTitleDisplayMode(.inline)
-            
-            
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("Save") {
@@ -132,7 +129,6 @@ struct AdminDoctorAddView: View {
         }
     }
     
-    
     func onAppear() {
         if let doctor = doctor {
             firstName = doctor.firstName
@@ -144,7 +140,6 @@ struct AdminDoctorAddView: View {
             experienceSince = doctor.experienceSince
             qualifications = doctor.qualification
             dateOfJoining = doctor.dateOfJoining
-            
         }
     }
     
@@ -209,18 +204,6 @@ struct AdminDoctorAddView: View {
             presentationMode.wrappedValue.dismiss()
         } catch {
             errorAlertMessage.message = error.localizedDescription
-        }
-    }
-    
-    func validationIcon(for error: String?) -> some View {
-        Group {
-            if let error = error {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .foregroundColor(.red)
-                    .popover(isPresented: .constant(true)) {
-                        Text(error).padding()
-                    }
-            }
         }
     }
     

@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct LabTest: Codable, Identifiable {
+class LabTest: Codable, Identifiable {
     let id: Int
     let name: String
     let patient: Patient
-    let status: LabTestStatus
+    var status: LabTestStatus
     let appointment: Appointment
-    let reportPath: String?
+    var sampleID: String?
+    var reportPath: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -21,10 +22,59 @@ struct LabTest: Codable, Identifiable {
         case patient
         case status
         case appointment
+        case sampleID = "sample_id"
         case reportPath = "report_path"
     }
     
     static let supabaseSelectQuery = "*, patient:patient_id(*), appointment:appointment_id(\(Appointment.supabaseSelectQuery))"
+    
+    static let sample = LabTest(id: 1, name: "X-Ray", patient: Patient.sample, status: .pending, appointment: Appointment.sample, sampleID: nil, reportPath: nil)
+    
+    init(id: Int, name: String, patient: Patient, status: LabTestStatus, appointment: Appointment, sampleID: String?, reportPath: String?) {
+        self.id = id
+        self.name = name
+        self.patient = patient
+        self.status = status
+        self.appointment = appointment
+        self.sampleID = sampleID
+        self.reportPath = reportPath
+    }
+    
+    func updateSampleID(_ sampleID: String) async throws -> LabTest {
+        self.sampleID = sampleID
+        
+        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
+            .update([CodingKeys.sampleID.rawValue: sampleID, CodingKeys.status.rawValue: LabTestStatus.inProgress.rawValue])
+            .eq(CodingKeys.id.rawValue, value: self.id)
+            .select()
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    func uploadReport(_ filePath: URL) async throws -> LabTest {
+        let uploadedFile = try await supabase.storage.from(SupabaseBucket.medicalRecords.id).upload(path: filePath.absoluteString, file: try Data(contentsOf: filePath))
+        
+        self.reportPath = uploadedFile.path
+        
+        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
+            .update([CodingKeys.reportPath.rawValue: uploadedFile.path, CodingKeys.status.rawValue: LabTestStatus.completed.rawValue])
+            .eq(CodingKeys.id.rawValue, value: self.id)
+            .select()
+            .single()
+            .execute()
+            .value
+        
+        return response
+    }
+    
+    static func fetchAll() async throws -> [LabTest] {
+        let response:[LabTest] = try await supabase.from(SupabaseTable.labTests.id).select(supabaseSelectQuery).execute().value
+        
+        return response
+    }
 }
 
 

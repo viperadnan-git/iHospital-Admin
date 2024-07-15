@@ -18,10 +18,12 @@ struct iHospital_AdminApp: App {
                 if authViewModel.user != nil {
                     if authViewModel.shouldChangePassword {
                         ChangePasswordView()
-                    } else if authViewModel.user?.role == .admin {
-                        AdminSidebarView()
-                    } else {
+                    } else if authViewModel.user?.role == .doctor {
                         DoctorDashboardView()
+                    } else if authViewModel.user?.role == .labTech {
+                        LabTechnicianView()
+                    } else {
+                        AdminSidebarView()
                     }
                 }
                 else {

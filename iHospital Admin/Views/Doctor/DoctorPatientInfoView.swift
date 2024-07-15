@@ -47,7 +47,7 @@ struct DoctorPatientInfoView: View {
                             Text("Age")
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text(patient.dateOfBirth.age)
+                            Text(patient.dateOfBirth.ago)
                         }
                         
                         HStack {

@@ -24,7 +24,7 @@ struct DoctorAppointmentsTable: View {
             
             Table(appointments, sortOrder: $sortOrder) {
                 TableColumn("Name", value: \.patient.name)
-                TableColumn("Age", value: \.patient.dateOfBirth.age)
+                TableColumn("Age", value: \.patient.dateOfBirth.ago)
                 TableColumn("Gender", value: \.patient.gender.id.capitalized)
                 TableColumn("Phone No.", value: \.patient.phoneNumber.string)
                 TableColumn("Time", value: \.date) { appointment in
@@ -55,7 +55,7 @@ struct DoctorAppointmentsTable: View {
         } else {
             appointments = doctorViewModel.appointments.filter { appointment in
                 appointment.patient.name.lowercased().contains(searchText.lowercased())
-                || appointment.patient.dateOfBirth.age.lowercased().contains(searchText.lowercased())
+                || appointment.patient.dateOfBirth.ago.lowercased().contains(searchText.lowercased())
                 || appointment.patient.gender.id.lowercased().contains(searchText.lowercased())
                 || appointment.date.timeString.lowercased().contains(searchText.lowercased())
                 || appointment.patient.phoneNumber.string.lowercased().contains(searchText.lowercased())

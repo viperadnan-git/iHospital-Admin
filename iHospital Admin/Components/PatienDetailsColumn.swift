@@ -21,7 +21,7 @@ struct PatienDetailsColumn: View {
                     .padding()
             }.frame(maxWidth: .infinity, alignment: .center)
             
-            Section(header: Text("Doctor Details")) {
+            Section(header: Text("Patient Details")) {
                 Text(patient.name)
                     .font(.title)
                     .fontWeight(.bold)
@@ -64,7 +64,7 @@ struct PatienDetailsColumn: View {
                     if let weight = patient.weight {
                         Text("\(weight, specifier: "%.2f") kg")
                     } else {
-                        Text("Unknown")
+                        Text("Unknown").foregroundStyle(Color.gray)
                     }
                 }
             }

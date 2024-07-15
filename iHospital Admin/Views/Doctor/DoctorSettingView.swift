@@ -45,7 +45,7 @@ struct DoctorSettingView: View {
                             .onChange(of: fee) { _ in
                                 validateFee()
                             }
-                            .overlay(validationIcon(for: feeError), alignment: .trailing)
+                            .overlay(Image.validationIcon(for: feeError), alignment: .trailing)
                     }
                 }
                 
@@ -184,18 +184,6 @@ struct DoctorSettingView: View {
             }
         } else {
             feeError = "Fee must be a number."
-        }
-    }
-    
-    private func validationIcon(for error: String?) -> some View {
-        Group {
-            if let error = error {
-                Image(systemName: "exclamationmark.circle.fill")
-                    .foregroundColor(.red)
-                    .popover(isPresented: .constant(true)) {
-                        Text(error).padding()
-                    }
-            }
         }
     }
 }

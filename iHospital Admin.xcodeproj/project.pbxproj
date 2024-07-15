@@ -31,6 +31,7 @@
 		325042362C3DC60100452C0C /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325042352C3DC60100452C0C /* Int.swift */; };
 		325042382C3DD12800452C0C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325042372C3DD12800452C0C /* SearchBar.swift */; };
 		3250423A2C3DD75900452C0C /* DoctorAppointmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325042392C3DD75900452C0C /* DoctorAppointmentsView.swift */; };
+		325112612C45325F007D89F1 /* LabTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112602C45325F007D89F1 /* LabTestView.swift */; };
 		3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */; };
 		3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */; };
 		3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */; };
@@ -43,6 +44,7 @@
 		3265EFC92C4055F3005E9603 /* LabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFC82C4055F3005E9603 /* LabTest.swift */; };
 		3265EFCB2C40DC03005E9603 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFCA2C40DC03005E9603 /* NavigationManager.swift */; };
 		3284098D2C380C0600473841 /* BloodGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3284098C2C380C0600473841 /* BloodGroup.swift */; };
+		328752522C44EDF2005E5B8F /* LabTechViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328752512C44EDF2005E5B8F /* LabTechViewModel.swift */; };
 		328FECB62C43098D00EFA273 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328FECB52C43098D00EFA273 /* Image.swift */; };
 		328FECB82C43180900EFA273 /* Staff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328FECB72C43180900EFA273 /* Staff.swift */; };
 		328FECBA2C431FC600EFA273 /* AdminStaffViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328FECB92C431FC600EFA273 /* AdminStaffViewModel.swift */; };
@@ -103,6 +105,7 @@
 		325042352C3DC60100452C0C /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		325042372C3DD12800452C0C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		325042392C3DD75900452C0C /* DoctorAppointmentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorAppointmentsView.swift; sourceTree = "<group>"; };
+		325112602C45325F007D89F1 /* LabTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestView.swift; sourceTree = "<group>"; };
 		3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
 		3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
@@ -115,6 +118,7 @@
 		3265EFC82C4055F3005E9603 /* LabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTest.swift; sourceTree = "<group>"; };
 		3265EFCA2C40DC03005E9603 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		3284098C2C380C0600473841 /* BloodGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGroup.swift; sourceTree = "<group>"; };
+		328752512C44EDF2005E5B8F /* LabTechViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTechViewModel.swift; sourceTree = "<group>"; };
 		328FECB52C43098D00EFA273 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		328FECB72C43180900EFA273 /* Staff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staff.swift; sourceTree = "<group>"; };
 		328FECB92C431FC600EFA273 /* AdminStaffViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffViewModel.swift; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 				3265EFC12C4031E7005E9603 /* PatientViewModel.swift */,
 				3265EFCA2C40DC03005E9603 /* NavigationManager.swift */,
 				328FECB92C431FC600EFA273 /* AdminStaffViewModel.swift */,
+				328752512C44EDF2005E5B8F /* LabTechViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -377,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				48CFFEB72C42FBB8002E41C8 /* LabTechnicianView.swift */,
+				325112602C45325F007D89F1 /* LabTestView.swift */,
 			);
 			path = LabTech;
 			sourceTree = "<group>";
@@ -488,6 +494,7 @@
 				4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */,
 				32E3790C2C371A380076F2C4 /* TimePicker.swift in Sources */,
 				324C9CD82C355D4800712E84 /* iHospital_AdminApp.swift in Sources */,
+				328752522C44EDF2005E5B8F /* LabTechViewModel.swift in Sources */,
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
 				D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */,
 				3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */,
@@ -503,6 +510,7 @@
 				3265EFBE2C3FBB65005E9603 /* Double.swift in Sources */,
 				4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */,
 				32E379102C3725210076F2C4 /* DoctorSettings.swift in Sources */,
+				325112612C45325F007D89F1 /* LabTestView.swift in Sources */,
 				32E3790A2C37195C0076F2C4 /* DateFormatter.swift in Sources */,
 				328FECBA2C431FC600EFA273 /* AdminStaffViewModel.swift in Sources */,
 				32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */,
@@ -660,7 +668,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = QZMU65G2C8;
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";
@@ -675,7 +683,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viperadnan.iHospital;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.viperadnan.iHospital-Admin";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -691,7 +699,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iHospital Admin/Preview Content\"";
-				DEVELOPMENT_TEAM = QZMU65G2C8;
+				DEVELOPMENT_TEAM = JZN7WN2NCM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iHospital-Admin-Info.plist";
