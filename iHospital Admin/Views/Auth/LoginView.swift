@@ -35,14 +35,11 @@ struct LoginView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 50)
-                        .padding(.top, 100)
+                        
                     
                     Text("iHospital")
                         .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .frame(width: 200, height: 50)
-                        .padding(.top, 100)
+                        .bold()
                 }
                 
                 Image("hospital")
@@ -51,12 +48,10 @@ struct LoginView: View {
                     .padding(50)
                 Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGray6))
             
             VStack {
                 Spacer()
-                
                 Text("Login")
                     .font(.system(size: 40))
                     .fontWeight(.bold)

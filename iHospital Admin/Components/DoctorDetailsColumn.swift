@@ -80,7 +80,7 @@ struct DoctorDetailsColumn: View {
     private func logOut() {
         Task {
             do {
-                try await SupaUser.logOut()
+                try await SupaUser.logout()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }

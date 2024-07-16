@@ -14,18 +14,15 @@ struct AdminLabTechTypeView: View {
     @State private var selectedLabTestType: LabTestType?
     @State private var searchText = ""
 
-
     var body: some View {
         VStack {
-            if viewModel.isLoading{
+            if viewModel.isLoading {
                 ProgressView().scaleEffect(2)
-            }
-            else if viewModel.labTestTypes.isEmpty {
+            } else if viewModel.labTestTypes.isEmpty {
                 Text("No Lab Tests Found")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundColor(Color(.systemGray))
-            }
-            else{
+            } else {
                 Table(filterLabTestTypes) {
                     TableColumn("Test Id", value: \.id.string)
                     TableColumn("Name", value: \.name)
@@ -36,12 +33,14 @@ struct AdminLabTechTypeView: View {
                     TableColumn("") { labTestType in
                         Button("Edit") {
                             selectedLabTestType = labTestType
-                            showForm = true
-                        }
+                            DispatchQueue.main.async {
+                                showForm = true
+                            }
+                        }.buttonStyle(.borderless)
                     }
                 }
                 .refreshable {
-                    viewModel.fetchAll()
+                    viewModel.fetchAll(showLoader: false)
                 }
             }
         }
@@ -49,7 +48,9 @@ struct AdminLabTechTypeView: View {
         .navigationBarItems(trailing: Button(action: {
             print("Plus button tapped")
             selectedLabTestType = nil
-            showForm = true
+            DispatchQueue.main.async {
+                showForm = true
+            }
         }) {
             Image(systemName: "plus")
                 .font(.title3)
@@ -64,7 +65,7 @@ struct AdminLabTechTypeView: View {
         }
         .searchable(text: $searchText)
     }
-    
+
     private var filterLabTestTypes: [LabTestType] {
         if searchText.isEmpty {
             return viewModel.labTestTypes
@@ -75,7 +76,6 @@ struct AdminLabTechTypeView: View {
         }
     }
 }
-
 
 #Preview {
     AdminLabTechTypeView()

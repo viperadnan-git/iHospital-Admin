@@ -35,7 +35,7 @@ class DoctorViewModel: ObservableObject {
                         // doctor not found in doctors table
                         if errorCode == "PGRST116"  {
                             print("Doctor not found in doctors table, logging out...")
-                            try await SupaUser.logOut()
+                            try await SupaUser.logout()
                         }
                     }
                 }

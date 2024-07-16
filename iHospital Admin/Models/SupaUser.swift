@@ -49,7 +49,7 @@ struct SupaUser: Codable {
         try await supabase.auth.signIn(email: email, password: password)
     }
     
-    static func logOut() async throws {
+    static func logout() async throws {
         try await supabase.auth.signOut()
         shared = nil
     }

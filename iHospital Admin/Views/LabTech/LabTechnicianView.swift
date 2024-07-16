@@ -70,7 +70,7 @@ struct LabTechnicianView: View {
                     Button(action: {
                         Task {
                             do {
-                                try await SupaUser.logOut()
+                                try await SupaUser.logout()
                             } catch {
                                 print(error)
                             }

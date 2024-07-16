@@ -9,51 +9,93 @@ import SwiftUI
 
 struct AdminSidebarView: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
-    
+    @State private var selection: String? = "Dashboard"
+    @State private var showLogoutAlert = false
+
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: AdminDashboardView()) {
-                    Label("Dashboard", systemImage: "house")
+        NavigationSplitView {
+            List(selection: $selection) {
+                NavigationLink(value: "Dashboard") {
+                    Label("Dashboard", systemImage: selection == "Dashboard" ? "house.fill" : "house")
                 }
-                NavigationLink(destination: AdminAppointmentsTable()) {
+                NavigationLink(value: "Appointments") {
                     Label("Appointments", systemImage: "calendar")
                 }
-                NavigationLink(destination: AdminDepartmentView()) {
-                    Label("Doctors", systemImage: "stethoscope")
+                NavigationLink(value: "Doctors") {
+                    Label("Doctors", systemImage: selection == "Doctors" ? "stethoscope.circle.fill" : "stethoscope.circle")
                 }
-                NavigationLink(destination: AdminPatientView()) {
-                    Label("Patients", systemImage: "person.2")
+                NavigationLink(value: "Patients") {
+                    Label("Patients", systemImage: selection == "Patients" ? "person.2.fill" : "person.2")
                 }
-                NavigationLink(destination: AdminStaffView()) {
-                    Label("Staff", systemImage: "person")
+                NavigationLink(value: "Staff") {
+                    Label("Staff", systemImage: selection == "Staff" ? "person.fill" : "person")
                 }
-                NavigationLink(destination: AdminLabTechTypeView()) {
-                    Label("Lab Test", systemImage: "flask")
+                NavigationLink(value: "Lab Test") {
+                    Label("Lab Test", systemImage: selection == "Lab Test" ? "flask.fill" : "flask")
                 }
-                NavigationLink(destination: AdminBedView()) {
-                    Label("Bed Management", systemImage: "bed.double")
+                NavigationLink(value: "Bed Management") {
+                    Label("Bed Management", systemImage: selection == "Bed Management" ? "bed.double.fill" : "bed.double")
                 }
             }
             .listStyle(SidebarListStyle())
             .navigationTitle("iHospital")
+            .onAppear {
+                selection = "Dashboard"
+            }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
-                    Button(action: onLogOut) {
-                        Text("Logout")
-                        Image(systemName: "arrow.left.square")
+                    Button(action: { showLogoutAlert = true }) {
+                        HStack {
+                            Image(systemName: "arrowshape.turn.up.backward.fill")
+                            Text("Logout")
+                        }.foregroundStyle(.red)
                     }
                 }
             }
-            AdminDashboardView()
-        }.errorAlert(errorAlertMessage: errorAlertMessage)
+        } detail: {
+            NavigationStack {
+                if let selection = selection {
+                    switch selection {
+                    case "Dashboard":
+                        AdminDashboardView()
+                    case "Appointments":
+                        AdminAppointmentsTable()
+                    case "Doctors":
+                        AdminDepartmentView()
+                    case "Patients":
+                        AdminPatientView()
+                    case "Staff":
+                        AdminStaffView()
+                    case "Lab Test":
+                        AdminLabTechTypeView()
+                    case "Bed Management":
+                        AdminBedView()
+                    default:
+                        AdminDashboardView()
+                    }
+                } else {
+                    AdminDashboardView()
+                }
+            }
+        }
+        .errorAlert(errorAlertMessage: errorAlertMessage)
+        .alert(isPresented: $showLogoutAlert) {
+            Alert(
+                title: Text("Logout"),
+                message: Text("Are you sure you want to logout?"),
+                primaryButton: .destructive(Text("Logout")) {
+                    onLogout()
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
     
-    func onLogOut() {
+    func onLogout() {
         Task {
             do {
                 print("Logging out")
-                try await SupaUser.logOut()
+                try await SupaUser.logout()
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }

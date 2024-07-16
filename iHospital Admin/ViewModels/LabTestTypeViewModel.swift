@@ -17,9 +17,9 @@ class LabTestTypeViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchAll()  {
+    func fetchAll(showLoader: Bool = true)  {
         Task {
-            isLoading = true
+            isLoading = showLoader
             defer {
                 isLoading = false
             }

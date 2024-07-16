@@ -79,6 +79,7 @@ struct AdminStaffAddView: View {
                 }
             }
             .navigationTitle(staffId == nil ? "Add Profile" : "Edit Profile")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }

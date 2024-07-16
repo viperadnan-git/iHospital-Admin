@@ -14,7 +14,6 @@ struct DoctorSettingView: View {
     @State private var startTime = Date()
     @State private var endTime = Date()
     @State private var selectedDays: Set<String> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-    @State private var fee = String(Constants.doctorFee)
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Invalid Input")
     
     @State private var isSaving = false
@@ -125,11 +124,6 @@ struct DoctorSettingView: View {
     private func saveSettings() {
         guard feeError == nil else {
             errorAlertMessage.message = "Please correct the errors before saving."
-            return
-        }
-        
-        guard let fee = Int(fee) else {
-            errorAlertMessage.message = "Invalid fee amount."
             return
         }
         
