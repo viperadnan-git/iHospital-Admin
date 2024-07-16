@@ -99,11 +99,14 @@ struct DoctorCard: View {
                 .foregroundColor(Color(.systemGray))
                 .frame(width: 80, height: 80)
                 .clipShape(Circle())
+                .padding(.top,4)
+            
             Text(doctor.name)
                 .font(.headline)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
+                .padding(.top,4)
 
             HStack(spacing: 2) {
                 Image(systemName: "envelope.fill")

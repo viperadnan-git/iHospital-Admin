@@ -8,49 +8,100 @@
 import SwiftUI
 
 struct AdminPatientDetailsView: View {
-    var patient:Patient
+    var patient: Patient
     var body: some View {
-            VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: "person")
-                        .resizable()
-                        .frame(maxWidth: 100,maxHeight: 100)
-                        .padding(40)
-                    VStack(alignment: .leading, spacing: 8){
-                        Text("\(patient.name)").font(.title)
-                            .bold()
-                        Text("\(patient.userId)").font(.system(size: 12))
-                        Text("Age: \(patient.dateOfBirth.ago)")
-                        Text("Phone No:  \(patient.phoneNumber.string)")
-                        Text("Address: \(patient.address)")
-                    }
-                    .padding()
-                    Divider().padding()
-                    VStack(alignment: .leading, spacing: 8){
-                        Text("Other Info").font(.title3)
-                            .bold()
-                        Text("Blood Group: \(patient.bloodGroup)")
-                        Text("Height: \(patient.height ?? 00)")
-                        Text("Weight: \(patient.weight ?? 00)")
-                    }
-                    .padding()
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: "person.crop.circle.fill")
+                    .resizable()
+                    .frame(width: 120, height: 120)
+                    .padding(40)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("\(patient.name)")
+                        .font(.title)
+                        .bold()
                     
+                    Text("\(patient.userId)")
+                        .font(.system(size: 12))
+                        .foregroundColor(.gray)
+                    
+                    // Custom view for Age, Phone Number, and Address with proper spacing
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Age")
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text(patient.dateOfBirth.ago)
+                        }
+                        
+                        HStack {
+                            Text("Phone No")
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text(patient.phoneNumber.string)
+                        }
+                        
+                        HStack(alignment: .top) {
+                            Text("Address")
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text(patient.address).multilineTextAlignment(.trailing)
+                        }
+                    }
+                    .padding(.top, 8)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 220,alignment: .leading)
-                .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding()
                 
-                Text("Billing History")
-                    .font(.title2)
-                    .bold()
-                    .frame(maxWidth: .infinity,alignment: .leading)
+                Divider()
                     .padding(.horizontal)
-                BillingList(patient: patient)
-            }.navigationTitle("Patient Details")
-            .navigationBarTitleDisplayMode(.inline)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Other Info")
+                        .font(.title3)
+                        .bold()
+                        .padding(.bottom, 8) // Add some space below the title
+                    
+                    HStack {
+                        Text("Blood Group:")
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text("\(patient.bloodGroup)")
+                    }
+                    
+                    HStack {
+                        Text("Height:")
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(String(format: "%.2f", patient.height ?? 0.00))
+                    }
+                    
+                    HStack {
+                        Text("Weight:")
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(String(format: "%.2f", patient.weight ?? 0.00))
+                    }
+                }
+                .padding(.trailing, 40)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 220, alignment: .leading)
+            .background(Color(.systemGray6))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            
+            Text("Billing History")
+                .font(.title2)
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+            BillingList(patient: patient)
+        }
+        .navigationTitle("Patient Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
+
 
 
 struct BillingList:View {
@@ -61,11 +112,19 @@ struct BillingList:View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to fetch invoices")
     
     var body: some View {
+        
         VStack {
             if isLoading {
                 CenterSpinner()
             } else if invoices.isEmpty {
-                Text("No invoices found")
+                Spacer()
+                VStack {
+                    Text("No invoices found")
+                        .font(.headline) // Makes the text bold
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity) // Makes sure the VStack takes the full width of the parent
+                Spacer()
             } else {
                 Table(invoices) {
                     TableColumn("Invoice ID", value:\.id.string)
@@ -79,7 +138,8 @@ struct BillingList:View {
                     }
                 }
             }
-        }.errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+        .errorAlert(errorAlertMessage: errorAlertMessage)
         .onAppear(perform: fetchInvoices)
     }
     
