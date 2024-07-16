@@ -72,6 +72,21 @@ class LabTestType: Codable {
             .execute()
             .value
         
+        if let index = LabTestType.all.firstIndex(where: { $0.id == id }) {
+            LabTestType.all[index] = response
+        }
+        
         return response
+    }
+    
+    func delete() async throws {
+        try await supabase.from(SupabaseTable.labTestTypes.id)
+            .delete()
+            .eq(CodingKeys.id.rawValue, value: id)
+            .execute()
+        
+        if let index = LabTestType.all.firstIndex(where: { $0.id == id }) {
+            LabTestType.all.remove(at: index)
+        }
     }
 }

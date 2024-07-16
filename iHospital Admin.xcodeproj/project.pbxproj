@@ -40,6 +40,7 @@
 		3251126D2C45BFBC007D89F1 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126C2C45BFBC007D89F1 /* Invoice.swift */; };
 		3251126F2C45BFD7007D89F1 /* BedBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126E2C45BFD7007D89F1 /* BedBooking.swift */; };
 		325112712C464BAD007D89F1 /* LabTestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112702C464BAD007D89F1 /* LabTestType.swift */; };
+		325112732C464BEA007D89F1 /* LabTestTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112722C464BEA007D89F1 /* LabTestTypeViewModel.swift */; };
 		3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */; };
 		3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */; };
 		3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */; };
@@ -122,6 +123,7 @@
 		3251126C2C45BFBC007D89F1 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		3251126E2C45BFD7007D89F1 /* BedBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBooking.swift; sourceTree = "<group>"; };
 		325112702C464BAD007D89F1 /* LabTestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestType.swift; sourceTree = "<group>"; };
+		325112722C464BEA007D89F1 /* LabTestTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestTypeViewModel.swift; sourceTree = "<group>"; };
 		3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
 		3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				3265EFCA2C40DC03005E9603 /* NavigationManager.swift */,
 				328FECB92C431FC600EFA273 /* AdminStaffViewModel.swift */,
 				328752512C44EDF2005E5B8F /* LabTechViewModel.swift */,
+				325112722C464BEA007D89F1 /* LabTestTypeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				3251126B2C4583E5007D89F1 /* CenterSpinner.swift in Sources */,
 				328752522C44EDF2005E5B8F /* LabTechViewModel.swift in Sources */,
 				32E378FF2C36CA690076F2C4 /* AdminDoctorViewModel.swift in Sources */,
+				325112732C464BEA007D89F1 /* LabTestTypeViewModel.swift in Sources */,
 				D5BF32A12C3E50FB00717C28 /* Color.swift in Sources */,
 				3213A86E2C3BAC9700509BCB /* ViewModifiers.swift in Sources */,
 				3265EFCB2C40DC03005E9603 /* NavigationManager.swift in Sources */,
