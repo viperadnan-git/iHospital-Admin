@@ -16,6 +16,13 @@ extension DateFormatter {
     
     static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return formatter
+    }()
+    
+    static let timeFormatterWithMedian: DateFormatter = {
+        let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter
     }()

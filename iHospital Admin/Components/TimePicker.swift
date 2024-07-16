@@ -13,7 +13,7 @@ struct TimePicker: View {
     var body: some View {
         Picker("Time", selection: $selectedTime) {
             ForEach(timeSlots(), id: \.self) { time in
-                Text(time, formatter: DateFormatter.timeFormatter).tag(time)
+                Text(time, formatter: DateFormatter.timeFormatterWithMedian).tag(time)
             }
         }
         .pickerStyle(WheelPickerStyle())
