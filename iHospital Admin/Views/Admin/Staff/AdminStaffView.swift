@@ -195,23 +195,30 @@ struct StaffInfoCard: View {
                 Image(systemName: "person.crop.circle.fill")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .padding()
                     .foregroundColor(Color(.systemGray))
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .padding(.top, 4)
+                
                 Text(staff.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
-                HStack(spacing: 8) {
+                    .font(.headline)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .padding(.top, 4)
+
+                HStack(spacing: 2) {
                     Image(systemName: "envelope.fill")
                     Text(staff.email)
-                        .foregroundColor(Color(.systemGray))
-                }.font(.subheadline)
+                        .font(.subheadline)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(Color.blue.opacity(0.2))
+            .background(Color(.systemGray6))
             .cornerRadius(10)
         }
     }

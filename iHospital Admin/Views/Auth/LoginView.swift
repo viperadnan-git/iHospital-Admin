@@ -118,7 +118,7 @@ struct LoginView: View {
                             // Handle forgot password
                         }) {
                             Text("Forgot Password?")
-                                .foregroundColor(.blue)
+                                .foregroundColor(.accentColor)
                         }
                         .padding(.trailing)
                     }
