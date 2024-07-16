@@ -29,7 +29,6 @@ struct AdminDashboardView: View {
     @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
     
     var body: some View {
-//        ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 30){
                     VStack(alignment:.leading,spacing: 15) {
@@ -113,13 +112,10 @@ struct AdminDashboardView: View {
                     }
                     
                 }
-
-                
             }
             .padding()
             .navigationTitle("Dashboard")
             .onAppear(perform: fetchAppointments)
-//        }
     }
     
     func fetchAppointments() {

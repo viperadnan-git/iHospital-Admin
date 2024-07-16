@@ -136,6 +136,19 @@ enum PaymentStatus: String, Codable {
     case pending
     case failed
     case cancelled
+    
+    var color: Color {
+        switch self {
+        case .paid:
+            return .green
+        case .pending:
+            return .yellow
+        case .failed:
+            return .red
+        case .cancelled:
+            return .red
+        }
+    }
 }
 
 enum AppointmentStatus: String, Codable {

@@ -14,7 +14,7 @@ struct CenterSpinner: View {
             ProgressView()
                 .scaleEffect(2)
             Spacer()
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

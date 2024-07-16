@@ -9,5 +9,11 @@ import Foundation
 
 struct BedBooking: Codable {
     let id: Int
-    // Other properties and initializers
+    let price: Int
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case price
+    }
 }
