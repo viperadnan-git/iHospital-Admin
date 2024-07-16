@@ -39,6 +39,7 @@
 		3251126B2C4583E5007D89F1 /* CenterSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126A2C4583E5007D89F1 /* CenterSpinner.swift */; };
 		3251126D2C45BFBC007D89F1 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126C2C45BFBC007D89F1 /* Invoice.swift */; };
 		3251126F2C45BFD7007D89F1 /* BedBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251126E2C45BFD7007D89F1 /* BedBooking.swift */; };
+		325112712C464BAD007D89F1 /* LabTestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325112702C464BAD007D89F1 /* LabTestType.swift */; };
 		3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */; };
 		3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */; };
 		3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */; };
@@ -120,6 +121,7 @@
 		3251126A2C4583E5007D89F1 /* CenterSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterSpinner.swift; sourceTree = "<group>"; };
 		3251126C2C45BFBC007D89F1 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
 		3251126E2C45BFD7007D89F1 /* BedBooking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedBooking.swift; sourceTree = "<group>"; };
+		325112702C464BAD007D89F1 /* LabTestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestType.swift; sourceTree = "<group>"; };
 		3265EFB52C3FA6AD005E9603 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		3265EFB72C3FB3A0005E9603 /* DrawingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingCanvasView.swift; sourceTree = "<group>"; };
 		3265EFB92C3FB42D005E9603 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				328FECB72C43180900EFA273 /* Staff.swift */,
 				3251126C2C45BFBC007D89F1 /* Invoice.swift */,
 				3251126E2C45BFD7007D89F1 /* BedBooking.swift */,
+				325112702C464BAD007D89F1 /* LabTestType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				3251126D2C45BFBC007D89F1 /* Invoice.swift in Sources */,
 				3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */,
 				3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */,
+				325112712C464BAD007D89F1 /* LabTestType.swift in Sources */,
 				4850DB682C39876C001D10A1 /* AdminPatientView.swift in Sources */,
 				325112652C457756007D89F1 /* DocumentScannerView.swift in Sources */,
 				32E378F02C365BE20076F2C4 /* Department.swift in Sources */,

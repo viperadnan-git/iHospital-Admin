@@ -117,34 +117,3 @@ enum LabTestStatus: String, Codable, CaseIterable {
         }
     }
 }
-
-
-struct LabTestType: Codable {
-    let id: Int
-    let name: String
-    let price: Int
-    let description: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case price
-        case description
-    }
-    
-    static let supabaseSelectQuery = "*"
-    
-    static let sample = LabTestType(id: 1, name: "X-Ray", price: 100, description: "X-Ray of the chest")
-    
-    static var all: [LabTestType] = []
-    
-    static func fetchAll(force: Bool = false) async throws -> [LabTestType] {
-        if !force, !all.isEmpty {
-            return all
-        }
-        
-        let response:[LabTestType] = try await supabase.from(SupabaseTable.labTestTypes.id).select(supabaseSelectQuery).execute().value
-        all = response
-        return response
-    }
-}
