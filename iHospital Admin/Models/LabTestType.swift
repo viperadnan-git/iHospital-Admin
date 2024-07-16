@@ -8,7 +8,7 @@
 import Foundation
 
 
-class LabTestType: Codable {
+class LabTestType: Codable,Identifiable {
     let id: Int
     var name: String
     var price: Int
@@ -51,6 +51,7 @@ class LabTestType: Codable {
                 CodingKeys.price.rawValue: price.string,
                 CodingKeys.description.rawValue: description
             ])
+            .select()
             .single()
             .execute()
             .value
@@ -68,6 +69,7 @@ class LabTestType: Codable {
                 CodingKeys.description.rawValue: description
             ])
             .eq(CodingKeys.id.rawValue, value: id)
+            .select()
             .single()
             .execute()
             .value

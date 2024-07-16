@@ -81,6 +81,9 @@
 		4850DB6C2C399090001D10A1 /* AdminInPatientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */; };
 		4850DB6E2C39D3B2001D10A1 /* AdminPatientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */; };
 		48CFFEB82C42FBB8002E41C8 /* LabTechnicianView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEB72C42FBB8002E41C8 /* LabTechnicianView.swift */; };
+		48CFFEBA2C45A20D002E41C8 /* LabTechTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */; };
+		48CFFEBC2C4646DA002E41C8 /* AdminLabTechTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEBB2C4646DA002E41C8 /* AdminLabTechTypeView.swift */; };
+		48CFFEBE2C465105002E41C8 /* AdminLabTestAddForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEBD2C465105002E41C8 /* AdminLabTestAddForm.swift */; };
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
 		823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */; };
 		8261F9092C3EF14A00A15B40 /* AdminBedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261F9082C3EF14A00A15B40 /* AdminBedView.swift */; };
@@ -157,7 +160,6 @@
 		32E3790B2C371A380076F2C4 /* TimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePicker.swift; sourceTree = "<group>"; };
 		32E3790D2C3721F30076F2C4 /* DoctorDetailsColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorDetailsColumn.swift; sourceTree = "<group>"; };
 		32E3790F2C3725210076F2C4 /* DoctorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSettings.swift; sourceTree = "<group>"; };
-		32E379132C373F980076F2C4 /* AdminStaffAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffAddView.swift; sourceTree = "<group>"; };
 		480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffInfoView.swift; sourceTree = "<group>"; };
 		4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAppointmentsTable.swift; sourceTree = "<group>"; };
 		4850DB5F2C36BB50001D10A1 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
@@ -166,6 +168,9 @@
 		4850DB6B2C399090001D10A1 /* AdminInPatientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminInPatientView.swift; sourceTree = "<group>"; };
 		4850DB6D2C39D3B2001D10A1 /* AdminPatientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminPatientDetailsView.swift; sourceTree = "<group>"; };
 		48CFFEB72C42FBB8002E41C8 /* LabTechnicianView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTechnicianView.swift; sourceTree = "<group>"; };
+		48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTechTable.swift; sourceTree = "<group>"; };
+		48CFFEBB2C4646DA002E41C8 /* AdminLabTechTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLabTechTypeView.swift; sourceTree = "<group>"; };
+		48CFFEBD2C465105002E41C8 /* AdminLabTestAddForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLabTestAddForm.swift; sourceTree = "<group>"; };
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
 		823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		8261F9082C3EF14A00A15B40 /* AdminBedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBedView.swift; sourceTree = "<group>"; };
@@ -351,6 +356,7 @@
 		32E378F12C367B4A0076F2C4 /* Admin */ = {
 			isa = PBXGroup;
 			children = (
+				48CFFEBF2C466967002E41C8 /* Lab */,
 				328FECBB2C43268C00EFA273 /* Staff */,
 				32E378F22C367CEF0076F2C4 /* AdminDashboardView.swift */,
 				4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */,
@@ -399,7 +405,6 @@
 		480D32062C4168F40028BC62 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				32E379132C373F980076F2C4 /* AdminStaffAddView.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -410,8 +415,18 @@
 				48CFFEB72C42FBB8002E41C8 /* LabTechnicianView.swift */,
 				325112602C45325F007D89F1 /* LabTestView.swift */,
 				325112682C45833D007D89F1 /* LabTestPDFView.swift */,
+				48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */,
 			);
 			path = LabTech;
+			sourceTree = "<group>";
+		};
+		48CFFEBF2C466967002E41C8 /* Lab */ = {
+			isa = PBXGroup;
+			children = (
+				48CFFEBB2C4646DA002E41C8 /* AdminLabTechTypeView.swift */,
+				48CFFEBD2C465105002E41C8 /* AdminLabTestAddForm.swift */,
+			);
+			path = Lab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -506,6 +521,7 @@
 				B0839B8B2C39B13A00930FC9 /* DoctorPatientInfoView.swift in Sources */,
 				32E379042C370A2F0076F2C4 /* DoctorDashboardView.swift in Sources */,
 				32E379062C370ADE0076F2C4 /* DoctorViewModel.swift in Sources */,
+				48CFFEBC2C4646DA002E41C8 /* AdminLabTechTypeView.swift in Sources */,
 				324C9CED2C35CDF400712E84 /* LoginView.swift in Sources */,
 				3265EFBA2C3FB42D005E9603 /* DocumentPickerView.swift in Sources */,
 				3251126F2C45BFD7007D89F1 /* BedBooking.swift in Sources */,
@@ -535,6 +551,7 @@
 				3213A8702C3BE17800509BCB /* User.swift in Sources */,
 				32E378F32C367CEF0076F2C4 /* AdminDashboardView.swift in Sources */,
 				3265EFC02C4006F8005E9603 /* AdminDoctorInfoView.swift in Sources */,
+				48CFFEBE2C465105002E41C8 /* AdminLabTestAddForm.swift in Sources */,
 				82CBE7892C366F250033B971 /* AdminDoctorListView.swift in Sources */,
 				8261F9092C3EF14A00A15B40 /* AdminBedView.swift in Sources */,
 				325042382C3DD12800452C0C /* SearchBar.swift in Sources */,
@@ -564,6 +581,7 @@
 				32E379012C36FB5E0076F2C4 /* AuthViewModel.swift in Sources */,
 				324C9CFF2C35D9B600712E84 /* Roles.swift in Sources */,
 				325042362C3DC60100452C0C /* Int.swift in Sources */,
+				48CFFEBA2C45A20D002E41C8 /* LabTechTable.swift in Sources */,
 				32E378F52C367CF70076F2C4 /* AdminSidebarView.swift in Sources */,
 				32E379082C3715A80076F2C4 /* DoctorSettingView.swift in Sources */,
 				3265EFC92C4055F3005E9603 /* LabTest.swift in Sources */,

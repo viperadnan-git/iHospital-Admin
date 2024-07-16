@@ -25,18 +25,18 @@ struct AdminSidebarView: View {
                 NavigationLink(destination: AdminPatientView()) {
                     Label("Patients", systemImage: "person.2")
                 }
-                NavigationLink(destination: AdminStaffView()
-                ) {
+                NavigationLink(destination: AdminStaffView()) {
                     Label("Staff", systemImage: "person")
                 }
-                NavigationLink(destination: AdminBedView()
-                ) {
+                NavigationLink(destination: AdminLabTechTypeView()) {
+                    Label("Lab Test", systemImage: "flask")
+                }
+                NavigationLink(destination: AdminBedView()) {
                     Label("Bed Management", systemImage: "bed.double")
                 }
             }
             .listStyle(SidebarListStyle())
             .navigationTitle("iHospital")
-            // logout button on bottom
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: onLogOut) {

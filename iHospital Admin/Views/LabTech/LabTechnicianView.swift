@@ -28,10 +28,13 @@ struct LabTechnicianView: View {
                         .bold()
                         .padding()
                     Spacer()
-                    Text("View All")
-                        .font(.subheadline)
-                        .padding()
-                        .foregroundColor(.accentColor)
+                    NavigationLink(destination: LabTechTable()){
+                        Text("View All")
+                            .font(.subheadline)
+                            .padding()
+                            .foregroundColor(.accentColor)
+                    }
+                 
                 }.padding(.horizontal)
                 
                 

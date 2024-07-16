@@ -11,10 +11,12 @@ class LabTestTypeViewModel: ObservableObject {
     @Published var labTestTypes: [LabTestType] = []
     @Published var isLoading = false
     
+    @MainActor
     init() {
         fetchAll()
     }
     
+    @MainActor
     func fetchAll()  {
         Task {
             isLoading = true
@@ -23,7 +25,8 @@ class LabTestTypeViewModel: ObservableObject {
             }
             
             do {
-                labTestTypes = try await LabTestType.fetchAll()
+                let labTestTypes = try await LabTestType.fetchAll()
+                self.labTestTypes = labTestTypes
             } catch {
                 print("Error fetching lab test types: \(error)")
             }
@@ -32,16 +35,22 @@ class LabTestTypeViewModel: ObservableObject {
     
     func new(name: String, price: Int, description: String) async throws {
         _ = try await LabTestType.new(name: name, price: price, description: description)
-        fetchAll()
+        DispatchQueue.main.async {
+            self.fetchAll()
+        }
     }
     
     func save(labTestType: LabTestType) async throws {
         _ = try await labTestType.save()
-        fetchAll()
+        DispatchQueue.main.async {
+            self.fetchAll()
+        }
     }
     
     func delete(labTestType: LabTestType) async throws {
         _ = try await labTestType.delete()
-        fetchAll()
+        DispatchQueue.main.async {
+            self.fetchAll()
+        }
     }
 }
