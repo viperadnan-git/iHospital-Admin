@@ -120,10 +120,11 @@ struct BillingList:View {
                 Spacer()
                 VStack {
                     Text("No invoices found")
-                        .font(.headline) // Makes the text bold
+                        .font(.headline)
+                        .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                 }
-                .frame(maxWidth: .infinity) // Makes sure the VStack takes the full width of the parent
+                .frame(maxWidth: .infinity)
                 Spacer()
             } else {
                 Table(invoices) {
