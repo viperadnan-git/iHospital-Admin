@@ -15,7 +15,6 @@ class Appointment: Codable, Hashable, Identifiable {
     let doctor: Doctor
     let user: User
     let date: Date
-    var paymentStatus: PaymentStatus
     var status: AppointmentStatus
     let createdAt: Date
 
@@ -25,7 +24,6 @@ class Appointment: Codable, Hashable, Identifiable {
         case doctor
         case user
         case date
-        case paymentStatus = "payment_status"
         case status = "appointment_status"
         case createdAt = "created_at"
     }
@@ -46,18 +44,16 @@ class Appointment: Codable, Hashable, Identifiable {
         patient: Patient.sample,
         doctor: Doctor.sample,
         date: Date(),
-        paymentStatus: .pending,
         status: .pending,
         user: User.sample,
         createdAt: Date()
     )
 
-    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, paymentStatus: PaymentStatus, status: AppointmentStatus, user: User, createdAt: Date = Date()) {
+    init(id: Int = 0, patient: Patient, doctor: Doctor, date: Date, status: AppointmentStatus, user: User, createdAt: Date = Date()) {
         self.id = id
         self.patient = patient
         self.doctor = doctor
         self.date = date
-        self.paymentStatus = paymentStatus
         self.status = status
         self.user = user
         self.createdAt = createdAt
@@ -80,7 +76,6 @@ class Appointment: Codable, Hashable, Identifiable {
         
         self.date = date
         self.createdAt = createdAt
-        paymentStatus = try container.decode(PaymentStatus.self, forKey: .paymentStatus)
         status = try container.decode(AppointmentStatus.self, forKey: .status)
     }
     

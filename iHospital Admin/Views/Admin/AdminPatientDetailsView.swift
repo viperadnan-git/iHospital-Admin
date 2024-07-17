@@ -135,7 +135,7 @@ struct BillingList:View {
                     TableColumn("Payment Type", value: \.paymentType.name)
                     TableColumn("Date", value: \.createdAt.dateTimeString)
                     TableColumn("Status") {
-                        InvoiceStatusIndicator(status: $0.status)
+                        PaymentStatusIndicator(status: $0.status)
                     }
                 }
             }
@@ -162,7 +162,7 @@ struct BillingList:View {
 }
 
 
-struct InvoiceStatusIndicator: View {
+struct PaymentStatusIndicator: View {
     var status: PaymentStatus
     var body: some View {
         HStack {
