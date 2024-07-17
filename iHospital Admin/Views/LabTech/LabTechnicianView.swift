@@ -17,7 +17,7 @@ struct LabTechnicianView: View {
         NavigationStack {
             VStack {
                 HStack{
-                    LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Tota; Tests", color: .blue)
+                    LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Total Tests", color: .blue)
                     LabTechCard(title:"4", subtitle: "Sample Left", color: .green)
                 }
                 .padding()

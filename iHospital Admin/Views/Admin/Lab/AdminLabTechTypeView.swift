@@ -72,6 +72,10 @@ struct AdminLabTechTypeView: View {
         } else {
             return viewModel.labTestTypes.filter { labTestType in
                 labTestType.name.lowercased().contains(searchText.lowercased())
+                ||
+                labTestType.id.string.lowercased().contains(searchText.lowercased())
+                ||
+                labTestType.description.lowercased().contains(searchText.lowercased())
             }
         }
     }

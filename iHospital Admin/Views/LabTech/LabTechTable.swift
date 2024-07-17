@@ -13,24 +13,33 @@ struct LabTechTable: View {
     @State private var searchText:String = ""
     
     var body: some View {
-        Table(filteredLabTests) {
-            TableColumn("Name", value: \.patient.name)
-            TableColumn("Gender",value: \.patient.gender.id.capitalized)
-            TableColumn("Age", value: \.patient.dateOfBirth.ago)
-            TableColumn("Status") { test in
-                LabTestStatusIndicator(status: test.status)
-            }
-            //            TableColumn("") { test in
-            //                NavigationLink(destination: LabTestView(testId: test.id)){
-            //                    HStack{
-            //                        Image(systemName: "chevron.right")
-            //
-            //                    }
-            //                }
-            //
-            //            }.width(40)
-        }.searchable(text: $searchText)
-            .navigationTitle("All Lab Tests")
+        
+        if labTechViewModel.isLoading {
+            CenterSpinner()
+        } else {
+            Table(filteredLabTests) {
+                TableColumn("Name", value: \.patient.name)
+                TableColumn("Gender",value: \.patient.gender.id.capitalized)
+                TableColumn("Age", value: \.patient.dateOfBirth.ago)
+                TableColumn("Test", value: \.test.name)
+                TableColumn("Status") { test in
+                    LabTestStatusIndicator(status: test.status)
+                }
+                TableColumn("") { test in
+                    NavigationLink(destination: LabTestView(testId: test.id).environmentObject(labTechViewModel)){
+                        HStack{
+                            Image(systemName: "chevron.right")
+                            
+                        }
+                    }
+                    
+                }.width(40)
+            }.searchable(text: $searchText)
+                .navigationTitle("All Lab Tests")
+                .refreshable {
+                    labTechViewModel.fetchLabTests(showLoader: false)
+                }
+        }
         
         
         
@@ -44,6 +53,9 @@ struct LabTechTable: View {
                 labTest.patient.name.lowercased().contains(searchText.lowercased())
                 ||
                 labTest.patient.phoneNumber.string
+                    .contains(searchText.lowercased())
+                ||
+                labTest.test.name.lowercased()
                     .contains(searchText.lowercased())
             }
         }
