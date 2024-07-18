@@ -13,7 +13,6 @@ struct DoctorDashboardView: View {
     @StateObject private var navigation = NavigationManager()
     
     @State private var searchText = ""
-    @State private var appointments: [Appointment] = []
 
     var body: some View {
         if doctorViewModel.isLoading {
@@ -32,7 +31,7 @@ struct DoctorDashboardView: View {
                                     .overlay(
                                         VStack(alignment: .leading) {
                                             HStack(alignment: .bottom) {
-                                                Text(doctorViewModel.pendingAppointments.count.string + "/")
+                                                Text(doctorViewModel.remainingAppointments.count.string + "/")
                                                     .font(.system(size: 80, weight: .bold))
                                                 Text(doctorViewModel.appointments.count.string)
                                             }.foregroundColor(.white)
@@ -40,7 +39,7 @@ struct DoctorDashboardView: View {
                                             
                                             Spacer()
                                             
-                                            Text("Pending / Total")
+                                            Text("Remaining / Total")
                                                 .font(.caption)
                                                 .textCase(.uppercase)
                                                 .fontWeight(.semibold)
@@ -57,19 +56,22 @@ struct DoctorDashboardView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.purple)
                                     .overlay(
-                                        VStack(alignment: .leading, spacing: 10) {
-                                            Text(9800.formatted(.currency(code: Constants.currencyCode)))
+                                        VStack(alignment: .leading) {
+                                            Spacer()
+                                            Text(doctorViewModel.revenue.formatted(.currency(code: Constants.currencyCode)))
                                                 .foregroundColor(.white)
-                                                .font(.system(size: 60, weight: .bold))
+                                                .font(.system(size: 30, weight: .bold))
                                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.top, 1)
+                                            Text("Today's")
+                                                .font(.caption)
+                                                .textCase(.uppercase)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(.white)
                                             Text("Revenue")
                                                 .font(.title2)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)
                                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.top, 40)
-                                            Spacer()
                                         }
                                             .padding()
                                     )

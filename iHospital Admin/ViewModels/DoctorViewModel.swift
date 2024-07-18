@@ -4,6 +4,7 @@ import Supabase
 class DoctorViewModel: ObservableObject {
     @Published var doctor: Doctor?
     @Published var appointments: [Appointment] = []
+    @Published var revenue = 0
     @Published var isLoading = true
     @Published var currentAppointment: Appointment?
     @Published var nextAppointment: Appointment?
@@ -54,6 +55,7 @@ class DoctorViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.appointments = appointments.sorted { $0.date < $1.date }
                     self.updateCurrentAndNextAppointment()
+                    self.updateRevenue()
                 }
             } catch {
                 print("Error fetching appointments: \(error)")
@@ -66,8 +68,9 @@ class DoctorViewModel: ObservableObject {
         fetchAppointments(for: Date())
     }
     
-    var pendingAppointments: [Appointment] {
-        appointments.filter { $0.status == .pending }
+    var remainingAppointments: [Appointment] {
+        let now = Date()
+        return appointments.filter { ($0.status == .pending || $0.status == .confirmed) && $0.date > now }
     }
     
     private func startAppointmentTimer() {
@@ -107,6 +110,14 @@ class DoctorViewModel: ObservableObject {
                 break
             }
         }
+    }
+    
+    private func updateRevenue() {
+        guard let fee = doctor?.fee else {
+            return
+        }
+        
+        self.revenue = fee * appointments.count
     }
     
     deinit {

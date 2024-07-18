@@ -69,7 +69,7 @@ struct DoctorDetailsColumn: View {
                 }
                 
                 Section(header: Text("Account Settings")) {
-                    NavigationLink(destination: ChangePasswordView()) {
+                    NavigationLink(destination: ChangePasswordView(shouldDismiss: true)) {
                         Text("Change Password")
                     }
                 }

@@ -10,78 +10,84 @@ import SwiftUI
 struct LabTechnicianView: View {
     @StateObject private var labTechViewModel = LabTechViewModel()
     
+    @StateObject var errorAlertMesssage = ErrorAlertMessage(title: "Failed to laod")
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                HStack(spacing: 16) {
-                    LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Total Tests", color: .accent)
-                    ForEach(LabTestStatus.allCases, id: \.self) { status in
-                        if let count = labTechViewModel.statusCounts[status] {
-                            LabTechCard(title: count.string, subtitle: status.rawValue, color: status.color)
-                        } else {
-                            LabTechCard(subtitle: status.rawValue, color: status.color)
+            
+            if labTechViewModel.isLoading {
+                CenterSpinner()
+            } else {
+                VStack {
+                    HStack(spacing: 16) {
+                        LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Total Tests", color: .accent)
+                        ForEach(LabTestStatus.allCases, id: \.self) { status in
+                            if let count = labTechViewModel.statusCounts[status] {
+                                LabTechCard(title: count.string, subtitle: status.rawValue, color: status.color)
+                            } else {
+                                LabTechCard(subtitle: status.rawValue, color: status.color)
+                            }
                         }
                     }
-                }
-                .padding()
-                
-                HStack {
-                    Text("Lab Tests")
-                        .font(.title)
-                        .bold()
-                        .padding()
-                    Spacer()
-                    NavigationLink(destination: LabTechTable()) {
-                        Text("View All")
-                            .font(.subheadline)
+                    .padding()
+                    
+                    HStack {
+                        Text("Lab Tests")
+                            .font(.title)
+                            .bold()
                             .padding()
-                            .foregroundColor(.accentColor)
+                        Spacer()
+                        NavigationLink(destination: LabTechTable()) {
+                            Text("View All")
+                                .font(.subheadline)
+                                .padding()
+                                .foregroundColor(.accentColor)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    if labTechViewModel.labTests.isEmpty {
+                        Spacer()
+                        Text("No lab tests")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                        Spacer()
+                    } else {
+                        Table(labTechViewModel.labTests) {
+                            TableColumn("Name", value: \.patient.name)
+                            TableColumn("Gender", value: \.patient.gender.id.capitalized)
+                            TableColumn("Age", value: \.patient.dateOfBirth.ago)
+                            TableColumn("Test", value: \.test.name)
+                            TableColumn("Status") { test in
+                                LabTestStatusIndicator(status: test.status)
+                            }
+                            TableColumn("") { test in
+                                NavigationLink(destination: LabTestView(testId: test.id).environmentObject(labTechViewModel)) {
+                                    Image(systemName: "chevron.forward")
+                                }
+                            }
+                            .width(40)
+                        }
+                        .refreshable {
+                            labTechViewModel.updateLabTests(showLoader: false)
+                        }.errorAlert(errorAlertMessage: errorAlertMesssage)
                     }
                 }
-                .padding(.horizontal)
                 
-                if labTechViewModel.isLoading {
-                    CenterSpinner()
-                } else if labTechViewModel.labTests.isEmpty {
-                    Spacer()
-                    Text("No lab tests")
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                    Spacer()
-                } else {
-                    Table(labTechViewModel.labTests) {
-                        TableColumn("Name", value: \.patient.name)
-                        TableColumn("Gender", value: \.patient.gender.id.capitalized)
-                        TableColumn("Age", value: \.patient.dateOfBirth.ago)
-                        TableColumn("Test", value: \.test.name)
-                        TableColumn("Status") { test in
-                            LabTestStatusIndicator(status: test.status)
-                        }
-                        TableColumn("") { test in
-                            NavigationLink(destination: LabTestView(testId: test.id).environmentObject(labTechViewModel)) {
-                                Image(systemName: "chevron.forward")
+                .navigationTitle("Hello \(labTechViewModel.labTech?.name ?? "Lab Technician")")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            Task {
+                                do {
+                                    try await SupaUser.logout()
+                                } catch {
+                                    print(error)
+                                }
                             }
+                        }) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right.fill")
                         }
-                        .width(40)
-                    }
-                    .refreshable {
-                        labTechViewModel.fetchLabTests(showLoader: false)
-                    }
-                }
-            }
-            .navigationTitle("Lab Technician")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        Task {
-                            do {
-                                try await SupaUser.logout()
-                            } catch {
-                                print(error)
-                            }
-                        }
-                    }) {
-                        Image(systemName: "rectangle.portrait.and.arrow.right.fill")
                     }
                 }
             }

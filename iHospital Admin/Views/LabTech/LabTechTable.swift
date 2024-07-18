@@ -12,6 +12,8 @@ struct LabTechTable: View {
     @StateObject private var labTechViewModel = LabTechViewModel()
     @State private var searchText:String = ""
     
+    @StateObject var errorAlertMesssage = ErrorAlertMessage(title: "Failed to laod")
+    
     var body: some View {
         
         if labTechViewModel.isLoading {
@@ -37,8 +39,8 @@ struct LabTechTable: View {
             }.searchable(text: $searchText)
                 .navigationTitle("All Lab Tests")
                 .refreshable {
-                    labTechViewModel.fetchLabTests(showLoader: false)
-                }
+                    labTechViewModel.updateLabTests(showLoader: false)
+                }.errorAlert(errorAlertMessage: errorAlertMesssage)
         }
         
         

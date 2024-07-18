@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ChangePasswordView: View {
+    var shouldDismiss = false
+    
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var isLoading = false
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authViewModel: AuthViewModel
     
     @FocusState private var focusedField: Field?
@@ -136,6 +139,10 @@ struct ChangePasswordView: View {
                 errorAlertMessage.title = "Password Updated"
                 errorAlertMessage.message = "Your password has been updated successfully"
                 authViewModel.shouldChangePassword = false
+                
+                if shouldDismiss {
+                    dismiss()
+                }
             } catch {
                 errorAlertMessage.message = error.localizedDescription
             }
