@@ -28,12 +28,12 @@ struct ChangePasswordView: View {
     var body: some View {
         HStack {
             VStack {
-                Image("fp")
+                Image("fp2")
                     .resizable()
                     .scaledToFit()
             }
             VStack {
-                Text("Update Password")
+                Text("Change Password")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
@@ -92,7 +92,7 @@ struct ChangePasswordView: View {
                     }
                     
                     LoaderButton(isLoading: $isLoading, action: onUpdatePassword) {
-                        Text("Update Password")
+                        Text("Change Password")
                     }
                     .buttonStyle(.borderedProminent)
                 }

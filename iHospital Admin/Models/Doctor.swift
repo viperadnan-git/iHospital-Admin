@@ -230,4 +230,11 @@ class Doctor: Codable, Hashable {
         
         return response
     }
+    
+    func delete() async throws {
+        try await supabase.from(SupabaseTable.doctors.id)
+            .delete()
+            .eq("user_id", value: userId)
+            .execute()
+    }
 }

@@ -52,7 +52,7 @@ class DoctorViewModel: ObservableObject {
             do {
                 let appointments = try await doctor.fetchAppointments(for: date)
                 DispatchQueue.main.async {
-                    self.appointments = appointments
+                    self.appointments = appointments.sorted { $0.date < $1.date }
                     self.updateCurrentAndNextAppointment()
                 }
             } catch {

@@ -26,6 +26,8 @@ struct MedicalRecord: Codable, Identifiable {
     
     static let supabaseSelectQuery = "*, appointment:appointment_id(\(Appointment.supabaseSelectQuery)), patient:patient_id(*)"
     
+    static let sample = MedicalRecord(id: 1, note: "Patient has a fever", imagePath: "https://supabase.io/storage/v1/object/public/medical-records/1.jpg,https://supabase.io/storage/v1/object/public/medical-records/2.jpg", medicines: ["AZ Medicine", "AB Medicine"], appointment: Appointment.sample, patient: Patient.sample)
+    
     func loadImage() async throws -> Data {
         try await supabase.storage.from(SupabaseBucket.medicalRecords.id).download(path: imagePath)
     }

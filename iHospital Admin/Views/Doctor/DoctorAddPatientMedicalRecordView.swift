@@ -14,6 +14,7 @@ struct DoctorAddPatientMedicalRecordView: View {
     @Environment(\.displayScale) var displayScale
     @EnvironmentObject private var doctorViewModel: DoctorViewModel
     @EnvironmentObject private var navigation: NavigationManager
+    @Environment(\.colorScheme) var colorScheme
     
     @Binding var isPresented: Bool
     @Binding var note: String
@@ -109,9 +110,6 @@ struct DoctorAddPatientMedicalRecordView: View {
                 Section(header: Text("Lab Tests")) {
                     ForEach($labTests) { $labTest in
                         HStack {
-                            TextField("Lab Test Name", text: $labTest.name)
-                                .disabled(true)
-                            Spacer()
                             Menu {
                                 ForEach(labTestTypes, id: \.id) { test in
                                     Button(action: {
@@ -124,6 +122,7 @@ struct DoctorAddPatientMedicalRecordView: View {
                             } label: {
                                 Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.name)
                             }
+                            Spacer()
                             Divider()
                             Button {
                                 if let index = labTests.firstIndex(where: { $0.id == labTest.id }) {
@@ -193,10 +192,13 @@ struct DoctorAddPatientMedicalRecordView: View {
             }
             
             do {
-                let selectedLabTestIds = labTests.map { Int($0.selectedTest) ?? 0 }
+                let selectedLabTestIds = labTests.filter { !$0.selectedTest.isEmpty }.compactMap { Int($0.selectedTest) ?? 0 }
+                let backgroundColor = colorScheme == .dark ? UIColor.black : UIColor.white
+                let imageData = canvasView.drawingImage(from: canvasView.bounds, scale: displayScale, backgroundColor: backgroundColor)?.pngData()
+                
                 try await MedicalRecord.new(
                     note: note,
-                    image: canvasView.drawing.image(from: canvasView.bounds, scale: 1).pngData()!,
+                    image: imageData!,
                     medicines: medicines,
                     labTests: selectedLabTestIds,
                     appointment: appointment

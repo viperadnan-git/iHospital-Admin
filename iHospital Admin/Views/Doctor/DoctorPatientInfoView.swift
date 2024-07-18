@@ -20,6 +20,8 @@ struct DoctorPatientInfoView: View {
     @State private var labTests: [LabTestItem] = []
     @State private var canvasHeight: CGFloat = 200
     @State private var showAlert = false
+    @State private var selectedMedicalRecord: MedicalRecord?
+    @State private var selectedLabTest: LabTest?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -117,7 +119,7 @@ struct DoctorPatientInfoView: View {
                             }
                         }
                         
-                        PatientMedicalRecords(patient: patient)
+                        PatientMedicalRecords(patient: patient, selectedMedicalRecord: $selectedMedicalRecord)
                     }
                     
                     VStack(alignment: .leading) {
@@ -125,13 +127,12 @@ struct DoctorPatientInfoView: View {
                             .font(.title3)
                             .bold()
                         
-                        PatientLabTestReports(patient: patient)
+                        PatientLabTestReports(patient: patient, selectedLabTest: $selectedLabTest)
                     }
                 }
                 .frame(width: geometry.size.width * 0.56)
             }
         }
-        .navigationTitle("\(patient.name)'s Profile")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: Button(action: {
@@ -152,15 +153,21 @@ struct DoctorPatientInfoView: View {
                 secondaryButton: .cancel()
             )
         }
+        .sheet(item: $selectedMedicalRecord) { medicalRecord in
+            MedicalRecordDetailView(medicalRecord: medicalRecord)
+        }
+        .sheet(item: $selectedLabTest) { labTest in
+            LabTestDetailView(labTest: labTest)
+        }
     }
 }
-
 
 struct PatientMedicalRecords: View {
     var patient: Patient
     
     @State private var isLoading: Bool = false
     @State private var medicalRecords: [MedicalRecord] = []
+    @Binding var selectedMedicalRecord: MedicalRecord?
     
     @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load medical records")
     
@@ -168,10 +175,10 @@ struct PatientMedicalRecords: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(medicalRecords) { medicalRecord in
-                    MedicalRecordCardView(medicalRecord: medicalRecord)
-                    .frame(width: 250)
-                    .cornerRadius(10)
-                    .padding(.vertical)
+                    MedicalRecordCardView(medicalRecord: medicalRecord, selectedMedicalRecord: $selectedMedicalRecord)
+                        .frame(width: 250)
+                        .cornerRadius(10)
+                        .padding(.vertical)
                 }
             }
             .padding(.horizontal)
@@ -194,9 +201,9 @@ struct PatientMedicalRecords: View {
     }
 }
 
-
 struct MedicalRecordCardView: View {
     var medicalRecord: MedicalRecord
+    @Binding var selectedMedicalRecord: MedicalRecord?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -223,7 +230,7 @@ struct MedicalRecordCardView: View {
             
             HStack(spacing: 8) {
                 Button(action: {
-                    
+                    selectedMedicalRecord = medicalRecord
                 }) {
                     Text("View")
                         .padding(.vertical, 8)
@@ -246,6 +253,7 @@ struct PatientLabTestReports: View {
     
     @State private var isLoading: Bool = false
     @State private var labTests: [LabTest] = []
+    @Binding var selectedLabTest: LabTest?
     
     @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load lab tests")
     
@@ -253,7 +261,7 @@ struct PatientLabTestReports: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 20) {
                 ForEach(labTests) { labTest in
-                    LabTestCardView(labTest: labTest)
+                    LabTestCardView(labTest: labTest, selectedLabTest: $selectedLabTest)
                         .frame(width: 250)
                         .cornerRadius(10)
                         .padding(.vertical)
@@ -282,6 +290,7 @@ struct PatientLabTestReports: View {
 
 struct LabTestCardView: View {
     var labTest: LabTest
+    @Binding var selectedLabTest: LabTest?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -307,7 +316,7 @@ struct LabTestCardView: View {
             
             HStack(spacing: 8) {
                 Button(action: {
-                    
+                    selectedLabTest = labTest
                 }) {
                     Text("View")
                         .padding(.vertical, 8)
@@ -339,7 +348,6 @@ struct LabTestStatusIndicator: View {
     }
 }
 
-
 #Preview {
-        DoctorPatientInfoView(appointment: Appointment.sample)
+    DoctorPatientInfoView(appointment: Appointment.sample)
 }

@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct AdminDoctorInfoView: View {
-    
     var doctor: Doctor
     var doctorsDepartment: Department
+    
     @State private var showEditSheet = false
     @State private var showAlert = false
     @Environment(\.presentationMode) var presentationMode
-
-
+    
+    @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to delete doctor")
+    
     
     var body: some View {
         Form {
@@ -88,10 +89,10 @@ struct AdminDoctorInfoView: View {
             .alert(isPresented: $showAlert,content: {
                 Alert(title: Text("Delete Doctor's Info"), message: Text("Are you sure you want to delete this doctor information?"), primaryButton: .destructive(Text("Delete"),action: {
                     deleteDoctor()
-
+                    
                 }), secondaryButton: .cancel())
             })
-
+            
         }
         .sheet(isPresented: $showEditSheet) {
             AdminDoctorAddView(department: doctorsDepartment,doctor: doctor)
@@ -103,16 +104,24 @@ struct AdminDoctorInfoView: View {
                 }
             }
         }
-   
+        
     }
-    private func deleteDoctor(){
-         print("Deleted Succefully")
-         presentationMode.wrappedValue.dismiss()
-
-     }
+    
+    private func deleteDoctor() {
+        print("Deleted Succefully")
+        
+        Task {
+            do {
+                try await doctor.delete()
+                presentationMode.wrappedValue.dismiss()
+            } catch {
+                errorAlertMessage.message = error.localizedDescription
+            }
+        }
+    }
 }
 
-//#Preview {
-//    AdminDoctorInfoView(d)
-//}
+#Preview {
+    AdminDoctorInfoView(doctor: .sample, doctorsDepartment: .sample)
+}
 

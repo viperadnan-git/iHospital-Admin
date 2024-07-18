@@ -66,7 +66,10 @@ struct DoctorDetailsColumn: View {
                     }
                 }
                 
-                Section(header: Text("Danger zone")) {
+                Section(header: Text("Account Settings")) {
+                    NavigationLink(destination: ChangePasswordView()) {
+                        Text("Change Password")
+                    }
                     Button(role: .destructive, action: logOut) {
                         Text("Log Out").frame(maxWidth: .infinity, alignment: .center)
                     }

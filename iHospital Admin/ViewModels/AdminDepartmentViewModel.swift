@@ -19,6 +19,7 @@ class AdminDepartmentViewModel: ObservableObject {
     
     func fetchDepartments(showLoader: Bool = true, force: Bool = false) {
         isLoading = showLoader
+
         Task {
             do {
                 let fetchedDepartments = try await Department.fetchAll(force: force)
