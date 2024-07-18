@@ -98,6 +98,15 @@ class LabTest: Codable, Identifiable {
         
         return response
     }
+    
+    static func count() async throws -> Int {
+        let response = try await supabase.from(SupabaseTable.labTests.id)
+            .select("*", head: true, count: .exact)
+            .execute()
+            .count
+        
+        return response ?? 0
+    }
 }
 
 

@@ -25,6 +25,8 @@ var totalPatients = [
 struct AdminDashboardView: View {
     @State private var appointments: [Appointment] = []
     @State private var isLoading = false
+    @State private var doctorCount: Int = 0
+    @State private var labTestCount: Int = 0
     @StateObject var patientViewModel = PatientViewModel()
     @State private var sortOrder = [KeyPathComparator(\Appointment.date, order: .forward)]
     
@@ -40,15 +42,15 @@ struct AdminDashboardView: View {
                         HStack(spacing: 20) {
                             OverviewCard(title: .constant(appointments.count.string), subtitle: "Appointments", color: .pink)
                                 .frame(maxWidth: .infinity)
-                            OverviewCard(title: .constant(patientViewModel.patients.count.string), subtitle: "New Patients", color: .purple)
+                            OverviewCard(title: .constant(patientViewModel.patients.count.string), subtitle: "Patients", color: .purple)
                                 .frame(maxWidth: .infinity)
                         }
                         .padding([.trailing],10)
                         .frame(maxWidth: .infinity)
 
                         HStack(spacing: 20) {
-                            OverviewCard(title: .constant("7"), subtitle: "Available Doctors", color: .yellow)
-                            OverviewCard(title: .constant("13"), subtitle: "Lab Tests", color: .blue)
+                            OverviewCard(title: .constant(doctorCount.string), subtitle: "Available Doctors", color: .yellow)
+                            OverviewCard(title: .constant(labTestCount.string), subtitle: "Lab Tests", color: .blue)
                         }
                         .padding(.top,0)
                         .padding(.trailing,10)
@@ -60,13 +62,13 @@ struct AdminDashboardView: View {
                     .cornerRadius(12)
                     Divider()
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Today's Revenue")
+                        Text("Revenue")
                             .padding([.top,.trailing],20)
                             .font(.title3)
                             .bold()
                         
                         VStack(){
-                            OverviewCard(title: .constant("XYZ"), subtitle: "Total Revenue", color: .purple)
+                            OverviewCard(title: .constant("XYZ"), subtitle: "Today Revenue", color: .purple)
                                 .padding([.trailing],30)
                                 .padding(.bottom,15)
 
@@ -128,9 +130,25 @@ struct AdminDashboardView: View {
             do {
                 let appointments = try await Appointment.fetchAppointments(forDate: Date())
                 self.appointments = appointments.sorted(by: { $0.date < $1.date })
+                await self.fetchCounts()
             } catch {
                 print("Error fetching appointments: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func fetchCounts() async {
+        do {
+            async let doctorAsync = Doctor.count()
+            async let labTestsAsync = LabTest.count()
+            
+            let (doctorCount, labTestCount) = try await (doctorAsync, labTestsAsync)
+            
+            self.doctorCount = doctorCount
+            self.labTestCount = labTestCount
+//            print("Doctor Count: \(doctorCount), Lab Test Count: \(labTestCount)")
+        } catch {
+            print(error)
         }
     }
 }
