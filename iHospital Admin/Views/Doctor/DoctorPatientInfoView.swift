@@ -243,7 +243,7 @@ struct MedicalRecordCardView: View {
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
             
-            Image.asyncImage(loadData: medicalRecord.loadImage)
+            Image.asyncImage(loadData: medicalRecord.loadImage, cacheKey: "MRIMAGE#\(medicalRecord.id)")
                 .frame(maxWidth: .infinity)
             
             Spacer()

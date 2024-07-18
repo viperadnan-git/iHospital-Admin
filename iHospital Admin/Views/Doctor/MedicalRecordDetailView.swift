@@ -38,7 +38,7 @@ struct MedicalRecordDetailView: View {
                 }
                 
                 Section(header: Text("Pencil Note")) {
-                    Image.asyncImage(loadData: medicalRecord.loadImage)
+                    Image.asyncImage(loadData: medicalRecord.loadImage, cacheKey: "MRIMAGE#\(medicalRecord.id)")
                         .frame(maxWidth: .infinity, minHeight: 200)
                         .background(Color(.systemGray6))
                         .cornerRadius(10)

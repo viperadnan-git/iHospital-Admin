@@ -17,12 +17,7 @@ struct DoctorDetailsColumn: View {
         if let doctor = doctorDetailViewModel.doctor {
             Form {
                 Section {
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                        .clipShape(Circle())
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    ProfileImageChangeable(userId: doctor.userId)
                 }
                 
                 Section(header: Text("Doctor Details")) {

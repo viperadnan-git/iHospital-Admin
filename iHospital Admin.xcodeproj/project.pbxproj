@@ -76,6 +76,9 @@
 		32ECFA452C48E6E8003E7B47 /* MedicalRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA442C48E6E8003E7B47 /* MedicalRecordDetailView.swift */; };
 		32ECFA472C48E70C003E7B47 /* LabTestDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA462C48E70C003E7B47 /* LabTestDetailView.swift */; };
 		32ECFA492C48ED08003E7B47 /* PKCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA482C48ED08003E7B47 /* PKCanvasView.swift */; };
+		32ECFA4B2C49114D003E7B47 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA4A2C49114D003E7B47 /* ProfileImage.swift */; };
+		32ECFA4D2C4915B5003E7B47 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA4C2C4915B5003E7B47 /* ImagePicker.swift */; };
+		32ECFA4F2C491636003E7B47 /* ProfileImageChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECFA4E2C491636003E7B47 /* ProfileImageChangeable.swift */; };
 		480D32052C40E9480028BC62 /* AdminStaffInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */; };
 		4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */; };
 		4850DB602C36BB50001D10A1 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4850DB5F2C36BB50001D10A1 /* Appointment.swift */; };
@@ -166,6 +169,9 @@
 		32ECFA442C48E6E8003E7B47 /* MedicalRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicalRecordDetailView.swift; sourceTree = "<group>"; };
 		32ECFA462C48E70C003E7B47 /* LabTestDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTestDetailView.swift; sourceTree = "<group>"; };
 		32ECFA482C48ED08003E7B47 /* PKCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKCanvasView.swift; sourceTree = "<group>"; };
+		32ECFA4A2C49114D003E7B47 /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
+		32ECFA4C2C4915B5003E7B47 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		32ECFA4E2C491636003E7B47 /* ProfileImageChangeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageChangeable.swift; sourceTree = "<group>"; };
 		480D32042C40E9480028BC62 /* AdminStaffInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStaffInfoView.swift; sourceTree = "<group>"; };
 		4850DB5D2C369E56001D10A1 /* AdminAppointmentsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminAppointmentsTable.swift; sourceTree = "<group>"; };
 		4850DB5F2C36BB50001D10A1 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
@@ -338,6 +344,9 @@
 				325112622C45760A007D89F1 /* PDFKitRepresentedView.swift */,
 				325112642C457756007D89F1 /* DocumentScannerView.swift */,
 				3251126A2C4583E5007D89F1 /* CenterSpinner.swift */,
+				32ECFA4A2C49114D003E7B47 /* ProfileImage.swift */,
+				32ECFA4C2C4915B5003E7B47 /* ImagePicker.swift */,
+				32ECFA4E2C491636003E7B47 /* ProfileImageChangeable.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -543,6 +552,7 @@
 				48CFFEB82C42FBB8002E41C8 /* LabTechnicianView.swift in Sources */,
 				325112632C45760A007D89F1 /* PDFKitRepresentedView.swift in Sources */,
 				324C9D052C35E24500712E84 /* LoaderButton.swift in Sources */,
+				32ECFA4F2C491636003E7B47 /* ProfileImageChangeable.swift in Sources */,
 				D54FB27F2C3672270011304E /* Patient.swift in Sources */,
 				325042342C3DB85B00452C0C /* DoctorAppointmentsTable.swift in Sources */,
 				4850DB5E2C369E56001D10A1 /* AdminAppointmentsTable.swift in Sources */,
@@ -575,6 +585,7 @@
 				32E3790E2C3721F30076F2C4 /* DoctorDetailsColumn.swift in Sources */,
 				823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */,
 				3251126D2C45BFBC007D89F1 /* Invoice.swift in Sources */,
+				32ECFA4B2C49114D003E7B47 /* ProfileImage.swift in Sources */,
 				3265EFB82C3FB3A0005E9603 /* DrawingCanvasView.swift in Sources */,
 				3265EFB62C3FA6AD005E9603 /* PDFCreator.swift in Sources */,
 				325112712C464BAD007D89F1 /* LabTestType.swift in Sources */,
@@ -589,6 +600,7 @@
 				324C9CFC2C35D85800712E84 /* SupaUser.swift in Sources */,
 				4850DB6A2C398BD0001D10A1 /* AdminOutPatientView.swift in Sources */,
 				32ECFA492C48ED08003E7B47 /* PKCanvasView.swift in Sources */,
+				32ECFA4D2C4915B5003E7B47 /* ImagePicker.swift in Sources */,
 				32E379012C36FB5E0076F2C4 /* AuthViewModel.swift in Sources */,
 				32ECFA452C48E6E8003E7B47 /* MedicalRecordDetailView.swift in Sources */,
 				324C9CFF2C35D9B600712E84 /* Roles.swift in Sources */,

@@ -211,10 +211,8 @@ struct DoctorDashboardView: View {
                         trailing: Button {
                             navigation.path.append("settings")
                         } label: {
-                            Image(systemName: "person.crop.circle.fill")
-                                .resizable()
+                            ProfileImage(userId: doctorViewModel.doctor?.userId ?? UUID())
                                 .frame(width: 40, height: 40)
-                                .clipShape(Circle())
                         }
                     )
                 }

@@ -70,6 +70,11 @@ struct SupaUser: Codable {
         return SupaUser(user: user, role: role["role"]!)
     }
     
+    func uploadImage(image: Data) async throws {
+        let path = "\(user.id.uuidString.lowercased())/avatar.jpeg"
+        try await supabase.storage.from(SupabaseBucket.avatars.id).upload(path: path, file: image, options: .init(upsert: true))
+    }
+    
     func updatePassword(password: String) async throws {
         try await supabase.auth.update(user: UserAttributes(password: password))
     }
