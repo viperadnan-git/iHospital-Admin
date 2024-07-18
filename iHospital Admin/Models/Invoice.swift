@@ -24,6 +24,16 @@ enum PaymentType: String, Codable {
     }
 }
 
+struct RevenueCount: Codable {
+    var todayRevenue: Int
+    var totalRevenue: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case todayRevenue = "today_revenue"
+        case totalRevenue = "total_revenue"
+    }
+}
+
 struct Invoice: Identifiable, Codable {
     var id: Int
     var createdAt: Date
@@ -97,6 +107,11 @@ struct Invoice: Identifiable, Codable {
             .execute()
             .value
         
+        return response
+    }
+    
+    static func fetchRevenue() async throws -> RevenueCount {
+        let response: RevenueCount = try await supabase.rpc("get_invoice_totals").execute().value
         return response
     }
 }

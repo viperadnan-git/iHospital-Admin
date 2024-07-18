@@ -39,9 +39,6 @@ struct AdminSidebarView: View {
             }
             .listStyle(SidebarListStyle())
             .navigationTitle("iHospital")
-            .onAppear {
-                selection = "Dashboard"
-            }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     Button(action: { showLogoutAlert = true }) {

@@ -11,4 +11,8 @@ extension Int {
     var string: String {
         String(self)
     }
+    
+    var currency: String {
+        self.formatted(.currency(code: Constants.currencyCode))
+    }
 }

@@ -19,7 +19,8 @@ struct DoctorAppointmentsView: View {
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Error fetching appointments")
     
-    
+    @State private var showPopover = false
+    @State private var popoverMessage = ""
     
     var body: some View {
         VStack {
@@ -34,12 +35,7 @@ struct DoctorAppointmentsView: View {
                     Text(appointment.date.dateTimeString)
                 }
                 TableColumn("Edit") { appointment in
-                    Button(action: {
-                        print("Edit button tapped for appointment \(appointment.id)")
-                    }) {
-                        Text("Edit")
-                            .foregroundColor(.blue)
-                    }
+                    EditButton(appointment: appointment)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -51,6 +47,9 @@ struct DoctorAppointmentsView: View {
             }
             .onChange(of: sortOrder) { neworder in
                 appointments.sort(using: neworder)
+            }
+            .popover(isPresented: $showPopover) {
+                Text(popoverMessage)
             }
         }.errorAlert(errorAlertMessage: errorAlertMessage)
             .navigationTitle("All Appointments")
