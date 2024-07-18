@@ -40,12 +40,15 @@ struct DoctorAppointmentsTable: View {
             }
             .refreshable {
                doctorViewModel.fetchAppointments(for: Date())
-               refresh()
+//               refresh()
             }.onAppear {
                 refresh()
             }.onChange(of: doctorViewModel.appointments) { _ in
                 refresh()
             }
+            .onChange(of: searchText) { _ in
+                            refresh()
+                        }
         }
     }
     
