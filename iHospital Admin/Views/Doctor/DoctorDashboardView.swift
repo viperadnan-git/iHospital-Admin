@@ -25,7 +25,7 @@ struct DoctorDashboardView: View {
                     
                     VStack(alignment: .leading) {
                         HStack(spacing: 10) {
-                            HStack(spacing: 10) { // Adjusted spacing
+                            HStack(spacing: 10) {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.blue)
                                     .overlay(
@@ -78,7 +78,7 @@ struct DoctorDashboardView: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                if let currentAppointment = doctorViewModel.currentAppointment {
+                                if let currentAppointment = doctorViewModel.nextAppointment {
                                     HStack(alignment: .top) {
                                         Text("Current Appointment")
                                             .font(.title)

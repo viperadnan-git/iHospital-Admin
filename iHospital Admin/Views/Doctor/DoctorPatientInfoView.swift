@@ -117,7 +117,7 @@ struct DoctorPatientInfoView: View {
                                     canvasHeight: $canvasHeight
                                 )
                             }
-                        }
+                        }.padding(.trailing)
                         
                         PatientMedicalRecords(patient: patient, selectedMedicalRecord: $selectedMedicalRecord)
                     }
@@ -172,31 +172,51 @@ struct PatientMedicalRecords: View {
     @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load medical records")
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 20) {
-                ForEach(medicalRecords) { medicalRecord in
-                    MedicalRecordCardView(medicalRecord: medicalRecord, selectedMedicalRecord: $selectedMedicalRecord)
-                        .frame(width: 250)
-                        .cornerRadius(10)
-                        .padding(.vertical)
+        VStack {
+            if isLoading {
+                CenterSpinner()
+            } else if medicalRecords.isEmpty {
+                VStack {
+                    Spacer()
+                    VStack {
+                        Image(systemName: "doc.text.magnifyingglass")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        Text("No past medical records available")
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                }.frame(maxWidth: .infinity)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 20) {
+                        ForEach(medicalRecords) { medicalRecord in
+                            MedicalRecordCardView(medicalRecord: medicalRecord, selectedMedicalRecord: $selectedMedicalRecord)
+                                .frame(width: 250)
+                                .cornerRadius(10)
+                                .padding(.vertical)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .errorAlert(errorAlertMessage: errorMessageAlert)
                 }
             }
-            .padding(.horizontal)
-            .errorAlert(errorAlertMessage: errorMessageAlert)
-            .onAppear {
-                fetchMedicalRecords()
-            }
+        }.task {
+            await fetchMedicalRecords()
         }
-        Spacer()
     }
     
-    func fetchMedicalRecords() {
-        Task {
-            do {
-                medicalRecords = try await patient.fetchMedicalRecords()
-            } catch {
-                errorMessageAlert.message = error.localizedDescription
-            }
+    func fetchMedicalRecords() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        
+        do {
+            medicalRecords = try await patient.fetchMedicalRecords()
+        } catch {
+            errorMessageAlert.message = error.localizedDescription
         }
     }
 }
@@ -258,32 +278,51 @@ struct PatientLabTestReports: View {
     @StateObject private var errorMessageAlert = ErrorAlertMessage(title: "Failed to load lab tests")
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 20) {
-                ForEach(labTests) { labTest in
-                    LabTestCardView(labTest: labTest, selectedLabTest: $selectedLabTest)
-                        .frame(width: 250)
-                        .cornerRadius(10)
-                        .padding(.vertical)
+        VStack {
+            if isLoading {
+                CenterSpinner()
+            } else if labTests.isEmpty {
+                VStack {
+                    Spacer()
+                    VStack {
+                        Image(systemName: "doc.text.magnifyingglass")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        Text("No past lab tests available")
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                }.frame(maxWidth: .infinity)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 20) {
+                        ForEach(labTests) { labTest in
+                            LabTestCardView(labTest: labTest, selectedLabTest: $selectedLabTest)
+                                .frame(width: 250)
+                                .cornerRadius(10)
+                                .padding(.vertical)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .errorAlert(errorAlertMessage: errorMessageAlert)
                 }
             }
-            .padding(.horizontal)
-            .errorAlert(errorAlertMessage: errorMessageAlert)
-            .onAppear {
-                fetchLabTests()
-            }
+        }.task {
+            await fetchLabTests()
         }
-        Spacer()
     }
     
-    func fetchLabTests() {
-        Task {
-            do {
-                labTests = try await patient.fetchLabTests()
-            } catch {
-                print(error)
-                errorMessageAlert.message = error.localizedDescription
-            }
+    func fetchLabTests() async {
+        isLoading = true
+        defer {
+            isLoading = false
+        }
+        
+        do {
+            labTests = try await patient.fetchLabTests()
+        } catch {
+            errorMessageAlert.message = error.localizedDescription
         }
     }
 }
@@ -336,7 +375,7 @@ struct LabTestCardView: View {
 
 struct LabTestStatusIndicator: View {
     let status: LabTestStatus
-
+    
     var body: some View {
         HStack {
             Circle()

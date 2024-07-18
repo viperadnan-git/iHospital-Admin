@@ -28,6 +28,7 @@ struct DoctorAddPatientMedicalRecordView: View {
     @StateObject private var errorAlertMessage = ErrorAlertMessage()
     @State private var showAlert = false
     @State private var isLoading = false
+    @State private var noteError: String?
 
     var body: some View {
         NavigationView {
@@ -36,6 +37,8 @@ struct DoctorAddPatientMedicalRecordView: View {
                     TextEditor(text: $note)
                         .frame(height: 150)
                         .padding(.horizontal, 4)
+                        .onChange(of: note) { _ in validateNote() }
+                        .overlay(Image.validationIcon(for: noteError), alignment: .trailing)
                 }
 
                 Section(header: Text("Pencil Notes")) {
@@ -154,6 +157,13 @@ struct DoctorAddPatientMedicalRecordView: View {
                     isPresented = false
                 }
             }.disabled(isLoading), trailing: Button(action: {
+                validateNote()
+                
+                guard noteError == nil else {
+                    errorAlertMessage.message = "Please fill all the fields correctly"
+                    return
+                }
+                
                 showAlert = true
             }) {
                 if isLoading {
@@ -181,6 +191,14 @@ struct DoctorAddPatientMedicalRecordView: View {
                     }
                 }
             }
+        }
+    }
+
+    private func validateNote() {
+        if note.isEmpty {
+            noteError = "Note is required."
+        } else {
+            noteError = nil
         }
     }
 
