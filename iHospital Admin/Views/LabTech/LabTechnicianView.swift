@@ -75,21 +75,12 @@ struct LabTechnicianView: View {
                 }
                 
                 .navigationTitle("Hello \(labTechViewModel.labTech?.name ?? "Lab Technician")")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            Task {
-                                do {
-                                    try await SupaUser.logout()
-                                } catch {
-                                    print(error)
-                                }
-                            }
-                        }) {
-                            Image(systemName: "rectangle.portrait.and.arrow.right.fill")
-                        }
+                .navigationBarItems(
+                    trailing: NavigationLink(destination: LabTechnicianProfile().environmentObject(labTechViewModel)){
+                        ProfileImage(userId: labTechViewModel.labTech?.userId?.uuidString ?? "")
+                            .frame(width: 30, height: 30)
                     }
-                }
+                )
             }
         }
     }

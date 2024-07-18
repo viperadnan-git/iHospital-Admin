@@ -21,7 +21,7 @@ struct AdminStaffInfoView: View {
         if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
             Form {
                 VStack {
-                    ProfileImageChangeable(userId: staff.id.string)
+                    ProfileImageChangeable(userId: staff.userId?.uuidString ?? staff.id.string)
                     
                     Text(staff.name)
                         .font(.title)

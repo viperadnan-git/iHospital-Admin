@@ -192,7 +192,7 @@ struct StaffInfoCard: View {
     var body: some View {
         if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
             VStack {
-                ProfileImage(userId: staff.id.string)
+                ProfileImage(userId: staff.userId?.uuidString ?? staff.id.string)
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())

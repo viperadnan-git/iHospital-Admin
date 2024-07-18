@@ -90,6 +90,7 @@
 		48CFFEBA2C45A20D002E41C8 /* LabTechTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */; };
 		48CFFEBC2C4646DA002E41C8 /* AdminLabTechTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEBB2C4646DA002E41C8 /* AdminLabTechTypeView.swift */; };
 		48CFFEBE2C465105002E41C8 /* AdminLabTestAddForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CFFEBD2C465105002E41C8 /* AdminLabTestAddForm.swift */; };
+		48D03E902C4911C400E8AF48 /* LabTechnicianProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D03E8F2C4911C400E8AF48 /* LabTechnicianProfile.swift */; };
 		8201C8632C36B1040034B93F /* AdminDoctorAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */; };
 		823FCFAA2C3A4CA500FB69F0 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */; };
 		8261F9092C3EF14A00A15B40 /* AdminBedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261F9082C3EF14A00A15B40 /* AdminBedView.swift */; };
@@ -183,6 +184,7 @@
 		48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTechTable.swift; sourceTree = "<group>"; };
 		48CFFEBB2C4646DA002E41C8 /* AdminLabTechTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLabTechTypeView.swift; sourceTree = "<group>"; };
 		48CFFEBD2C465105002E41C8 /* AdminLabTestAddForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminLabTestAddForm.swift; sourceTree = "<group>"; };
+		48D03E8F2C4911C400E8AF48 /* LabTechnicianProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabTechnicianProfile.swift; sourceTree = "<group>"; };
 		8201C8622C36B1040034B93F /* AdminDoctorAddView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDoctorAddView.swift; sourceTree = "<group>"; };
 		823FCFA92C3A4CA500FB69F0 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		8261F9082C3EF14A00A15B40 /* AdminBedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBedView.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				325112602C45325F007D89F1 /* LabTestView.swift */,
 				325112682C45833D007D89F1 /* LabTestPDFView.swift */,
 				48CFFEB92C45A20D002E41C8 /* LabTechTable.swift */,
+				48D03E8F2C4911C400E8AF48 /* LabTechnicianProfile.swift */,
 			);
 			path = LabTech;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 				32E379012C36FB5E0076F2C4 /* AuthViewModel.swift in Sources */,
 				32ECFA452C48E6E8003E7B47 /* MedicalRecordDetailView.swift in Sources */,
 				324C9CFF2C35D9B600712E84 /* Roles.swift in Sources */,
+				48D03E902C4911C400E8AF48 /* LabTechnicianProfile.swift in Sources */,
 				325042362C3DC60100452C0C /* Int.swift in Sources */,
 				48CFFEBA2C45A20D002E41C8 /* LabTechTable.swift in Sources */,
 				32E378F52C367CF70076F2C4 /* AdminSidebarView.swift in Sources */,
