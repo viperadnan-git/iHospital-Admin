@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-var dummyData = [
-    LabTest.sample, LabTest.sample, LabTest.sample, LabTest.sample, LabTest.sample
-]
 
 struct LabTechnicianView: View {
     @StateObject private var labTechViewModel = LabTechViewModel()
@@ -16,9 +13,15 @@ struct LabTechnicianView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack{
-                    LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Total Tests", color: .blue)
-                    LabTechCard(title:"4", subtitle: "Sample Left", color: .green)
+                HStack(spacing: 16) {
+                    LabTechCard(title: String(labTechViewModel.labTests.count), subtitle: "Total Tests", color: .accent)
+                    ForEach(LabTestStatus.allCases, id: \.self) { status in
+                        if let count = labTechViewModel.statusCounts[status] {
+                            LabTechCard(title: count.string, subtitle: status.rawValue, color: status.color)
+                        } else {
+                            LabTechCard(subtitle: status.rawValue, color: status.color)
+                        }
+                    }
                 }
                 .padding()
                 
@@ -28,15 +31,14 @@ struct LabTechnicianView: View {
                         .bold()
                         .padding()
                     Spacer()
-                    NavigationLink(destination: LabTechTable()){
+                    NavigationLink(destination: LabTechTable()) {
                         Text("View All")
                             .font(.subheadline)
                             .padding()
                             .foregroundColor(.accentColor)
                     }
-                 
-                }.padding(.horizontal)
-                
+                }
+                .padding(.horizontal)
                 
                 if labTechViewModel.isLoading {
                     CenterSpinner()
@@ -49,7 +51,7 @@ struct LabTechnicianView: View {
                 } else {
                     Table(labTechViewModel.labTests) {
                         TableColumn("Name", value: \.patient.name)
-                        TableColumn("Gender", value:\.patient.gender.id.capitalized)
+                        TableColumn("Gender", value: \.patient.gender.id.capitalized)
                         TableColumn("Age", value: \.patient.dateOfBirth.ago)
                         TableColumn("Test", value: \.test.name)
                         TableColumn("Status") { test in
@@ -59,12 +61,15 @@ struct LabTechnicianView: View {
                             NavigationLink(destination: LabTestView(testId: test.id).environmentObject(labTechViewModel)) {
                                 Image(systemName: "chevron.forward")
                             }
-                        }.width(40)
-                    }.refreshable {
+                        }
+                        .width(40)
+                    }
+                    .refreshable {
                         labTechViewModel.fetchLabTests(showLoader: false)
                     }
                 }
-            }.navigationTitle("Lab Technician")
+            }
+            .navigationTitle("Lab Technician")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -84,7 +89,6 @@ struct LabTechnicianView: View {
     }
 }
 
-
 struct LabTechCard: View {
     @State var title: String?
     let subtitle: String
@@ -92,8 +96,8 @@ struct LabTechCard: View {
     
     var body: some View {
         VStack {
-            if title != nil {
-                Text(title!)
+            if let title = title {
+                Text(title)
                     .font(.largeTitle)
                     .bold()
             } else {
@@ -103,9 +107,10 @@ struct LabTechCard: View {
             
             Text(subtitle)
                 .font(.subheadline)
+                .textCase(.uppercase)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 150)
+        .frame(height: 100)
         .background(color)
         .cornerRadius(12)
         .foregroundColor(.white)
@@ -115,4 +120,3 @@ struct LabTechCard: View {
 #Preview {
     LabTechnicianView()
 }
-

@@ -11,24 +11,26 @@ struct DoctorDetailsColumn: View {
     @EnvironmentObject var doctorDetailViewModel: DoctorViewModel
     
     @StateObject var errorAlertMessage = ErrorAlertMessage()
+    @State private var showLogoutAlert = false
     
     var body: some View {
         if let doctor = doctorDetailViewModel.doctor {
             Form {
                 Section {
-                        Image(systemName: "person.crop.circle.fill")
-                            .resizable()
-                            .frame(width: 200, height: 200)
-                            .clipShape(Circle())
-                            .padding()
-                }.frame(maxWidth: .infinity, alignment: .center)
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .clipShape(Circle())
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
                 
                 Section(header: Text("Doctor Details")) {
-                        Text(doctor.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .padding(.bottom, 5)
-                        
+                    Text(doctor.name)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.bottom, 5)
+                    
                     HStack {
                         Text("Email")
                         Spacer()
@@ -70,11 +72,27 @@ struct DoctorDetailsColumn: View {
                     NavigationLink(destination: ChangePasswordView()) {
                         Text("Change Password")
                     }
-                    Button(role: .destructive, action: logOut) {
-                        Text("Log Out").frame(maxWidth: .infinity, alignment: .center)
+                }
+                
+                Section {
+                    Button(role: .destructive, action: {
+                        showLogoutAlert = true
+                    }) {
+                        Text("Log Out")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }.alert(isPresented: $showLogoutAlert) {
+                        Alert(
+                            title: Text("Confirm Logout"),
+                            message: Text("Are you sure you want to log out?"),
+                            primaryButton: .destructive(Text("Log Out")) {
+                                logOut()
+                            },
+                            secondaryButton: .cancel()
+                        )
                     }
                 }
-            }.errorAlert(errorAlertMessage: errorAlertMessage)
+            }
+            .errorAlert(errorAlertMessage: errorAlertMessage)
         } else {
             CenterSpinner()
         }
@@ -94,4 +112,3 @@ struct DoctorDetailsColumn: View {
 #Preview {
     DoctorDetailsColumn().environmentObject(DoctorViewModel())
 }
-

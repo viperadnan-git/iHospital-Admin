@@ -88,6 +88,7 @@ struct DoctorSettingView: View {
         }
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Doctor Settings")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: fetchSettings)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
