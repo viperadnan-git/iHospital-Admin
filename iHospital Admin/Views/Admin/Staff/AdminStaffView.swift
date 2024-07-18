@@ -192,9 +192,7 @@ struct StaffInfoCard: View {
     var body: some View {
         if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
             VStack {
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .scaledToFit()
+                ProfileImage(userId: staff.id.string)
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())

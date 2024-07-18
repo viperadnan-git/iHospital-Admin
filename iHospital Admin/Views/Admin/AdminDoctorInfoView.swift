@@ -21,10 +21,8 @@ struct AdminDoctorInfoView: View {
     var body: some View {
         Form {
             VStack{
-                Image(systemName: "person.crop.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
+                ProfileImage(userId: doctor.userId.uuidString)
+                    .frame(width: 200, height: 200)
                     .padding()
                     .foregroundColor(Color(.systemGray))
                     .frame(maxWidth: .infinity)

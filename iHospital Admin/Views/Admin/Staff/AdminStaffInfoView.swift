@@ -21,13 +21,7 @@ struct AdminStaffInfoView: View {
         if let staff = staffViewModel.staffs.first(where: { $0.id == staffId }) {
             Form {
                 VStack {
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .padding()
-                        .foregroundColor(Color(.systemGray))
-                        .frame(maxWidth: .infinity)
+                    ProfileImageChangeable(userId: staff.id.string)
                     
                     Text(staff.name)
                         .font(.title)

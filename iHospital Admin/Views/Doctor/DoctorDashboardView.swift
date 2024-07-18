@@ -211,7 +211,7 @@ struct DoctorDashboardView: View {
                         trailing: Button {
                             navigation.path.append("settings")
                         } label: {
-                            ProfileImage(userId: doctorViewModel.doctor?.userId ?? UUID())
+                            ProfileImage(userId: doctorViewModel.doctor?.userId.uuidString ?? "")
                                 .frame(width: 40, height: 40)
                         }
                     )

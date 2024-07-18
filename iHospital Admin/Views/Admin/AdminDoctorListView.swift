@@ -11,6 +11,7 @@ struct AdminDoctorListView: View {
     @State private var searchText = ""
 
     let department: Department
+    
     @StateObject private var adminDoctorViewModel = AdminDoctorViewModel()
     @State private var showingForm = false
     
@@ -59,7 +60,6 @@ struct AdminDoctorListView: View {
         .navigationTitle(department.name)
         .navigationBarItems(trailing: Button(action: {
             showingForm = true
-            print("Plus button tapped")
         }) {
             Image(systemName: "plus")
                 .font(.title3)
@@ -69,6 +69,9 @@ struct AdminDoctorListView: View {
         }
         .task {
             adminDoctorViewModel.fetchDoctors(department: department)
+        }
+        .refreshable {
+            adminDoctorViewModel.fetchDoctors(department: department, showLoader: false, force: true)
         }
         .searchable(text: $searchText)
     }
@@ -93,9 +96,7 @@ struct DoctorCard: View {
 
     var body: some View {
         VStack {
-            Image(systemName: "person.crop.circle.fill")
-                .resizable()
-                .scaledToFit()
+            ProfileImage(userId: doctor.userId.uuidString)
                 .foregroundColor(Color(.systemGray))
                 .frame(width: 80, height: 80)
                 .clipShape(Circle())

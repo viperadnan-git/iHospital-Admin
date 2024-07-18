@@ -80,7 +80,6 @@ struct AsyncImage: View {
                 errorOccurred = true
             }
         } catch {
-            print(error)
             errorOccurred = true
         }
     }

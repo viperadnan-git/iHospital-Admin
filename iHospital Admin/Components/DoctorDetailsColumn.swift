@@ -17,7 +17,7 @@ struct DoctorDetailsColumn: View {
         if let doctor = doctorDetailViewModel.doctor {
             Form {
                 Section {
-                    ProfileImageChangeable(userId: doctor.userId)
+                    ProfileImageChangeable(userId: doctor.userId.uuidString)
                 }
                 
                 Section(header: Text("Doctor Details")) {

@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileImageChangeable: View {
-    let userId: UUID
+    let userId: String
     var placeholder: Image = Image(systemName: "person.crop.circle.fill")
     
     @State var image: Image?
@@ -40,7 +40,7 @@ struct ProfileImageChangeable: View {
                             try await fetchImageData(for: userId)
                         },
                         placeholder: placeholder,
-                        cacheKey: "AV#\(userId.uuidString)",
+                        cacheKey: "AV#\(userId)",
                         showProgress: false
                     )
                 }
@@ -95,8 +95,8 @@ struct ProfileImageChangeable: View {
                     isChangingImage = true
                     defer {isChangingImage = false}
                     
-                    try await user.uploadImage(image: data)
-                    ImageCache.shared.setImage(UIImage(data: data)!, forKey: "AV#\(userId.uuidString)")
+                    try await uploadImage(image: data)
+                    ImageCache.shared.setImage(UIImage(data: data)!, forKey: "AV#\(userId)")
                     print("Image uploaded successfully")
                 } catch {
                     print("Error while saving data \(error)")
@@ -105,8 +105,8 @@ struct ProfileImageChangeable: View {
         }
     }
     
-    private func fetchImageData(for userId: UUID) async throws -> Data {
-        let path = "\(userId.uuidString.lowercased())/avatar.jpeg"
+    private func fetchImageData(for userId: String) async throws -> Data {
+        let path = "\(userId.lowercased())/avatar.jpeg"
         return try await supabase.storage.from(SupabaseBucket.avatars.id)
             .download(path: path)
     }
@@ -117,5 +117,10 @@ struct ProfileImageChangeable: View {
         } else {
             image = Image(systemName: "person.crop.circle.fill")
         }
+    }
+    
+    private func uploadImage(image: Data) async throws {
+        let path = "\(userId.lowercased())/avatar.jpeg"
+        try await supabase.storage.from(SupabaseBucket.avatars.id).upload(path: path, file: image, options: .init(upsert: true))
     }
 }
