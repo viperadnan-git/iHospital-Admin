@@ -84,7 +84,7 @@ struct DoctorDashboardView: View {
                             }
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                if let currentAppointment = doctorViewModel.nextAppointment {
+                                if let currentAppointment = doctorViewModel.currentAppointment {
                                     HStack(alignment: .top) {
                                         Text("Current Appointment")
                                             .font(.title)
