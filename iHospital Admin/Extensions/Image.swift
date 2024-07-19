@@ -58,7 +58,7 @@ struct AsyncImage: View {
             if let image = image {
                 image
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
             } else if errorOccurred || !showProgress {
                 placeholder
                     .resizable()
