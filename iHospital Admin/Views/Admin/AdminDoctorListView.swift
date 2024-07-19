@@ -106,7 +106,6 @@ struct DoctorCard: View {
             ProfileImage(userId: doctor.userId.uuidString)
                 .foregroundColor(Color(.systemGray))
                 .frame(width: 80, height: 80)
-                .clipShape(Circle())
                 .padding(.top, 4)
                 .accessibilityHidden(true)
             
