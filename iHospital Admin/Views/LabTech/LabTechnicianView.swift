@@ -109,7 +109,7 @@ struct LabTechnicianView: View {
                 .navigationBarItems(
                     trailing: NavigationLink(destination: LabTechnicianProfile().environmentObject(labTechViewModel)) {
                         ProfileImage(userId: labTechViewModel.labTech?.userId?.uuidString ?? "")
-                            .frame(width: 30, height: 30)
+                            .frame(width: 48, height: 48)
                             .accessibilityLabel("Lab Technician Profile")
                             .accessibilityHint("Tap to view your profile.")
                     }
