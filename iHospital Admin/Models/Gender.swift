@@ -10,6 +10,7 @@ enum Gender: String, Codable, CaseIterable, Identifiable {
     case female = "female"
     case others = "others"
     
+    // Returns the raw value of the enum as the id
     var id: String {
         self.rawValue
     }

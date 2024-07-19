@@ -19,9 +19,11 @@ struct AdminDepartmentView: View {
         VStack {
             if viewModel.isLoading {
                 CenterSpinner()
+                    .accessibilityLabel("Loading departments")
             } else if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)
+                    .accessibilityLabel("Error: \(errorMessage)")
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 15) {
@@ -32,15 +34,20 @@ struct AdminDepartmentView: View {
                             .buttonStyle(PlainButtonStyle())
                             .frame(height: 150)
                             .padding(.horizontal, 4)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel("Department: \(department.name)")
+                            .accessibilityHint("Tap to view doctors in the \(department.name) department")
                         }
                     }
                     .padding()
                 }
             }
-        }.refreshable {
+        }
+        .refreshable {
             viewModel.fetchDepartments(showLoader: false, force: true)
         }
         .navigationTitle("Departments")
+        .accessibilityLabel("Departments")
     }
 }
 
@@ -53,6 +60,7 @@ struct CardView: View {
                 Image(systemName: iconName(for: department.name))
                     .font(.largeTitle)
                     .padding(.leading, 10)
+                    .accessibilityHidden(true)
                 Spacer()
             }
             Spacer()
@@ -61,12 +69,14 @@ struct CardView: View {
                     Image(systemName: "phone.fill")
                     Text(String(phoneNumber))
                         .font(.subheadline)
+                        .accessibilityLabel("Phone number: \(phoneNumber)")
                 }
             }
             Text(department.name)
                 .font(.title3)
                 .fontWeight(.bold)
                 .padding(.bottom, 2)
+                .accessibilityLabel(department.name)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
@@ -100,6 +110,7 @@ struct CardView: View {
         }
     }
 }
+
 #Preview {
     AdminDepartmentView()
 }

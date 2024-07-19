@@ -17,6 +17,7 @@ class AdminDepartmentViewModel: ObservableObject {
         fetchDepartments()
     }
     
+    // Fetches the list of departments
     func fetchDepartments(showLoader: Bool = true, force: Bool = false) {
         isLoading = showLoader
 
@@ -28,6 +29,10 @@ class AdminDepartmentViewModel: ObservableObject {
                     self.isLoading = false
                 }
             } catch {
+                DispatchQueue.main.async {
+                    self.errorMessage = "Error fetching departments: \(error.localizedDescription)"
+                    self.isLoading = false
+                }
                 print("Error fetching departments: \(error.localizedDescription)")
             }
         }

@@ -80,7 +80,7 @@ class Doctor: Codable, Hashable {
         return formatter
     }()
     
-    static let encoder = {
+    static let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
         return encoder
@@ -115,7 +115,7 @@ class Doctor: Codable, Hashable {
         doctorSettings = try? container.decodeIfPresent(DoctorSettings.self, forKey: .doctorSettings)
     }
     
-    init(userId: UUID, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee: Int, doctorSettings: DoctorSettings) {
+    init(userId: UUID, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, phoneNumber: Int, email: String, qualification: String, experienceSince: Date, dateOfJoining: Date, departmentId: UUID, fee: Int, doctorSettings: DoctorSettings?) {
         self.userId = userId
         self.firstName = firstName
         self.lastName = lastName
@@ -210,7 +210,7 @@ class Doctor: Codable, Hashable {
     }
     
     func fetchAppointments() async throws -> [Appointment] {
-        let response:[Appointment] = try await supabase.from(SupabaseTable.appointments.id)
+        let response: [Appointment] = try await supabase.from(SupabaseTable.appointments.id)
             .select(Appointment.supabaseSelectQuery)
             .eq("doctor_id", value: userId)
             .execute()
@@ -220,7 +220,7 @@ class Doctor: Codable, Hashable {
     }
     
     func fetchAppointments(for date: Date) async throws -> [Appointment] {
-        let response:[Appointment] = try await supabase.from(SupabaseTable.appointments.id)
+        let response: [Appointment] = try await supabase.from(SupabaseTable.appointments.id)
             .select(Appointment.supabaseSelectQuery)
             .eq("doctor_id", value: userId)
             .gte("date", value: date.startOfDay.ISO8601Format())

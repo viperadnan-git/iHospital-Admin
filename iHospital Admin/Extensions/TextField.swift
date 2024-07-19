@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension TextField {
+    // Adds an icon to the TextField
     func withIcon(_ icon: String) -> some View {
         HStack {
             Image(systemName: icon)
@@ -26,9 +27,13 @@ extension TextField {
     VStack {
         TextField("Password", text: .constant(""))
             .withIcon("lock")
+            .accessibility(label: Text("Password"))
+            .padding()
         
         TextField("Username", text: .constant(""))
             .withIcon("person")
+            .accessibility(label: Text("Username"))
+            .padding()
     }
     .padding()
 }

@@ -36,12 +36,16 @@ struct DoctorPatientInfoView: View {
                                 .scaledToFit()
                                 .frame(width: 120, height: 120)
                                 .clipShape(Circle())
+                                .accessibilityHidden(true)
                             
                             Text(patient.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                        }.frame(maxWidth: .infinity)
-                            .padding()
+                                .accessibilityLabel("Patient name")
+                                .accessibilityValue(patient.name)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
                     }
                     
                     Section(header: Text("Patient's Information")) {
@@ -51,6 +55,9 @@ struct DoctorPatientInfoView: View {
                             Spacer()
                             Text(patient.dateOfBirth.ago)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Age")
+                        .accessibilityValue(patient.dateOfBirth.ago)
                         
                         HStack {
                             Text("Phone No.")
@@ -58,6 +65,9 @@ struct DoctorPatientInfoView: View {
                             Spacer()
                             Text(patient.phoneNumber.string)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Phone Number")
+                        .accessibilityValue(patient.phoneNumber.string)
                         
                         HStack {
                             Text("Height")
@@ -66,6 +76,9 @@ struct DoctorPatientInfoView: View {
                             Text(patient.height?.string ?? "Unknown")
                                 .foregroundColor(patient.height == nil ? .gray : .primary)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Height")
+                        .accessibilityValue(patient.height?.string ?? "Unknown")
                         
                         HStack {
                             Text("Weight")
@@ -74,6 +87,9 @@ struct DoctorPatientInfoView: View {
                             Text(patient.weight?.string ?? "Unknown")
                                 .foregroundColor(patient.weight == nil ? .gray : .primary)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Weight")
+                        .accessibilityValue(patient.weight?.string ?? "Unknown")
                         
                         HStack {
                             Text("Blood Group")
@@ -81,6 +97,9 @@ struct DoctorPatientInfoView: View {
                             Spacer()
                             Text(patient.bloodGroup.id)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Blood Group")
+                        .accessibilityValue(patient.bloodGroup.id)
                         
                         HStack {
                             Text("Address")
@@ -88,6 +107,9 @@ struct DoctorPatientInfoView: View {
                             Spacer()
                             Text(patient.address)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Address")
+                        .accessibilityValue(patient.address)
                     }
                 }
                 
@@ -97,6 +119,7 @@ struct DoctorPatientInfoView: View {
                             Text("Medical History")
                                 .font(.title3)
                                 .bold()
+                                .accessibilityAddTraits(.isHeader)
                             Spacer()
                             Button(action: {
                                 showingModal.toggle()
@@ -106,6 +129,7 @@ struct DoctorPatientInfoView: View {
                                     Text("New Prescription").bold()
                                 }
                             }
+                            .accessibilityLabel("New Prescription")
                             .sheet(isPresented: $showingModal) {
                                 DoctorAddPatientMedicalRecordView(
                                     appointment: appointment,
@@ -117,7 +141,8 @@ struct DoctorPatientInfoView: View {
                                     canvasHeight: $canvasHeight
                                 )
                             }
-                        }.padding(.trailing)
+                        }
+                        .padding(.trailing)
                         
                         PatientMedicalRecords(patient: patient, selectedMedicalRecord: $selectedMedicalRecord)
                     }
@@ -126,6 +151,7 @@ struct DoctorPatientInfoView: View {
                         Text("Test Reports")
                             .font(.title3)
                             .bold()
+                            .accessibilityAddTraits(.isHeader)
                         
                         PatientLabTestReports(patient: patient, selectedLabTest: $selectedLabTest)
                     }
@@ -175,6 +201,7 @@ struct PatientMedicalRecords: View {
         VStack {
             if isLoading {
                 CenterSpinner()
+                    .accessibilityLabel("Loading medical records")
             } else if medicalRecords.isEmpty {
                 VStack {
                     Spacer()
@@ -187,7 +214,9 @@ struct PatientMedicalRecords: View {
                             .foregroundColor(.gray)
                     }
                     Spacer()
-                }.frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+                .accessibilityLabel("No past medical records available")
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
@@ -201,8 +230,10 @@ struct PatientMedicalRecords: View {
                     .padding(.horizontal)
                     .errorAlert(errorAlertMessage: errorMessageAlert)
                 }
+                .accessibilityElement(children: .contain)
             }
-        }.task {
+        }
+        .task {
             await fetchMedicalRecords()
         }
     }
@@ -231,9 +262,13 @@ struct MedicalRecordCardView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("By \(medicalRecord.appointment.doctor.name)")
                         .font(.headline)
+                        .accessibilityLabel("Doctor")
+                        .accessibilityValue(medicalRecord.appointment.doctor.name)
                     Text(medicalRecord.appointment.date.dateString)
                         .font(.subheadline)
                         .foregroundColor(.gray)
+                        .accessibilityLabel("Date")
+                        .accessibilityValue(medicalRecord.appointment.date.dateString)
                 }
                 Spacer()
             }
@@ -242,9 +277,12 @@ struct MedicalRecordCardView: View {
                 .font(.subheadline)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
+                .accessibilityLabel("Medical Note")
+                .accessibilityValue(medicalRecord.note)
             
             Image.asyncImage(loadData: medicalRecord.loadImage, cacheKey: "MRIMAGE#\(medicalRecord.id)")
                 .frame(maxWidth: .infinity)
+                .accessibilityLabel("Medical Note Image")
             
             Spacer()
             
@@ -258,6 +296,7 @@ struct MedicalRecordCardView: View {
                         .background(Color.accentColor)
                         .foregroundColor(.white)
                         .cornerRadius(10)
+                        .accessibilityLabel("View Medical Record")
                 }
             }
         }
@@ -281,6 +320,7 @@ struct PatientLabTestReports: View {
         VStack {
             if isLoading {
                 CenterSpinner()
+                    .accessibilityLabel("Loading lab test reports")
             } else if labTests.isEmpty {
                 VStack {
                     Spacer()
@@ -293,7 +333,9 @@ struct PatientLabTestReports: View {
                             .foregroundColor(.gray)
                     }
                     Spacer()
-                }.frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+                .accessibilityLabel("No past lab tests available")
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
@@ -307,8 +349,10 @@ struct PatientLabTestReports: View {
                     .padding(.horizontal)
                     .errorAlert(errorAlertMessage: errorMessageAlert)
                 }
+                .accessibilityElement(children: .contain)
             }
-        }.task {
+        }
+        .task {
             await fetchLabTests()
         }
     }
@@ -337,9 +381,13 @@ struct LabTestCardView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("By \(labTest.appointment.doctor.name)")
                         .font(.headline)
+                        .accessibilityLabel("Doctor")
+                        .accessibilityValue(labTest.appointment.doctor.name)
                     Text(labTest.appointment.date.dateString)
                         .font(.subheadline)
                         .foregroundColor(.gray)
+                        .accessibilityLabel("Date")
+                        .accessibilityValue(labTest.appointment.date.dateString)
                 }
                 Spacer()
             }
@@ -348,8 +396,12 @@ struct LabTestCardView: View {
                 .font(.title)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
+                .accessibilityLabel("Test Name")
+                .accessibilityValue(labTest.test.name)
             
             LabTestStatusIndicator(status: labTest.status)
+                .accessibilityLabel("Test Status")
+                .accessibilityValue(labTest.status.rawValue.capitalized)
             
             Spacer()
             
@@ -363,6 +415,7 @@ struct LabTestCardView: View {
                         .background(Color.accentColor)
                         .foregroundColor(.white)
                         .cornerRadius(10)
+                        .accessibilityLabel("View Lab Test Report")
                 }
             }
         }

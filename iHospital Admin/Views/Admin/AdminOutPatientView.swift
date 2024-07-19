@@ -12,45 +12,53 @@ struct AdminOutPatientView: View {
     
     @State var searchText = ""
     
-    @State private var sortOrder = [ KeyPathComparator(\Patient.name, order: .forward)]
+    @State private var sortOrder = [KeyPathComparator(\Patient.name, order: .forward)]
     
     var body: some View {
         VStack {
             if patientViewModel.isLoading {
                 CenterSpinner()
+                    .accessibilityLabel("Loading Spinner")
+                    .accessibilityHint("Indicates that patient data is being loaded")
             } else if filteredPatients.isEmpty {
                 Spacer()
                 Text("No patients found")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundColor(Color(.systemGray))
+                    .accessibilityLabel("No patients found")
+                    .accessibilityHint("Indicates that there are no patients in the list")
                 Spacer()
             } else {
-                Table(filteredPatients,sortOrder: $sortOrder) {
+                Table(filteredPatients, sortOrder: $sortOrder) {
                     TableColumn("Name", value: \.name)
                     TableColumn("Gender", value: \.gender.id.capitalized)
                     TableColumn("Phone No.", value: \.phoneNumber.string)
-                    TableColumn("Address", value: \.address).width(min: 300)
+                    TableColumn("Address", value: \.address)
+                        .width(min: 300)
                     TableColumn("") { patient in
-                        
-                        HStack{
+                        HStack {
                             Spacer()
                             NavigationLink(destination: AdminPatientDetailsView(patient: patient)) {
-                                Image(systemName: "info.circle")                        }
+                                Image(systemName: "info.circle")
+                                    .accessibilityLabel("Patient Details")
+                                    .accessibilityHint("Navigate to patient details view")
+                            }
                         }
                     }
-                }.refreshable {
+                }
+                .refreshable {
                     patientViewModel.fetchPatients(showLoader: false)
-                
                 }
-                .onChange(of: sortOrder) { neworder in
-                    patientViewModel.patients.sort(using: neworder)
-                    
+                .onChange(of: sortOrder) { newOrder in
+                    patientViewModel.patients.sort(using: newOrder)
                 }
-                
             }
-        }.searchable(text: $searchText)
+        }
+        .searchable(text: $searchText)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Out Patients View")
+        .accessibilityHint("Displays the list of out patients")
     }
-    
     
     private var filteredPatients: [Patient] {
         if searchText.isEmpty {
@@ -63,7 +71,6 @@ struct AdminOutPatientView: View {
             }
         }
     }
-    
 }
 
 #Preview {

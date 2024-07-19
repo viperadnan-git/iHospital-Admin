@@ -24,6 +24,7 @@ struct SupaUser: Codable {
     
     static let sample: SupaUser = SupaUser(user: Auth.User(id: UUID(), appMetadata: [:], userMetadata: [:], aud: "", createdAt: Date(), updatedAt: Date()), role: .admin)
     
+    // Loads the user from UserDefaults
     static func loadUser() -> SupaUser? {
         guard let data = UserDefaults.standard.data(forKey: Constants.userInfoKey) else {
             print("User data not found")
@@ -38,6 +39,7 @@ struct SupaUser: Codable {
         return nil
     }
     
+    // Saves the user to UserDefaults
     func saveUser() {
         let encoder = JSONEncoder()
         if let data = try? encoder.encode(self) {
@@ -45,15 +47,18 @@ struct SupaUser: Codable {
         }
     }
     
+    // Logs in the user using email and password
     static func login(email: String, password: String) async throws {
         try await supabase.auth.signIn(email: email, password: password)
     }
     
+    // Logs out the current user
     static func logout() async throws {
         try await supabase.auth.signOut()
         shared = nil
     }
     
+    // Fetches the SupaUser from the database
     static func getSupaUser() async throws -> SupaUser? {
         guard let user = supabase.auth.currentUser else {
             return nil
@@ -70,6 +75,7 @@ struct SupaUser: Codable {
         return SupaUser(user: user, role: role["role"]!)
     }
     
+    // Updates the user's password
     func updatePassword(password: String) async throws {
         try await supabase.auth.update(user: UserAttributes(password: password))
     }

@@ -16,6 +16,7 @@ class PatientViewModel: ObservableObject {
         fetchPatients()
     }
     
+    // Fetches the list of patients
     @MainActor
     func fetchPatients(showLoader: Bool = true) {
         Task {
@@ -30,8 +31,13 @@ class PatientViewModel: ObservableObject {
                     self.patients = fetchedPatients
                 }
             } catch {
-                print("Error fetching patients: \(error.localizedDescription)")
+                handleFetchPatientsError(error)
             }
         }
+    }
+    
+    // Handles errors during fetching patients
+    private func handleFetchPatientsError(_ error: Error) {
+        print("Error fetching patients: \(error.localizedDescription)")
     }
 }

@@ -1,3 +1,10 @@
+//
+//  DoctorViewModel.swift
+//  iHospital Admin
+//
+//  Created by Adnan Ahmad on 04/07/24.
+//
+
 import SwiftUI
 import Supabase
 
@@ -17,6 +24,7 @@ class DoctorViewModel: ObservableObject {
         startAppointmentTimer()
     }
     
+    // Fetches the details of the current doctor
     @MainActor
     func fetchDoctor() {
         Task {
@@ -30,20 +38,23 @@ class DoctorViewModel: ObservableObject {
                 self.doctor = doctor
                 self.fetchAppointments(for: Date())
             } catch {
-                print("Error fetching current doctor: \(error)")
-                if let error = error as? PostgrestError {
-                    if let errorCode = error.code {
-                        // doctor not found in doctors table
-                        if errorCode == "PGRST116"  {
-                            print("Doctor not found in doctors table, logging out...")
-                            try await SupaUser.logout()
-                        }
-                    }
-                }
+                handleFetchDoctorError(error)
             }
         }
     }
     
+    // Handles errors during fetching the doctor details
+    private func handleFetchDoctorError(_ error: Error) {
+        print("Error fetching current doctor: \(error)")
+        if let error = error as? PostgrestError, let errorCode = error.code, errorCode == "PGRST116" {
+            Task {
+                print("Doctor not found in doctors table, logging out...")
+                try await SupaUser.logout()
+            }
+        }
+    }
+    
+    // Fetches appointments for the given date
     func fetchAppointments(for date: Date) {
         guard let doctor = doctor else {
             return
@@ -63,16 +74,19 @@ class DoctorViewModel: ObservableObject {
         }
     }
     
+    // Marks an appointment as completed
     func markStatusCompleted(for appointment: Appointment) async throws {
         try await appointment.updateStatus(.completed)
         fetchAppointments(for: Date())
     }
     
+    // Returns the remaining appointments
     var remainingAppointments: [Appointment] {
         let now = Date()
         return appointments.filter { ($0.status == .pending || $0.status == .confirmed) && $0.date > now }
     }
     
+    // Starts the timer to fetch appointments at the next quarter hour
     private func startAppointmentTimer() {
         let now = Date()
         let calendar = Calendar.current
@@ -86,12 +100,14 @@ class DoctorViewModel: ObservableObject {
         }
     }
     
+    // Schedules a repeating timer to fetch appointments every 15 minutes
     private func scheduleRepeatingTimer() {
         appointmentTimer = Timer.scheduledTimer(withTimeInterval: 900, repeats: true) { [weak self] _ in
             self?.fetchAppointments(for: Date())
         }
     }
     
+    // Updates the current and next appointment
     private func updateCurrentAndNextAppointment() {
         let now = Date()
         currentAppointment = nil
@@ -112,6 +128,7 @@ class DoctorViewModel: ObservableObject {
         }
     }
     
+    // Updates the revenue based on the doctor's fee and number of appointments
     private func updateRevenue() {
         guard let fee = doctor?.fee else {
             return

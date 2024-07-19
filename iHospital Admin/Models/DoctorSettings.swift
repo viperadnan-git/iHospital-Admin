@@ -24,6 +24,7 @@ class DoctorSettings: Codable {
     
     static let sample = DoctorSettings(doctorId: UUID(), priorBookingDays: 7, startTime: Date(), endTime: Date(), selectedDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
     
+    // Custom encoding to handle date formatting
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(doctorId, forKey: .doctorId)
@@ -33,6 +34,7 @@ class DoctorSettings: Codable {
         try container.encode(selectedDays, forKey: .selectedDays)
     }
     
+    // Custom decoding to handle date formatting
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         doctorId = try container.decode(UUID.self, forKey: .doctorId)
@@ -59,6 +61,7 @@ class DoctorSettings: Codable {
         self.selectedDays = selectedDays
     }
     
+    // Returns default settings for a doctor
     static func getDefaultSettings(userId: UUID) -> DoctorSettings {
         let startTime = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())!
         let endTime = Calendar.current.date(bySettingHour: 17, minute: 0, second: 0, of: Date())!
@@ -73,7 +76,7 @@ class DoctorSettings: Codable {
         )
     }
     
-    
+    // Saves the doctor settings to the database
     func save() async throws {
         try await supabase.from("doctor_settings")
             .upsert(self)
@@ -81,6 +84,7 @@ class DoctorSettings: Codable {
             .execute()
     }
     
+    // Fetches the settings for a doctor from the database
     static func get(userId: UUID) async throws -> DoctorSettings {
         let response = try? await supabase.from("doctor_settings")
             .select()
@@ -92,7 +96,6 @@ class DoctorSettings: Codable {
             return getDefaultSettings(userId: userId)
         }
 
-        
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()

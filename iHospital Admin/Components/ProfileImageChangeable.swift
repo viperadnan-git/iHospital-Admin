@@ -12,27 +12,27 @@ struct ProfileImageChangeable: View {
     let userId: String
     var placeholder: Image = Image(systemName: "person.crop.circle.fill")
     
-    @State var image: Image?
-    @State var imageData: Data?
-    @State var isChangingImage: Bool = false
-    
-    @State private var isShowingPhotoPicker = false
-    @State private var isShowingCamera = false
-    @State private var showActionSheet = false
-    
+    @State private var image: Image?
+    @State private var imageData: Data?
+    @State private var isChangingImage: Bool = false
+    @State private var showActionSheet: Bool = false
+    @State private var isShowingPhotoPicker: Bool = false
+    @State private var isShowingCamera: Bool = false
+    @State private var error: String?
+
     var body: some View {
         VStack {
             Group {
                 if isChangingImage {
                     ProgressView()
                 } else if let imageData = imageData {
-                    if let image = image {
-                        image.resizable()
-                    } else {
+                    if image == nil {
                         ProgressView()
                             .onAppear {
-                                funcLoadImage(data: imageData)
+                                loadImage(from: imageData)
                             }
+                    } else {
+                        image?.resizable()
                     }
                 } else {
                     Image.asyncImage(
@@ -44,13 +44,12 @@ struct ProfileImageChangeable: View {
                         showProgress: false
                     )
                 }
-            }.scaledToFill()
-                .frame(width: 200, height: 200)
-                .clipShape(Circle())
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            
+            }
+            .scaledToFill()
+            .frame(width: 200, height: 200)
+            .clipShape(Circle())
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .center)
             
             Button {
                 showActionSheet = true
@@ -74,6 +73,9 @@ struct ProfileImageChangeable: View {
                     ]
                 )
             }
+            .alert(isPresented: Binding<Bool>.constant(error != nil)) {
+                Alert(title: Text("Error"), message: Text(error ?? "An unknown error occurred."), dismissButton: .default(Text("OK")))
+            }
         }
         .sheet(isPresented: $isShowingPhotoPicker) {
             ImagePicker(sourceType: .photoLibrary, selectedImageData: $imageData)
@@ -83,22 +85,17 @@ struct ProfileImageChangeable: View {
         }
         .onChange(of: imageData) { newImageData in
             Task {
-                guard let data = newImageData else {
-                    return
-                }
-                
-                guard let user = SupaUser.shared else {
-                    return
-                }
+                guard let data = newImageData else { return }
                 
                 do {
                     isChangingImage = true
-                    defer {isChangingImage = false}
+                    defer { isChangingImage = false }
                     
                     try await uploadImage(image: data)
                     ImageCache.shared.setImage(UIImage(data: data)!, forKey: "AV#\(userId)")
                     print("Image uploaded successfully")
                 } catch {
+                    self.error = error.localizedDescription
                     print("Error while saving data \(error)")
                 }
             }
@@ -111,11 +108,11 @@ struct ProfileImageChangeable: View {
             .download(path: path)
     }
     
-    private func funcLoadImage(data: Data) {
+    private func loadImage(from data: Data) {
         if let uiImage = UIImage(data: data) {
             image = Image(uiImage: uiImage)
         } else {
-            image = Image(systemName: "person.crop.circle.fill")
+            image = placeholder
         }
     }
     

@@ -104,7 +104,7 @@ class Staff: Codable, Identifiable, Hashable {
         type = try container.decode(StaffDepartment.self, forKey: .type)
     }
     
-    init(id: Int, userId: UUID?, firstName: String, lastName:String, dateOfBirth: Date, gender: Gender, email:String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) {
+    init(id: Int, userId: UUID?, firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, email: String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) {
         self.id = id
         self.userId = userId
         self.firstName = firstName
@@ -120,6 +120,7 @@ class Staff: Codable, Identifiable, Hashable {
         self.type = type
     }
     
+    // Saves the staff details to the database
     func save() async throws {
         var updateData: [String: String] = [
             "first_name": firstName,
@@ -134,7 +135,7 @@ class Staff: Codable, Identifiable, Hashable {
             "type": type.rawValue
         ]
         
-        if type != .labTechnician{
+        if type != .labTechnician {
             updateData["email"] = email
         }
         
@@ -144,6 +145,7 @@ class Staff: Codable, Identifiable, Hashable {
             .execute()
     }
     
+    // Fetches staff members of a specific department
     static func fetchDepartmentWise(department: StaffDepartment) async throws -> [Staff] {
         let response = try await supabase.from(SupabaseTable.staffs.id)
             .select(supabaseSelectQuery)
@@ -153,6 +155,7 @@ class Staff: Codable, Identifiable, Hashable {
         return try JSONDecoder().decode([Staff].self, from: response.data)
     }
     
+    // Fetches all staff members for a specific department
     static func fetchAllStaff(for department: StaffDepartment) async throws -> [Staff] {
         let response = try await supabase.from(SupabaseTable.staffs.id)
             .select(supabaseSelectQuery)
@@ -162,7 +165,8 @@ class Staff: Codable, Identifiable, Hashable {
         return try JSONDecoder().decode([Staff].self, from: response.data)
     }
     
-    static func new(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, email:String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) async throws -> Staff {
+    // Creates a new staff member
+    static func new(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, email: String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) async throws -> Staff {
         var userId: UUID? = nil
         var signupResponse: AuthResponse? = nil
         
@@ -200,6 +204,7 @@ class Staff: Codable, Identifiable, Hashable {
         return staff
     }
     
+    // Fetches the current staff member's details
     static func getMe() async throws -> Staff {
         // TODO: Implement cache
         let me = try await getMeFromSupabase()

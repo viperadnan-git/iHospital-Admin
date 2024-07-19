@@ -21,6 +21,7 @@ struct Department: Decodable {
         case hex
     }
     
+    // Converts hex string to Color
     var hexColor: Color {
         if let hex = hex {
             return Color(hex: "#\(hex)")
@@ -32,6 +33,7 @@ struct Department: Decodable {
     
     static var all: [Department]?
     
+    // Fetches all departments from the database
     static func fetchAll(force: Bool = false) async throws -> [Department] {
         if !force, let all = all {
             return all

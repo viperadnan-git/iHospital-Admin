@@ -26,13 +26,16 @@ struct MedicalRecord: Codable, Identifiable {
     
     static let supabaseSelectQuery = "*, appointment:appointment_id(\(Appointment.supabaseSelectQuery)), patient:patient_id(*)"
     
+    // Sample data for testing or previews
     static let sample = MedicalRecord(id: 1, note: "Patient has a fever", imagePath: "https://supabase.io/storage/v1/object/public/medical-records/1.jpg,https://supabase.io/storage/v1/object/public/medical-records/2.jpg", medicines: ["AZ Medicine", "AB Medicine"], appointment: Appointment.sample, patient: Patient.sample)
     
+    // Loads image data from the image path
     func loadImage() async throws -> Data {
         try await supabase.storage.from(SupabaseBucket.medicalRecords.id).download(path: imagePath)
     }
     
-    static func new(note:String, image: Data, medicines:[Medicine], labTests:[Int], appointment: Appointment) async throws {
+    // Creates a new medical record with associated data
+    static func new(note: String, image: Data, medicines: [Medicine], labTests: [Int], appointment: Appointment) async throws {
         let imagePath = try await appointment.saveImage(fileName: UUID().uuidString, data: image)
         
         let medicinesString = "{" + medicines.map { $0.text }.joined(separator: ", ") + "}"
@@ -49,7 +52,6 @@ struct MedicalRecord: Codable, Identifiable {
             .single()
             .execute()
             .value
-        
         
         if !labTests.isEmpty {
             let labTestParsed = labTests.map { item in

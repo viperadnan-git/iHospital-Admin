@@ -6,6 +6,7 @@
 //
 
 extension Double {
+    // Converts the double to a string
     var string: String {
         return String(self)
     }

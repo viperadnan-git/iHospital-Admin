@@ -34,11 +34,13 @@ struct ChangePasswordView: View {
                 Image("fp2")
                     .resizable()
                     .scaledToFit()
+                    .accessibilityLabel("Password reset image")
             }
             VStack {
                 Text("Change Password")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .accessibilityLabel("Change Password")
                 
                 Text("Enter your new password")
                     .font(.subheadline)
@@ -46,6 +48,7 @@ struct ChangePasswordView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 1)
                     .padding(.bottom, 20)
+                    .accessibilityLabel("Enter your new password")
                 
                 VStack(spacing: 4) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -60,12 +63,15 @@ struct ChangePasswordView: View {
                             .onChange(of: password) { _ in
                                 validatePassword()
                             }
+                            .accessibilityLabel("New Password")
+                            .accessibilityHint("Enter your new password")
                         
                         if let passwordError = passwordError {
                             Text(passwordError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel(passwordError)
                         } else {
                             Spacer().frame(height: 16)
                         }
@@ -83,12 +89,15 @@ struct ChangePasswordView: View {
                             .onChange(of: confirmPassword) { _ in
                                 validateConfirmPassword()
                             }
+                            .accessibilityLabel("Confirm Password")
+                            .accessibilityHint("Re-enter your new password to confirm")
                         
                         if let confirmPasswordError = confirmPasswordError {
                             Text(confirmPasswordError)
                                 .foregroundColor(.red)
                                 .font(.caption)
                                 .padding(.leading, 2)
+                                .accessibilityLabel(confirmPasswordError)
                         } else {
                             Spacer().frame(height: 16)
                         }
@@ -96,6 +105,8 @@ struct ChangePasswordView: View {
                     
                     LoaderButton(isLoading: $isLoading, action: onUpdatePassword) {
                         Text("Change Password")
+                            .accessibilityLabel("Change Password Button")
+                            .accessibilityHint("Tap to update your password")
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -104,6 +115,8 @@ struct ChangePasswordView: View {
         .padding()
         .padding(.trailing, 40)
         .errorAlert(errorAlertMessage: errorAlertMessage)
+        .accessibilityLabel("Change Password View")
+        .accessibilityHint("Change your account password here")
     }
     
     func validatePassword() {

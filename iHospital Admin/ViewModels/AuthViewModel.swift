@@ -14,16 +14,27 @@ class AuthViewModel: ObservableObject {
     
     @MainActor
     init() {
+        // Listen for authentication state changes
         Task {
-            // TODO: optimize this, this check for user login at startup
-            for await state in supabase.auth.authStateChanges {
-                if [.initialSession, .signedOut].contains(state.event) {
-                    try? await updateSupaUser()
+            await monitorAuthStateChanges()
+        }
+    }
+    
+    // Monitors authentication state changes and updates the user accordingly
+    @MainActor
+    private func monitorAuthStateChanges() async {
+        for await state in supabase.auth.authStateChanges {
+            if [.initialSession, .signedOut].contains(state.event) {
+                do {
+                    try await updateSupaUser()
+                } catch {
+                    print("Error updating user: \(error.localizedDescription)")
                 }
             }
         }
     }
     
+    // Updates the SupaUser instance with the current authenticated user
     @MainActor
     func updateSupaUser() async throws {
         let user = try await SupaUser.getSupaUser()

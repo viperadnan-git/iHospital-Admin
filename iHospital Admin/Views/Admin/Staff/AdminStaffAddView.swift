@@ -45,12 +45,17 @@ struct AdminStaffAddView: View {
                         .padding()
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)
+                        .accessibilityHidden(true)
                 }
-                Section(header: Text("Personal Information")) {
+                Section(header: Text("Personal Information").accessibilityAddTraits(.isHeader)) {
                     TextField("First Name", text: $firstName)
+                        .accessibilityLabel("First Name")
+                        .accessibilityHint("Enter the first name")
                         .onChange(of: firstName) { _ in validateFirstName() }
                         .overlay(Image.validationIcon(for: firstNameError), alignment: .trailing)
                     TextField("Last Name", text: $lastName)
+                        .accessibilityLabel("Last Name")
+                        .accessibilityHint("Enter the last name")
                         .onChange(of: lastName) { _ in validateLastName() }
                         .overlay(Image.validationIcon(for: lastNameError), alignment: .trailing)
                     Picker("Gender", selection: $gender) {
@@ -58,24 +63,40 @@ struct AdminStaffAddView: View {
                             Text(gender.rawValue.capitalized).tag(gender)
                         }
                     }
+                    .accessibilityLabel("Gender")
+                    .accessibilityHint("Select the gender")
                     DatePicker("Date of Birth", selection: $dob, in: Date.RANGE_MIN_18_YEARS_OLD, displayedComponents: .date)
+                        .accessibilityLabel("Date of Birth")
+                        .accessibilityHint("Select the date of birth")
                     TextField("Phone Number", text: $phoneNumber)
+                        .accessibilityLabel("Phone Number")
+                        .accessibilityHint("Enter the phone number")
                         .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
                         .overlay(Image.validationIcon(for: phoneNumberError), alignment: .trailing)
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
+                        .accessibilityLabel("Email")
+                        .accessibilityHint("Enter the email address")
                         .onChange(of: email) { _ in validateEmail() }
                         .disabled(staffType == .labTechnician && staffId != nil)
                         .overlay(Image.validationIcon(for: emailError), alignment: .trailing)
                     TextField("Address", text: $address)
+                        .accessibilityLabel("Address")
+                        .accessibilityHint("Enter the address")
                         .onChange(of: address) { _ in validateAddress() }
                         .overlay(Image.validationIcon(for: addressError), alignment: .trailing)
                     DatePicker("Date of Joining", selection: $dateOfJoining, in: ...Date(), displayedComponents: .date)
+                        .accessibilityLabel("Date of Joining")
+                        .accessibilityHint("Select the date of joining")
                     TextField("Qualifications", text: $qualifications)
+                        .accessibilityLabel("Qualifications")
+                        .accessibilityHint("Enter the qualifications")
                         .onChange(of: qualifications) { _ in validateQualifications() }
                         .overlay(Image.validationIcon(for: qualificationsError), alignment: .trailing)
                     DatePicker("Experience Since", selection: $experienceSince, in: ...Date(), displayedComponents: .date)
+                        .accessibilityLabel("Experience Since")
+                        .accessibilityHint("Select the experience start date")
                 }
             }
             .navigationTitle(staffId == nil ? "Add Profile" : "Edit Profile")
@@ -83,11 +104,15 @@ struct AdminStaffAddView: View {
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }
-            .disabled(isSaving),
+            .disabled(isSaving)
+            .accessibilityLabel("Cancel")
+            .accessibilityHint("Cancel adding or editing the staff profile"),
             trailing: Button("Save") {
                 saveProfile()
             }
-            .disabled(isSaving))
+            .disabled(isSaving)
+            .accessibilityLabel("Save")
+            .accessibilityHint("Save the staff profile"))
         }
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .interactiveDismissDisabled()

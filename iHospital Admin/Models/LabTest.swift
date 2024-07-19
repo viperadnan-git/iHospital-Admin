@@ -44,6 +44,7 @@ class LabTest: Codable, Identifiable {
         self.reportPath = reportPath
     }
     
+    // Updates the sample ID and status of the lab test
     func updateSampleID(_ sampleID: String) async throws -> LabTest {
         self.sampleID = sampleID
         
@@ -58,13 +59,14 @@ class LabTest: Codable, Identifiable {
         return response
     }
     
+    // Uploads a report and updates the lab test status
     func uploadReport(_ filePath: URL) async throws -> LabTest {
         let name = "\(id)/\(filePath.lastPathComponent)"
         let uploadedFile = try await supabase.storage.from(SupabaseBucket.labReports.id).upload(path: name, file: try Data(contentsOf: filePath))
 
         self.reportPath = uploadedFile.path
 
-        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
+        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
             .update([CodingKeys.reportPath.rawValue: uploadedFile.path, CodingKeys.status.rawValue: LabTestStatus.completed.rawValue])
             .eq(CodingKeys.id.rawValue, value: self.id)
             .select(LabTest.supabaseSelectQuery)
@@ -75,6 +77,7 @@ class LabTest: Codable, Identifiable {
         return response
     }
     
+    // Downloads the report for the lab test
     func downloadReport() async throws -> URL {
         guard let reportPath = self.reportPath else {
             throw SupabaseError.invalidData
@@ -93,12 +96,14 @@ class LabTest: Codable, Identifiable {
         return url
     }
     
+    // Fetches all lab tests from the database
     static func fetchAll() async throws -> [LabTest] {
-        let response:[LabTest] = try await supabase.from(SupabaseTable.labTests.id).select(supabaseSelectQuery).execute().value
+        let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id).select(supabaseSelectQuery).execute().value
         
         return response
     }
     
+    // Counts the number of lab tests in the database
     static func count() async throws -> Int {
         let response = try await supabase.from(SupabaseTable.labTests.id)
             .select("*", head: true, count: .exact)
@@ -109,13 +114,13 @@ class LabTest: Codable, Identifiable {
     }
 }
 
-
 enum LabTestStatus: String, Codable, CaseIterable {
     case pending
     case waiting
     case inProgress = "in-progress"
     case completed
     
+    // Provides a color representation of the lab test status
     var color: Color {
         switch self {
         case .pending:

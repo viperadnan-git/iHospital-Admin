@@ -5,7 +5,6 @@
 //  Created by Adnan Ahmad on 04/07/24.
 //
 
-
 import SwiftUI
 import Combine
 
@@ -16,14 +15,14 @@ class AdminDoctorViewModel: ObservableObject {
     
     private var cached: [Doctor] = []
     
+    // Fetches the list of doctors for a specific department
     @MainActor
     func fetchDoctors(department: Department, showLoader: Bool = true, force: Bool = false) {
         if !force, !cached.isEmpty {
             doctors = cached
             return
         }
-    
-        
+
         Task {
             self.isLoading = showLoader
             defer {
@@ -44,6 +43,7 @@ class AdminDoctorViewModel: ObservableObject {
         }
     }
     
+    // Adds a new doctor and updates the list
     func new(doctor: Doctor) async throws {
         let doctor = try await Doctor.new(doctor: doctor)
         DispatchQueue.main.async {

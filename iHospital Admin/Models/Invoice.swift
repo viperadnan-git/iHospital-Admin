@@ -12,6 +12,7 @@ enum PaymentType: String, Codable {
     case labTest = "lab_test"
     case bed
     
+    // Returns a user-friendly name for the payment type
     var name: String {
         switch self {
         case .appointment:
@@ -66,6 +67,7 @@ struct Invoice: Identifiable, Codable {
                                 referenceId: 1,
                                 status: .pending)
     
+    // Fetches the referenced object based on the payment type
     func fetchReferencedObject() async throws -> Any {
         switch paymentType {
         case .appointment:
@@ -77,8 +79,9 @@ struct Invoice: Identifiable, Codable {
         }
     }
     
+    // Fetches the appointment corresponding to the reference ID
     private func fetchAppointment(referenceId: Int) async throws -> Appointment {
-        let response:Appointment = try await supabase.from(SupabaseTable.appointments.id)
+        let response: Appointment = try await supabase.from(SupabaseTable.appointments.id)
             .select()
             .eq("id", value: referenceId)
             .single()
@@ -88,8 +91,9 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
+    // Fetches the lab test corresponding to the reference ID
     private func fetchLabTest(referenceId: Int) async throws -> LabTest {
-        let response:LabTest = try await supabase.from(SupabaseTable.labTests.id)
+        let response: LabTest = try await supabase.from(SupabaseTable.labTests.id)
             .select()
             .eq("id", value: referenceId)
             .single()
@@ -99,8 +103,9 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
+    // Fetches the bed booking corresponding to the reference ID
     private func fetchBedBooking(referenceId: Int) async throws -> BedBooking {
-        let response:BedBooking = try await supabase.from(SupabaseTable.bedBookings.id)
+        let response: BedBooking = try await supabase.from(SupabaseTable.bedBookings.id)
             .select()
             .eq("id", value: referenceId)
             .single()
@@ -110,6 +115,7 @@ struct Invoice: Identifiable, Codable {
         return response
     }
     
+    // Fetches the revenue count
     static func fetchRevenue() async throws -> RevenueCount {
         let response: RevenueCount = try await supabase.rpc("get_invoice_totals").execute().value
         return response

@@ -60,6 +60,9 @@ struct AdminStaffView: View {
                     .buttonStyle(PlainButtonStyle())
                     .frame(height: 150)
                     .padding(.horizontal, 4)
+                    .accessibilityElement()
+                    .accessibilityLabel(department.name)
+                    .accessibilityHint("Navigates to the list of \(department.name) staff")
                 }
             }
             .padding()
@@ -116,17 +119,18 @@ struct AdminStaffListView: View {
                 CenterSpinner()
             }
             else if staffViewModel.staffs.isEmpty {
-                    Spacer()
-                    Image(systemName: "xmark.bin")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                        .padding()
-                        .foregroundColor(Color(.systemGray6))
-                    
+                Spacer()
+                Image(systemName: "xmark.bin")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding()
+                    .foregroundColor(Color(.systemGray6))
+                    .accessibilityHidden(true)
+                
                 Text("Tap the + button to add a staff in \(department.name) department")
-                        .font(.title2)
-                        .foregroundColor(.gray)
+                    .font(.title2)
+                    .foregroundColor(.gray)
             } else {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(filteredStaffs) { staff in
@@ -135,12 +139,11 @@ struct AdminStaffListView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         .frame(height: 150)
-                        .padding(.top,30)
-                        .padding(.horizontal,4)
+                        .padding(.top, 30)
+                        .padding(.horizontal, 4)
                     }
                 }
                 .padding()
-                
             }
             Spacer()
         }
@@ -150,24 +153,24 @@ struct AdminStaffListView: View {
         }) {
             Image(systemName: "plus")
                 .font(.title2)
+                .accessibilityLabel("Add Staff")
+                .accessibilityHint("Tap to add a new staff in \(department.name) department")
         })
         .sheet(isPresented: $showingForm) {
             AdminStaffAddView(staffType: department)
-        }.onAppear {
+        }
+        .onAppear {
             Task {
                 do {
                     try await staffViewModel.fetchStaffs(for: department)
                 } catch {
                     errorAlertMessage.message = error.localizedDescription
                 }
-                
             }
         }
         .environmentObject(staffViewModel)
         .searchable(text: $searchText)
     }
-    
-    
     
     private var filteredStaffs: [Staff] {
         if searchText.isEmpty {
@@ -177,7 +180,6 @@ struct AdminStaffListView: View {
                 staff.name.lowercased().contains(searchText.lowercased())
                 || staff.email.lowercased().contains(searchText.lowercased())
                 || staff.phoneNumber.string.contains(searchText.lowercased())
-
             }
         }
     }
@@ -197,6 +199,7 @@ struct StaffInfoCard: View {
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())
                     .padding(.top, 4)
+                    .accessibilityHidden(true)
                 
                 Text(staff.name)
                     .font(.headline)
@@ -204,6 +207,7 @@ struct StaffInfoCard: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
                     .padding(.top, 4)
+                    .accessibilityLabel("Name: \(staff.name)")
 
                 HStack(spacing: 2) {
                     Image(systemName: "envelope.fill")
@@ -212,12 +216,14 @@ struct StaffInfoCard: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
+                        .accessibilityLabel("Email: \(staff.email)")
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .background(Color(.systemGray6))
             .cornerRadius(10)
+            .accessibilityElement(children: .combine)
         }
     }
 }

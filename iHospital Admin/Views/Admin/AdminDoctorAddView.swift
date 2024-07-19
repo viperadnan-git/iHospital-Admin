@@ -59,6 +59,7 @@ struct AdminDoctorAddView: View {
                         .padding()
                         .foregroundColor(Color(.systemGray))
                         .frame(maxWidth: .infinity)
+                        .accessibility(hidden: true)
                 }
                 
                 Section(header: Text("Personal Information")) {
@@ -69,6 +70,8 @@ struct AdminDoctorAddView: View {
                             .focused($focusedField, equals: .firstName)
                             .onChange(of: firstName) { _ in validateFirstName() }
                             .overlay(Image.validationIcon(for: firstNameError), alignment: .trailing)
+                            .accessibility(label: Text("First Name"))
+                            .accessibility(value: Text(firstNameError ?? ""))
                         Divider()
                         
                         TextField("Last Name", text: $lastName)
@@ -77,6 +80,8 @@ struct AdminDoctorAddView: View {
                             .focused($focusedField, equals: .lastName)
                             .onChange(of: lastName) { _ in validateLastName() }
                             .overlay(Image.validationIcon(for: lastNameError), alignment: .trailing)
+                            .accessibility(label: Text("Last Name"))
+                            .accessibility(value: Text(lastNameError ?? ""))
                     }
                     
                     Picker("Gender", selection: $gender) {
@@ -84,8 +89,10 @@ struct AdminDoctorAddView: View {
                             Text(gender.rawValue.capitalized).tag(gender)
                         }
                     }
+                    .accessibility(label: Text("Gender"))
                     
                     DatePicker("Date of Birth", selection: $dateOfBirth, in: Date.RANGE_MIN_24_YEARS_OLD, displayedComponents: .date)
+                        .accessibility(label: Text("Date of Birth"))
                     
                     TextField("Phone Number", text: $phoneNumber)
                         .textContentType(.telephoneNumber)
@@ -93,6 +100,8 @@ struct AdminDoctorAddView: View {
                         .focused($focusedField, equals: .phoneNumber)
                         .onChange(of: phoneNumber) { _ in validatePhoneNumber() }
                         .overlay(Image.validationIcon(for: phoneNumberError), alignment: .trailing)
+                        .accessibility(label: Text("Phone Number"))
+                        .accessibility(value: Text(phoneNumberError ?? ""))
                     
                     if doctor == nil {
                         TextField("Email", text: $email)
@@ -101,27 +110,37 @@ struct AdminDoctorAddView: View {
                             .focused($focusedField, equals: .email)
                             .onChange(of: email) { _ in validateEmail() }
                             .overlay(Image.validationIcon(for: emailError), alignment: .trailing)
+                            .accessibility(label: Text("Email"))
+                            .accessibility(value: Text(emailError ?? ""))
                     }
                     
                     TextField("Address", text: $address)
                         .focused($focusedField, equals: .address)
                         .onChange(of: address) { _ in validateAddress() }
                         .overlay(Image.validationIcon(for: addressError), alignment: .trailing)
+                        .accessibility(label: Text("Address"))
+                        .accessibility(value: Text(addressError ?? ""))
                     
                     TextField("Qualifications", text: $qualifications)
                         .focused($focusedField, equals: .qualifications)
                         .onChange(of: qualifications) { _ in validateQualifications() }
                         .overlay(Image.validationIcon(for: qualificationsError), alignment: .trailing)
+                        .accessibility(label: Text("Qualifications"))
+                        .accessibility(value: Text(qualificationsError ?? ""))
                     
                     DatePicker("Date of Joining", selection: $dateOfJoining, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
+                        .accessibility(label: Text("Date of Joining"))
                     DatePicker("Practicing Since", selection: $experienceSince, in: Date.RANGE_MAX_60_YEARS_AGO, displayedComponents: .date)
+                        .accessibility(label: Text("Practicing Since"))
                     TextField("Fee", text: $fee)
                         .keyboardType(.numberPad)
                         .onChange(of: fee) { _ in validateFee() }
                         .overlay(Image.validationIcon(for: feeError), alignment: .trailing)
+                        .accessibility(label: Text("Fee"))
+                        .accessibility(value: Text(feeError ?? ""))
                 }
             }
-            .navigationTitle("\(doctor == nil ? "Add New":"Edit") Doctor")
+            .navigationTitle("\(doctor == nil ? "Add New" : "Edit") Doctor")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
@@ -131,7 +150,7 @@ struct AdminDoctorAddView: View {
                 }
             }.disabled(isSaving))
             .errorAlert(errorAlertMessage: errorAlertMessage)
-            .onAppear(perform:onAppear)
+            .onAppear(perform: onAppear)
         }
     }
     
@@ -156,6 +175,7 @@ struct AdminDoctorAddView: View {
         validatePhoneNumber()
         validateAddress()
         validateQualifications()
+        validateFee()
         
         guard firstNameError == nil,
               lastNameError == nil,
@@ -163,6 +183,7 @@ struct AdminDoctorAddView: View {
               phoneNumberError == nil,
               addressError == nil,
               qualificationsError == nil,
+              feeError == nil,
               !firstName.isEmpty,
               !lastName.isEmpty,
               !email.isEmpty,
@@ -197,9 +218,11 @@ struct AdminDoctorAddView: View {
                 doctor.qualification = qualifications.trimmed
                 doctor.experienceSince = experienceSince
                 doctor.dateOfJoining = dateOfJoining
+                doctor.departmentId = department.id
+                doctor.fee = fee
                 try await doctor.save()
             } else {
-                let doctor = Doctor(userId: UUID(), firstName: firstName.trimmed.capitalized, lastName: lastName.trimmed.capitalized, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email.trimmed, qualification: email.trimmed, experienceSince: experienceSince, dateOfJoining: dateOfJoining, departmentId: department.id, fee: fee, doctorSettings: DoctorSettings.sample)
+                let doctor = Doctor(userId: UUID(), firstName: firstName.trimmed.capitalized, lastName: lastName.trimmed.capitalized, dateOfBirth: dateOfBirth, gender: gender, phoneNumber: phoneNumber, email: email.trimmed, qualification: qualifications.trimmed, experienceSince: experienceSince, dateOfJoining: dateOfJoining, departmentId: department.id, fee: fee, doctorSettings: DoctorSettings.sample)
                 try await adminDoctorViewModel.new(doctor: doctor)
             }
             presentationMode.wrappedValue.dismiss()

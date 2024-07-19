@@ -79,15 +79,15 @@ class Appointment: Codable, Hashable, Identifiable {
         status = try container.decode(AppointmentStatus.self, forKey: .status)
     }
     
-    
     static var allAppointments: [Appointment] = []
     
+    // Fetches all appointments from the database
     static func fetchAppointments(force: Bool = false) async throws -> [Appointment] {
         if !force, !allAppointments.isEmpty {
             return allAppointments
         }
 
-        let response:[Appointment] = try await supabase
+        let response: [Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)
             .execute()
@@ -96,8 +96,9 @@ class Appointment: Codable, Hashable, Identifiable {
         return response
     }
     
+    // Fetches appointments for a specific date
     static func fetchAppointments(forDate date: Date) async throws -> [Appointment] {
-        let response:[Appointment] = try await supabase
+        let response: [Appointment] = try await supabase
             .from(SupabaseTable.appointments.id)
             .select(supabaseSelectQuery)
             .gte("date", value: date.startOfDay.ISO8601Format())
@@ -108,13 +109,15 @@ class Appointment: Codable, Hashable, Identifiable {
         return response
     }
     
-    func saveImage(fileName:String, data: Data) async throws -> String {
+    // Saves an image related to the appointment
+    func saveImage(fileName: String, data: Data) async throws -> String {
         let name = "\(id.string)/\(fileName).png"
         let response = try await supabase.storage.from(SupabaseBucket.medicalRecords.id).upload(path: name, file: data)
         
         return response.path
     }
     
+    // Updates the status of the appointment
     func updateStatus(_ status: AppointmentStatus) async throws {
         self.status = status
         try await supabase.from(SupabaseTable.appointments.id)
@@ -138,9 +141,7 @@ enum PaymentStatus: String, Codable {
             return .green
         case .pending:
             return .yellow
-        case .failed:
-            return .red
-        case .cancelled:
+        case .failed, .cancelled:
             return .red
         }
     }

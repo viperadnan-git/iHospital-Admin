@@ -1,7 +1,7 @@
-
 import SwiftUI
 
 extension Color {
+    // Initializes a Color instance using a hex string
     init(hex: String) {
         let scanner = Scanner(string: hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted))
         var hexNumber: UInt64 = 0
@@ -15,6 +15,7 @@ extension Color {
             return
         }
         
+        // Fallback to black color if hex string is invalid
         self.init(red: 0, green: 0, blue: 0)
     }
 }

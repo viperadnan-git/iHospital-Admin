@@ -32,6 +32,7 @@ struct LabTestView: View {
         if let test = labTechViewModel.labTests.first(where: { $0.id == testId }) {
             HStack {
                 PatienDetailsColumn(patient: test.appointment.patient)
+                    .accessibilityLabel("Patient details")
                 
                 VStack(alignment: .leading) {
                     Form {
@@ -40,16 +41,21 @@ struct LabTestView: View {
                                 Text("Test ID")
                                 Spacer()
                                 Text("\(test.id)")
+                                    .accessibilityLabel("Test ID")
+                                    .accessibilityValue("\(test.id)")
                             }
                             HStack {
                                 Text("Test Name")
                                 Spacer()
                                 Text(test.test.name)
+                                    .accessibilityLabel("Test Name")
+                                    .accessibilityValue(test.test.name)
                             }
                             HStack {
                                 Text("Test Date")
                                 Spacer()
                                 Text(test.appointment.date, style: .date)
+                                    .accessibilityLabel("Test Date")
                             }
                             
                             if let sampleID = test.sampleID {
@@ -57,6 +63,8 @@ struct LabTestView: View {
                                     Text("Sample ID")
                                     Spacer()
                                     Text(sampleID)
+                                        .accessibilityLabel("Sample ID")
+                                        .accessibilityValue(sampleID)
                                 }
                             }
                             
@@ -69,6 +77,8 @@ struct LabTestView: View {
                                     } label: {
                                         Text(test.reportName)
                                             .multilineTextAlignment(.trailing)
+                                            .accessibilityLabel("Report")
+                                            .accessibilityHint("Tap to view the report")
                                     }
                                     .buttonStyle(.borderless)
                                     .sheet(isPresented: $isShowingPDF) {
@@ -85,6 +95,8 @@ struct LabTestView: View {
                                     .autocapitalization(.allCharacters)
                                     .onChange(of: sampleID) { _ in validateSampleID() }
                                     .overlay(validationIcon(for: sampleIDError), alignment: .trailing)
+                                    .accessibilityLabel("Sample ID input")
+                                    .accessibilityHint("Enter the sample ID for this test.")
                                 
                                 HStack {
                                     Spacer()
@@ -98,6 +110,8 @@ struct LabTestView: View {
                                     }
                                     .buttonStyle(.borderless)
                                     .disabled(isSavingSampleID || sampleIDError != nil)
+                                    .accessibilityLabel("Save Sample ID")
+                                    .accessibilityHint("Tap to save the entered sample ID.")
                                 }
                             }
                         }
@@ -107,12 +121,17 @@ struct LabTestView: View {
                                 if let selectedPDFURL = selectedPDFURL {
                                     HStack {
                                         Image(systemName: "doc.text")
+                                            .accessibilityLabel("PDF Document")
                                         Text(selectedPDFURL.lastPathComponent)
+                                            .accessibilityLabel("Selected PDF")
+                                            .accessibilityValue(selectedPDFURL.lastPathComponent)
                                         Spacer()
                                         Button(action: {
                                             isShowingPDFPreview = true
                                         }) {
                                             Image(systemName: "eye")
+                                                .accessibilityLabel("Preview PDF")
+                                                .accessibilityHint("Tap to preview the selected PDF.")
                                         }
                                         .sheet(isPresented: $isShowingPDFPreview) {
                                             PDFKitRepresentedView(selectedPDFURL)
@@ -123,6 +142,8 @@ struct LabTestView: View {
                                         Spacer()
                                         if isUploading {
                                             ProgressView()
+                                                .accessibilityLabel("Uploading")
+                                                .accessibilityHint("The report is being uploaded.")
                                         } else {
                                             Button {
                                                 uploadReport(test: test, pdfURL: selectedPDFURL)
@@ -134,6 +155,8 @@ struct LabTestView: View {
                                             }
                                             .buttonStyle(.borderless)
                                             .disabled(isUploading)
+                                            .accessibilityLabel("Upload Report")
+                                            .accessibilityHint("Tap to upload the selected report.")
                                         }
                                     }
                                 }
@@ -150,6 +173,8 @@ struct LabTestView: View {
                                     }
                                     .buttonStyle(.borderless)
                                     .disabled(isUploading)
+                                    .accessibilityLabel("Select PDF from File")
+                                    .accessibilityHint("Tap to select a PDF file from your device.")
                                     .sheet(isPresented: $isShowingDocumentPicker) {
                                         DocumentPickerView { result in
                                             switch result {
@@ -174,6 +199,8 @@ struct LabTestView: View {
                                     }
                                     .buttonStyle(.borderless)
                                     .disabled(isUploading || isRequestingCameraPermission)
+                                    .accessibilityLabel("Scan Report")
+                                    .accessibilityHint("Tap to scan a report using the camera.")
                                     .sheet(isPresented: $isShowingScanner) {
                                         DocumentScannerView { result in
                                             switch result {
@@ -188,17 +215,22 @@ struct LabTestView: View {
                                 }
                             }
                         } else {
-                            
+                            // Potentially add content or functionality here if needed
                         }
                     }
                 }
-            }.errorAlert(errorAlertMessage: errorAlertMessage)
+            }
+            .errorAlert(errorAlertMessage: errorAlertMessage)
+            .accessibilityLabel("Lab Test View")
+            .accessibilityHint("Displays detailed information about the selected lab test.")
         } else {
             VStack {
                 Spacer()
                 Text("No test found with ID \(testId)")
                     .font(.headline)
                     .foregroundColor(.gray)
+                    .accessibilityLabel("No Test Found")
+                    .accessibilityHint("No lab test details are available for the provided ID.")
                 Spacer()
             }
         }

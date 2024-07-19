@@ -34,8 +34,12 @@ struct DoctorDashboardView: View {
                                                 Text(doctorViewModel.remainingAppointments.count.string + "/")
                                                     .font(.system(size: 80, weight: .bold))
                                                 Text(doctorViewModel.appointments.count.string)
-                                            }.foregroundColor(.white)
-                                                .font(.system(size: 60, weight: .bold))
+                                            }
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 60, weight: .bold))
+                                            .accessibilityElement(children: .combine)
+                                            .accessibilityLabel("Remaining and total appointments")
+                                            .accessibilityValue("\(doctorViewModel.remainingAppointments.count) remaining out of \(doctorViewModel.appointments.count) appointments")
                                             
                                             Spacer()
                                             
@@ -50,7 +54,7 @@ struct DoctorDashboardView: View {
                                                 .foregroundColor(.white)
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                         }
-                                            .padding()
+                                        .padding()
                                     )
                                 
                                 RoundedRectangle(cornerRadius: 10)
@@ -62,6 +66,8 @@ struct DoctorDashboardView: View {
                                                 .foregroundColor(.white)
                                                 .font(.system(size: 30, weight: .bold))
                                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                                .accessibilityLabel("Today's revenue")
+                                                .accessibilityValue(doctorViewModel.revenue.formatted(.currency(code: Constants.currencyCode)))
                                             Text("Today's")
                                                 .font(.caption)
                                                 .textCase(.uppercase)
@@ -73,7 +79,7 @@ struct DoctorDashboardView: View {
                                                 .foregroundColor(.white)
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                         }
-                                            .padding()
+                                        .padding()
                                     )
                             }
                             
@@ -84,6 +90,7 @@ struct DoctorDashboardView: View {
                                             .font(.title)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
+                                            .accessibilityLabel("Current appointment")
                                         Spacer()
                                         HStack(spacing: 5) {
                                             Image(systemName: "clock.fill")
@@ -92,6 +99,8 @@ struct DoctorDashboardView: View {
                                                 .foregroundColor(.white)
                                             Text(currentAppointment.date.timeString)
                                                 .foregroundColor(.white)
+                                                .accessibilityLabel("Time")
+                                                .accessibilityValue(currentAppointment.date.timeString)
                                         }
                                     }
                                     Spacer()
@@ -103,12 +112,16 @@ struct DoctorDashboardView: View {
                                             .foregroundColor(.white)
                                         Text(currentAppointment.patient.phoneNumber.string)
                                             .foregroundColor(.white)
+                                            .accessibilityLabel("Phone number")
+                                            .accessibilityValue(currentAppointment.patient.phoneNumber.string)
                                     }
                                     HStack(alignment: .bottom) {
                                         Text(currentAppointment.patient.name)
                                             .foregroundColor(.white)
                                             .font(.title)
                                             .bold()
+                                            .accessibilityLabel("Patient name")
+                                            .accessibilityValue(currentAppointment.patient.name)
                                         Spacer()
                                         Button {
                                             navigation.path.append(currentAppointment)
@@ -117,6 +130,7 @@ struct DoctorDashboardView: View {
                                                 .resizable()
                                                 .frame(width: 50, height: 50)
                                                 .foregroundColor(.white)
+                                                .accessibilityLabel("Go to appointment details")
                                         }
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -127,6 +141,7 @@ struct DoctorDashboardView: View {
                                                 .font(.title)
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.white)
+                                                .accessibilityLabel("Next appointment")
                                             Spacer()
                                             HStack(spacing: 5) {
                                                 Image(systemName: "clock.fill")
@@ -135,6 +150,8 @@ struct DoctorDashboardView: View {
                                                     .foregroundColor(.white)
                                                 Text(nextAppointment.date.timeString)
                                                     .foregroundColor(.white)
+                                                    .accessibilityLabel("Time")
+                                                    .accessibilityValue(nextAppointment.date.timeString)
                                             }
                                         }
                                         Spacer()
@@ -146,23 +163,27 @@ struct DoctorDashboardView: View {
                                                 .foregroundColor(.white)
                                             Text(nextAppointment.patient.phoneNumber.string)
                                                 .foregroundColor(.white)
+                                                .accessibilityLabel("Phone number")
+                                                .accessibilityValue(nextAppointment.patient.phoneNumber.string)
                                         }
                                         HStack(alignment: .bottom) {
                                             Text(nextAppointment.patient.name)
                                                 .foregroundColor(.white)
                                                 .font(.title)
                                                 .bold()
+                                                .accessibilityLabel("Patient name")
+                                                .accessibilityValue(nextAppointment.patient.name)
                                             Spacer()
                                         }
                                     }
                                     
-                                }
-                                else {
+                                } else {
                                     HStack {
                                         Text("No Appointments\nfor today")
                                             .font(.title)
                                             .fontWeight(.semibold)
                                             .foregroundColor(.white)
+                                            .accessibilityLabel("No appointments for today")
                                         Spacer()
                                     }
                                     Spacer()
@@ -186,6 +207,7 @@ struct DoctorDashboardView: View {
                             } label: {
                                 Text("View All")
                             }
+                            .accessibilityLabel("View all appointments")
                         }
                         .padding()
                         
@@ -213,6 +235,7 @@ struct DoctorDashboardView: View {
                         } label: {
                             ProfileImage(userId: doctorViewModel.doctor?.userId.uuidString ?? "")
                                 .frame(width: 40, height: 40)
+                                .accessibilityLabel("Profile settings")
                         }
                     )
                 }
@@ -221,7 +244,6 @@ struct DoctorDashboardView: View {
         }
     }
 }
-
 
 #Preview {
     DoctorDashboardView()

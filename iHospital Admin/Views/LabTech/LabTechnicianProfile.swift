@@ -13,63 +13,84 @@ struct LabTechnicianProfile: View {
     @State private var showLogoutAlert = false
 
     var body: some View {
-        HStack{
+        HStack {
             if let labTech = labTechnicianViewModel.labTech {
-                Form{
+                Form {
                     if let userId = labTech.userId {
-                        Section{
+                        Section {
                             ProfileImageChangeable(userId: userId.uuidString)
+                                .accessibilityLabel("Profile Image")
+                                .accessibilityHint("Tap to change profile image")
                         }
                     }
                     
-                    Section(header: Text("Lab Technician Details")){
-                        HStack{
+                    Section(header: Text("Lab Technician Details")
+                        .accessibilityLabel("Lab Technician Details Section")) {
+                        HStack {
                             Text("Name")
+                                .accessibilityLabel("Name")
                             Spacer()
                             Text(labTech.name)
+                                .accessibilityLabel("Name: \(labTech.name)")
                         }
-                        HStack{
+                        HStack {
                             Text("Gender")
+                                .accessibilityLabel("Gender")
                             Spacer()
                             Text(labTech.gender.id.capitalized)
+                                .accessibilityLabel("Gender: \(labTech.gender.id.capitalized)")
                         }
-                        HStack{
+                        HStack {
                             Text("Age")
+                                .accessibilityLabel("Age")
                             Spacer()
                             Text(labTech.dateOfBirth.ago)
+                                .accessibilityLabel("Age: \(labTech.dateOfBirth.ago)")
                         }
-                        HStack{
+                        HStack {
                             Text("Phone Number")
+                                .accessibilityLabel("Phone Number")
                             Spacer()
                             Text(labTech.phoneNumber.string)
+                                .accessibilityLabel("Phone Number: \(labTech.phoneNumber.string)")
                         }
-                        HStack{
+                        HStack {
                             Text("Email")
+                                .accessibilityLabel("Email")
                             Spacer()
                             Text(labTech.email)
+                                .accessibilityLabel("Email: \(labTech.email)")
                         }
-                        HStack{
+                        HStack {
                             Text("Date Of Joining")
+                                .accessibilityLabel("Date Of Joining")
                             Spacer()
                             Text(labTech.dateOfJoining.ago)
+                                .accessibilityLabel("Date Of Joining: \(labTech.dateOfJoining.ago)")
                         }
-                        HStack{
+                        HStack {
                             Text("Qualification")
+                                .accessibilityLabel("Qualification")
                             Spacer()
                             Text(labTech.qualification)
+                                .accessibilityLabel("Qualification: \(labTech.qualification)")
                         }
-                        HStack{
+                        HStack {
                             Text("Experience Since")
+                                .accessibilityLabel("Experience Since")
                             Spacer()
                             Text(labTech.experienceSince.ago)
+                                .accessibilityLabel("Experience Since: \(labTech.experienceSince.ago)")
                         }
                     }
                 }
-                Form{
-                    
-                    Section(header: Text("Account Settings")) {
+                
+                Form {
+                    Section(header: Text("Account Settings")
+                        .accessibilityLabel("Account Settings Section")) {
                         NavigationLink(destination: ChangePasswordView(shouldDismiss: true)) {
                             Text("Change Password")
+                                .accessibilityLabel("Change Password")
                         }
                     }
                     Section {
@@ -78,7 +99,10 @@ struct LabTechnicianProfile: View {
                         }) {
                             Text("Log Out")
                                 .frame(maxWidth: .infinity, alignment: .center)
-                        }.alert(isPresented: $showLogoutAlert) {
+                                .accessibilityLabel("Log Out")
+                                .accessibilityHint("Tap to log out of the account")
+                        }
+                        .alert(isPresented: $showLogoutAlert) {
                             Alert(
                                 title: Text("Confirm Logout"),
                                 message: Text("Are you sure you want to log out?"),
@@ -89,13 +113,14 @@ struct LabTechnicianProfile: View {
                             )
                         }
                     }
-
                 }
             }
-                
         }
         .navigationTitle("Profile")
-        }
+        .accessibilityLabel("Lab Technician Profile")
+        .accessibilityHint("Displays the profile details of the lab technician")
+    }
+
     private func logOut() {
         Task {
             do {
@@ -105,8 +130,7 @@ struct LabTechnicianProfile: View {
             }
         }
     }
-    }
-
+}
 
 #Preview {
     LabTechnicianProfile()

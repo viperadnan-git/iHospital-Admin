@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct CenterSpinner: View {
+    var color: Color = .accentColor  // Default color for the spinner
+    var scale: CGFloat = 2.0        // Default scale for the spinner
+    
     var body: some View {
         VStack {
             Spacer()
             ProgressView()
-                .scaleEffect(2)
+                .progressViewStyle(CircularProgressViewStyle(tint: color)) // Custom spinner color
+                .scaleEffect(scale) // Custom scale
             Spacer()
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

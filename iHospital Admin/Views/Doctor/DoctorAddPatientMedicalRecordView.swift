@@ -33,25 +33,30 @@ struct DoctorAddPatientMedicalRecordView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Notes")) {
+                Section(header: Text("Notes").accessibilityAddTraits(.isHeader)) {
                     TextEditor(text: $note)
                         .frame(height: 150)
                         .padding(.horizontal, 4)
                         .onChange(of: note) { _ in validateNote() }
                         .overlay(Image.validationIcon(for: noteError), alignment: .trailing)
+                        .accessibilityLabel("Notes")
+                        .accessibilityHint("Enter medical notes")
                 }
 
-                Section(header: Text("Pencil Notes")) {
+                Section(header: Text("Pencil Notes").accessibilityAddTraits(.isHeader)) {
                     VStack {
                         DrawingCanvasView(canvasView: $canvasView)
                             .frame(height: canvasHeight)
                             .background(Color(UIColor.systemGray5))
                             .cornerRadius(10)
+                            .accessibilityLabel("Pencil Notes Canvas")
+                            .accessibilityHint("Draw or write notes using the pencil")
 
                         Image(systemName: "ellipsis.rectangle.fill")
                             .font(.largeTitle)
                             .foregroundColor(Color(.systemGray))
                             .padding(.top, 6)
+                            .accessibilityHidden(true)
                             .gesture(
                                 DragGesture()
                                     .onChanged { value in
@@ -68,12 +73,14 @@ struct DoctorAddPatientMedicalRecordView: View {
                     }
                 }
 
-                Section(header: Text("Medicines")) {
+                Section(header: Text("Medicines").accessibilityAddTraits(.isHeader)) {
                     ForEach($medicines) { $medicine in
                         VStack {
                             HStack {
                                 TextField("Medicine Name", text: $medicine.name)
                                     .padding(.vertical, 4)
+                                    .accessibilityLabel("Medicine Name")
+                                    .accessibilityHint("Enter the name of the medicine")
                                 Menu {
                                     ForEach(MedicineDosage.allCases, id: \.self) { dosage in
                                         Button(action: {
@@ -85,6 +92,8 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 } label: {
                                     Text(medicine.dosage.rawValue)
                                         .padding(.vertical, 4)
+                                        .accessibilityLabel("Dosage")
+                                        .accessibilityHint("Select the dosage")
                                 }
                                 Divider()
                                 Button {
@@ -93,7 +102,10 @@ struct DoctorAddPatientMedicalRecordView: View {
                                     }
                                 } label: {
                                     Image(systemName: "minus.circle.fill")
-                                }.buttonStyle(.borderless)
+                                }
+                                .buttonStyle(.borderless)
+                                .accessibilityLabel("Remove Medicine")
+                                .accessibilityHint("Remove this medicine from the list")
                             }
                         }
                     }
@@ -107,10 +119,12 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 Text("Add Medicine")
                             }
                         }
+                        .accessibilityLabel("Add Medicine")
+                        .accessibilityHint("Add a new medicine to the list")
                     }
                 }
 
-                Section(header: Text("Lab Tests")) {
+                Section(header: Text("Lab Tests").accessibilityAddTraits(.isHeader)) {
                     ForEach($labTests) { $labTest in
                         HStack {
                             Menu {
@@ -124,6 +138,8 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 }
                             } label: {
                                 Text(labTest.selectedTest.isEmpty ? "Select Test" : labTest.name)
+                                    .accessibilityLabel("Lab Test")
+                                    .accessibilityHint("Select a lab test")
                             }
                             Spacer()
                             Divider()
@@ -133,7 +149,10 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 }
                             } label: {
                                 Image(systemName: "minus.circle.fill")
-                            }.buttonStyle(.borderless)
+                            }
+                            .buttonStyle(.borderless)
+                            .accessibilityLabel("Remove Lab Test")
+                            .accessibilityHint("Remove this lab test from the list")
                         }
                     }
                     HStack {
@@ -146,6 +165,8 @@ struct DoctorAddPatientMedicalRecordView: View {
                                 Text("Add Lab Test")
                             }
                         }
+                        .accessibilityLabel("Add Lab Test")
+                        .accessibilityHint("Add a new lab test to the list")
                     }
                 }
             }
@@ -156,7 +177,9 @@ struct DoctorAddPatientMedicalRecordView: View {
                 if !isLoading {
                     isPresented = false
                 }
-            }.disabled(isLoading), trailing: Button(action: {
+            }.disabled(isLoading)
+            .accessibilityLabel("Cancel")
+            .accessibilityHint("Cancel and close the prescription form"), trailing: Button(action: {
                 validateNote()
                 
                 guard noteError == nil else {
@@ -171,7 +194,9 @@ struct DoctorAddPatientMedicalRecordView: View {
                 } else {
                     Text("Add")
                 }
-            })
+            }
+            .accessibilityLabel("Add")
+            .accessibilityHint("Save the new prescription"))
             .errorAlert(errorAlertMessage: errorAlertMessage)
             .alert(isPresented: $showAlert) {
                 Alert(

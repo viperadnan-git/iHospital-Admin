@@ -18,6 +18,7 @@ class LabTechViewModel: ObservableObject {
         fetchInitialData()
     }
     
+    // Fetches initial data for the lab technician
     @MainActor
     private func fetchInitialData() {
         Task {
@@ -40,6 +41,7 @@ class LabTechViewModel: ObservableObject {
         }
     }
     
+    // Fetches the lab technician details
     @MainActor
     private func fetchLabTech() async throws -> Staff {
         do {
@@ -50,17 +52,20 @@ class LabTechViewModel: ObservableObject {
         }
     }
     
+    // Fetches all lab tests
     @MainActor
     private func fetchLabTests() async throws -> [LabTest] {
         do {
             return try await LabTest.fetchAll()
         } catch {
+            print("Error fetching lab tests: \(error)")
             throw error
         }
     }
     
+    // Updates the list of lab tests
     func updateLabTests(showLoader: Bool = true) {
-        isLoading = true
+        isLoading = showLoader
         defer { isLoading = false }
         
         Task {
@@ -76,6 +81,7 @@ class LabTechViewModel: ObservableObject {
         }
     }
     
+    // Updates the sample ID for a lab test
     func updateSampleID(test: LabTest, sampleID: String) async throws {
         let updatedTest = try await test.updateSampleID(sampleID)
         
@@ -87,6 +93,7 @@ class LabTechViewModel: ObservableObject {
         }
     }
     
+    // Uploads a report for a lab test
     func uploadReport(test: LabTest, filePath: URL) async throws {
         let updatedTest = try await test.uploadReport(filePath)
         
@@ -98,6 +105,7 @@ class LabTechViewModel: ObservableObject {
         }
     }
     
+    // Updates the counts of lab test statuses
     private func updateStatusCounts() {
         var counts: [LabTestStatus: Int] = [:]
         for status in LabTestStatus.allCases {

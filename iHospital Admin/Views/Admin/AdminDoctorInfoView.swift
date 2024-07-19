@@ -17,96 +17,70 @@ struct AdminDoctorInfoView: View {
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to delete doctor")
     
-    
     var body: some View {
         Form {
-            VStack{
+            VStack {
                 ProfileImage(userId: doctor.userId.uuidString)
                     .frame(width: 200, height: 200)
                     .padding()
                     .foregroundColor(Color(.systemGray))
                     .frame(maxWidth: .infinity)
+                    .accessibilityLabel("Profile picture")
+                    .accessibilityHidden(true)
                 
                 Text(doctor.name)
                     .font(.title)
                     .fontWeight(.bold)
                     .padding()
+                    .accessibilityLabel("Doctor name")
+                    .accessibilityValue(doctor.name)
             }
             
             Section(header: Text("Doctor Information")) {
-                
-                
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text(doctor.name)
-                }
-                HStack {
-                    Text("Date of Birth")
-                    Spacer()
-                    Text(doctor.dateOfBirth.dateString)
-                }
-                HStack {
-                    Text("Gender")
-                    Spacer()
-                    Text(doctor.gender.id.capitalized)
-                }
-                HStack {
-                    Text("Phone Number")
-                    Spacer()
-                    Text(doctor.phoneNumber.string)
-                }
-                HStack {
-                    Text("Email")
-                    Spacer()
-                    Text(doctor.email)
-                }
-                HStack {
-                    Text("Qualification")
-                    Spacer()
-                    Text(doctor.qualification)
-                }
-                HStack {
-                    Text("Experience Since")
-                    Spacer()
-                    Text(doctor.experienceSince.dateString)
-                }
-                HStack {
-                    Text("Date of Joining")
-                    Spacer()
-                    Text(doctor.dateOfJoining.dateString)
-                }
+                InfoRow(label: "Name", value: doctor.name)
+                InfoRow(label: "Date of Birth", value: doctor.dateOfBirth.dateString)
+                InfoRow(label: "Gender", value: doctor.gender.id.capitalized)
+                InfoRow(label: "Phone Number", value: doctor.phoneNumber.string)
+                InfoRow(label: "Email", value: doctor.email)
+                InfoRow(label: "Qualification", value: doctor.qualification)
+                InfoRow(label: "Experience Since", value: doctor.experienceSince.dateString)
+                InfoRow(label: "Date of Joining", value: doctor.dateOfJoining.dateString)
             }
             
             Button(role: .destructive) {
                 showAlert.toggle()
             } label: {
                 Text("Delete")
-                    .frame(maxWidth: .infinity,alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
-            .alert(isPresented: $showAlert,content: {
-                Alert(title: Text("Delete Doctor's Info"), message: Text("Are you sure you want to delete this doctor information?"), primaryButton: .destructive(Text("Delete"),action: {
-                    deleteDoctor()
-                    
-                }), secondaryButton: .cancel())
-            })
-            
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Delete Doctor's Info"),
+                    message: Text("Are you sure you want to delete this doctor's information?"),
+                    primaryButton: .destructive(Text("Delete"), action: {
+                        deleteDoctor()
+                    }),
+                    secondaryButton: .cancel()
+                )
+            }
         }
         .sheet(isPresented: $showEditSheet) {
-            AdminDoctorAddView(department: doctorsDepartment,doctor: doctor)
+            AdminDoctorAddView(department: doctorsDepartment, doctor: doctor)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Edit") {
                     showEditSheet.toggle()
                 }
+                .accessibilityLabel("Edit doctor information")
             }
         }
-        
+        .navigationTitle("Doctor Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func deleteDoctor() {
-        print("Deleted Succefully")
+        print("Deleted Successfully")
         
         Task {
             do {
@@ -119,7 +93,23 @@ struct AdminDoctorInfoView: View {
     }
 }
 
+struct InfoRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .fontWeight(.bold)
+            Spacer()
+            Text(value)
+                .multilineTextAlignment(.trailing)
+                .accessibilityLabel(label)
+                .accessibilityValue(value)
+        }
+    }
+}
+
 #Preview {
     AdminDoctorInfoView(doctor: .sample, doctorsDepartment: .sample)
 }
-

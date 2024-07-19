@@ -41,17 +41,23 @@ struct AdminLabTestAddForm: View {
                         .focused($focusedField, equals: .name)
                         .onChange(of: name) { _ in validateName() }
                         .overlay(Image.validationIcon(for: nameError), alignment: .trailing)
+                        .accessibilityLabel("Lab Test Name")
+                        .accessibilityHint("Enter the name of the lab test")
                     
                     TextField("Price", text: $price)
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .price)
                         .onChange(of: price) { _ in validatePrice() }
                         .overlay(Image.validationIcon(for: priceError), alignment: .trailing)
+                        .accessibilityLabel("Lab Test Price")
+                        .accessibilityHint("Enter the price of the lab test")
                     
                     TextField("Description", text: $description)
                         .focused($focusedField, equals: .description)
                         .onChange(of: description) { _ in validateDescription() }
                         .overlay(Image.validationIcon(for: descriptionError), alignment: .trailing)
+                        .accessibilityLabel("Lab Test Description")
+                        .accessibilityHint("Enter a description for the lab test")
                 }
                 
                 if let labTestType = labTestType {
@@ -61,11 +67,15 @@ struct AdminLabTestAddForm: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .alert(isPresented: $showAlert) {
-                            Alert(title: Text("Delete Lab Test"), 
-                                  message: Text("Are you sure you want to delete \"\(labTestType.name)\" lab test?"),
-                                  primaryButton: .destructive(Text("Delete"), action: delete),
-                                  secondaryButton: .cancel())
+                            Alert(
+                                title: Text("Delete Lab Test"),
+                                message: Text("Are you sure you want to delete \"\(labTestType.name)\" lab test?"),
+                                primaryButton: .destructive(Text("Delete"), action: delete),
+                                secondaryButton: .cancel()
+                            )
                         }
+                        .accessibilityLabel("Delete Lab Test")
+                        .accessibilityHint("Deletes the current lab test")
                     }
                 }
             }
@@ -75,10 +85,16 @@ struct AdminLabTestAddForm: View {
                 leading: Button("Cancel") {
                     print("Cancel button tapped")
                     presentationMode.wrappedValue.dismiss()
-                }.disabled(isSaving),
+                }
+                .disabled(isSaving)
+                .accessibilityLabel("Cancel")
+                .accessibilityHint("Cancels adding or editing the lab test"),
                 trailing: Button("Save") {
                     save()
-                }.disabled(isSaving)
+                }
+                .disabled(isSaving)
+                .accessibilityLabel("Save")
+                .accessibilityHint("Saves the lab test")
             )
             .errorAlert(errorAlertMessage: errorAlertMessage)
             .onAppear(perform: onAppear)

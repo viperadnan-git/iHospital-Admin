@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct Patient: Codable, Hashable, Identifiable {
     let id: UUID
     let userId: UUID
@@ -21,6 +20,7 @@ struct Patient: Codable, Hashable, Identifiable {
     let weight: Double?
     let address: String
     
+    // Maps the coding keys to the correct JSON keys
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case userId = "user_id"
@@ -35,10 +35,12 @@ struct Patient: Codable, Hashable, Identifiable {
         case address
     }
     
+    // Computed property to get full name
     var name: String {
         "\(firstName) \(lastName)"
     }
     
+    // Sample patient data for previews or testing
     static let sample = Patient(id: UUID(),
                                 userId: UUID(),
                                 firstName: "John",
@@ -54,6 +56,7 @@ struct Patient: Codable, Hashable, Identifiable {
     static let decoder = JSONDecoder()
     static let encoder = JSONEncoder()
     
+    // Custom initializer to handle date decoding
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
@@ -75,7 +78,7 @@ struct Patient: Codable, Hashable, Identifiable {
         address = try container.decode(String.self, forKey: .address)
     }
     
-    init(id: UUID, userId: UUID, firstName: String, lastName:String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
+    init(id: UUID, userId: UUID, firstName: String, lastName: String, gender: Gender, phoneNumber: Int, bloodGroup: BloodGroup, dateOfBirth: Date, height: Double?, weight: Double?, address: String) {
         self.id = id
         self.userId = userId
         self.firstName = firstName
@@ -89,6 +92,7 @@ struct Patient: Codable, Hashable, Identifiable {
         self.address = address
     }
     
+    // Custom encode method to handle date encoding
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -104,9 +108,9 @@ struct Patient: Codable, Hashable, Identifiable {
         try container.encode(address, forKey: .address)
     }
     
-    
+    // Fetches all patients from the database
     static func fetchAll() async throws -> [Patient] {
-        let response:[Patient] = try await supabase.from(SupabaseTable.patients.id)
+        let response: [Patient] = try await supabase.from(SupabaseTable.patients.id)
             .select()
             .execute()
             .value
@@ -114,6 +118,7 @@ struct Patient: Codable, Hashable, Identifiable {
         return response
     }
     
+    // Fetches the medical records of the patient
     func fetchMedicalRecords() async throws -> [MedicalRecord] {
         let response: [MedicalRecord] = try await supabase.from(SupabaseTable.medicalRecords.id)
             .select(MedicalRecord.supabaseSelectQuery)
@@ -125,6 +130,7 @@ struct Patient: Codable, Hashable, Identifiable {
         return response
     }
     
+    // Fetches the lab tests of the patient
     func fetchLabTests() async throws -> [LabTest] {
         let response: [LabTest] = try await supabase.from(SupabaseTable.labTests.id)
             .select(LabTest.supabaseSelectQuery)
@@ -136,6 +142,7 @@ struct Patient: Codable, Hashable, Identifiable {
         return response
     }
     
+    // Fetches the invoices of the patient
     func fetchInvoices() async throws -> [Invoice] {
         let response: [Invoice] = try await supabase.from(SupabaseTable.invoices.id)
             .select(Invoice.supabaseSelectQuery)

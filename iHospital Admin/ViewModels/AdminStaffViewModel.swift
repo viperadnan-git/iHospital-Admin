@@ -15,38 +15,53 @@ class AdminStaffViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    // Fetches the list of staff for a specific department
     @MainActor
     func fetchStaffs(for department: StaffDepartment) async throws {
         isLoading = true
+        defer {
+            isLoading = false
+        }
         
-        let fetchedStaffs = try await Staff.fetchAllStaff(for: department)
-        DispatchQueue.main.async {
+        do {
+            let fetchedStaffs = try await Staff.fetchAllStaff(for: department)
             self.staffs = fetchedStaffs
-            self.isLoading = false
+        } catch {
+            print("Error fetching staffs: \(error.localizedDescription)")
         }
     }
     
+    // Creates a new staff member
     @MainActor
     func newStaff(firstName: String, lastName: String, dateOfBirth: Date, gender: Gender, email: String, phoneNumber: Int, address: String, dateOfJoining: Date, qualification: String, experienceSince: Date, type: StaffDepartment) async throws {
         isLoading = true
+        defer {
+            isLoading = false
+        }
         
-        let newStaff = try await Staff.new(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth, gender: gender, email: email, phoneNumber: phoneNumber, address: address, dateOfJoining: dateOfJoining, qualification: qualification, experienceSince: experienceSince, type: type)
-        DispatchQueue.main.async {
+        do {
+            let newStaff = try await Staff.new(firstName: firstName, lastName: lastName, dateOfBirth: dateOfBirth, gender: gender, email: email, phoneNumber: phoneNumber, address: address, dateOfJoining: dateOfJoining, qualification: qualification, experienceSince: experienceSince, type: type)
             self.staffs.append(newStaff)
-            self.isLoading = false
+        } catch {
+            print("Error creating new staff: \(error.localizedDescription)")
         }
     }
     
+    // Saves the updated details of a staff member
     @MainActor
     func save(staff: Staff) async throws {
         isLoading = true
+        defer {
+            isLoading = false
+        }
         
-        try await staff.save()
-        DispatchQueue.main.async {
+        do {
+            try await staff.save()
             if let index = self.staffs.firstIndex(where: { $0.id == staff.id }) {
                 self.staffs[index] = staff
             }
-            self.isLoading = false
+        } catch {
+            print("Error saving staff: \(error.localizedDescription)")
         }
     }
 }

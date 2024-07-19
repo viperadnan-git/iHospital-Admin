@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AdminPatientDetailsView: View {
     var patient: Patient
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -16,23 +17,30 @@ struct AdminPatientDetailsView: View {
                     .resizable()
                     .frame(width: 120, height: 120)
                     .padding(40)
+                    .accessibilityLabel("Profile picture")
+                    .accessibilityHidden(true)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("\(patient.name)")
                         .font(.title)
                         .bold()
+                        .accessibilityLabel("Patient name")
+                        .accessibilityValue(patient.name)
                     
                     Text("\(patient.userId)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
+                        .accessibilityLabel("User ID")
+                        .accessibilityValue(patient.userId.uuidString)
                     
-                    // Custom view for Age, Phone Number, and Address with proper spacing
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("Age")
                                 .fontWeight(.bold)
                             Spacer()
                             Text(patient.dateOfBirth.ago)
+                                .accessibilityLabel("Age")
+                                .accessibilityValue(patient.dateOfBirth.ago)
                         }
                         
                         HStack {
@@ -40,13 +48,18 @@ struct AdminPatientDetailsView: View {
                                 .fontWeight(.bold)
                             Spacer()
                             Text(patient.phoneNumber.string)
+                                .accessibilityLabel("Phone number")
+                                .accessibilityValue(patient.phoneNumber.string)
                         }
                         
                         HStack(alignment: .top) {
                             Text("Address")
                                 .fontWeight(.bold)
                             Spacer()
-                            Text(patient.address).multilineTextAlignment(.trailing)
+                            Text(patient.address)
+                                .multilineTextAlignment(.trailing)
+                                .accessibilityLabel("Address")
+                                .accessibilityValue(patient.address)
                         }
                     }
                     .padding(.top, 8)
@@ -55,18 +68,22 @@ struct AdminPatientDetailsView: View {
                 
                 Divider()
                     .padding(.horizontal)
+                    .accessibilityHidden(true)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Other Info")
                         .font(.title3)
                         .bold()
                         .padding(.bottom, 8) // Add some space below the title
+                        .accessibilityLabel("Other information")
                     
                     HStack {
                         Text("Blood Group:")
                             .fontWeight(.bold)
                         Spacer()
                         Text("\(patient.bloodGroup)")
+                            .accessibilityLabel("Blood group")
+                            .accessibilityValue(patient.bloodGroup.rawValue)
                     }
                     
                     HStack {
@@ -74,6 +91,8 @@ struct AdminPatientDetailsView: View {
                             .fontWeight(.bold)
                         Spacer()
                         Text(String(format: "%.2f", patient.height ?? 0.00))
+                            .accessibilityLabel("Height")
+                            .accessibilityValue("\(String(format: "%.2f", patient.height ?? 0.00)) meters")
                     }
                     
                     HStack {
@@ -81,6 +100,8 @@ struct AdminPatientDetailsView: View {
                             .fontWeight(.bold)
                         Spacer()
                         Text(String(format: "%.2f", patient.weight ?? 0.00))
+                            .accessibilityLabel("Weight")
+                            .accessibilityValue("\(String(format: "%.2f", patient.weight ?? 0.00)) kilograms")
                     }
                 }
                 .padding(.trailing, 40)
@@ -95,24 +116,24 @@ struct AdminPatientDetailsView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
+                .accessibilityLabel("Billing history")
+            
             BillingList(patient: patient)
         }
         .navigationTitle("Patient Details")
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityElement(children: .contain)
     }
 }
 
-
-
-struct BillingList:View {
-    var patient:Patient
-    @State private var invoices:[Invoice] = []
+struct BillingList: View {
+    var patient: Patient
+    @State private var invoices: [Invoice] = []
     @State private var isLoading = true
     
     @StateObject private var errorAlertMessage = ErrorAlertMessage(title: "Failed to fetch invoices")
     
     var body: some View {
-        
         VStack {
             if isLoading {
                 CenterSpinner()
@@ -123,14 +144,17 @@ struct BillingList:View {
                         .font(.headline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
+                        .accessibilityLabel("No invoices found")
                 }
                 .frame(maxWidth: .infinity)
                 Spacer()
             } else {
                 Table(invoices) {
-                    TableColumn("Invoice ID", value:\.id.string)
+                    TableColumn("Invoice ID", value: \.id.string)
                     TableColumn("Amount") {
                         Text($0.amount.formatted(.currency(code: Constants.currencyCode)))
+                            .accessibilityLabel("Amount")
+                            .accessibilityValue($0.amount.formatted(.currency(code: Constants.currencyCode)))
                     }
                     TableColumn("Payment Type", value: \.paymentType.name)
                     TableColumn("Date", value: \.createdAt.dateTimeString)
@@ -142,6 +166,8 @@ struct BillingList:View {
         }
         .errorAlert(errorAlertMessage: errorAlertMessage)
         .onAppear(perform: fetchInvoices)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Billing list")
     }
     
     private func fetchInvoices() {
@@ -161,15 +187,17 @@ struct BillingList:View {
     }
 }
 
-
 struct PaymentStatusIndicator: View {
     var status: PaymentStatus
+    
     var body: some View {
         HStack {
             Circle()
                 .fill(status.color)
                 .frame(width: 10, height: 10)
             Text(status.rawValue)
+                .accessibilityLabel("Payment status")
+                .accessibilityValue(status.rawValue)
         }
     }
 }

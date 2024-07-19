@@ -8,10 +8,12 @@
 import Foundation
 
 extension Int {
+    // Converts the integer to a string
     var string: String {
         String(self)
     }
     
+    // Formats the integer as a currency string using a specified currency code
     var currency: String {
         self.formatted(.currency(code: Constants.currencyCode))
     }

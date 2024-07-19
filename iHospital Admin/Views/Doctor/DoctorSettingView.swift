@@ -46,6 +46,8 @@ struct DoctorSettingView: View {
                                         endTime = Calendar.current.date(byAdding: .minute, value: 15, to: newStartTime) ?? endTime
                                     }
                                 }
+                                .accessibilityLabel("Start Time")
+                                .accessibilityHint("Select the start time for availability")
                         }
                         
                         VStack {
@@ -57,6 +59,8 @@ struct DoctorSettingView: View {
                                         startTime = Calendar.current.date(byAdding: .minute, value: -15, to: newEndTime) ?? startTime
                                     }
                                 }
+                                .accessibilityLabel("End Time")
+                                .accessibilityHint("Select the end time for availability")
                         }
                     }
                 }
@@ -68,6 +72,8 @@ struct DoctorSettingView: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                    .accessibilityLabel("Prior Booking Days")
+                    .accessibilityHint("Select the number of days prior for booking appointments")
                 }.listRowInsets(.init(top: 0, leading: 7, bottom: 0, trailing: 7))
                 
                 Section(header: Text("Select Days of the Week")) {
@@ -82,6 +88,8 @@ struct DoctorSettingView: View {
                                 }
                             }
                         ))
+                        .accessibilityLabel(day)
+                        .accessibilityHint("Toggle availability for \(day)")
                     }
                 }
             }
@@ -95,13 +103,17 @@ struct DoctorSettingView: View {
                 Button(action: saveSettings) {
                     if isSaving {
                         ProgressView()
+                            .accessibilityLabel("Saving")
                     } else {
                         Text("Save")
                     }
                 }
                 .disabled(isSaving)
+                .accessibilityLabel("Save Settings")
+                .accessibilityHint("Save the current settings")
             }
-        }.errorAlert(errorAlertMessage: errorAlertMessage)
+        }
+        .errorAlert(errorAlertMessage: errorAlertMessage)
     }
     
     private func fetchSettings() {

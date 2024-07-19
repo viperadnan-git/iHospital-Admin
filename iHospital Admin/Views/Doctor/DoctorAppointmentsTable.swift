@@ -23,6 +23,8 @@ struct DoctorAppointmentsTable: View {
             HStack {
                 SearchBar(text: $searchText)
                     .padding(.horizontal)
+                    .accessibilityLabel("Search Bar")
+                    .accessibilityHint("Search for appointments by patient name, age, gender, time, or phone number")
             }
             
             Table(appointments, sortOrder: $sortOrder) {
@@ -32,12 +34,15 @@ struct DoctorAppointmentsTable: View {
                 TableColumn("Phone No.", value: \.patient.phoneNumber.string)
                 TableColumn("Time", value: \.date) { appointment in
                     Text(appointment.date.timeString)
+                        .accessibilityLabel("Appointment Time")
                 }
                 TableColumn("Status") { appointment in
                     AppointmentStatusIndicator(status: appointment.status)
+                        .accessibilityLabel("Appointment Status")
                 }
                 TableColumn("Edit") { appointment in
                     EditButton(appointment: appointment)
+                        .accessibilityLabel("Edit Appointment")
                 }
             }
             .frame(maxWidth: .infinity)
@@ -59,8 +64,12 @@ struct DoctorAppointmentsTable: View {
             .popover(isPresented: $showPopover) {
                 Text(popoverMessage)
                     .padding()
+                    .accessibilityLabel(popoverMessage)
             }
         }
+        .accessibilityElement(children: .combine)
+        .navigationTitle("Doctor Appointments")
+        .accessibilityAddTraits(.isHeader)
     }
     
     func refresh() {
@@ -89,8 +98,10 @@ struct EditButton: View {
         Menu {
             Button("Reschedule Appointment", action: rescheduleAppointment)
                 .disabled(!canEdit)
+                .accessibilityLabel("Reschedule Appointment")
             Button("Cancel Appointment", action: cancelAppointment)
                 .disabled(!canEdit)
+                .accessibilityLabel("Cancel Appointment")
         } label: {
             Button(action: {
                 if canEdit {
@@ -102,10 +113,13 @@ struct EditButton: View {
             }) {
                 Image(systemName: "pencil.circle")
                     .foregroundColor(canEdit ? .blue : .gray)
+                    .accessibilityLabel(canEdit ? "Edit Appointment" : "Edit not available")
+                    .accessibilityHint(canEdit ? "" : "Editing is only available before 4 hours of the appointment.")
             }
             .popover(isPresented: $showPopover) {
                 Text(popoverMessage)
                     .padding()
+                    .accessibilityLabel(popoverMessage)
             }
         }
         .disabled(!canEdit)
