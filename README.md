@@ -5,7 +5,7 @@
 
 iHospital Admin is a dedicated application designed to facilitate the management of hospital operations, providing essential tools for administrators, doctors, and lab technicians. This app works in conjunction with the [**iHospital app**](https://github.com/viperadnan-git/iHospital), which focuses on patient management and care.
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Accessibility Features](#accessibility-features)
@@ -17,7 +17,7 @@ iHospital Admin is a dedicated application designed to facilitate the management
 - [Future Scope](#future-scope)
 - [License](#license)
 
-## ✨ Features
+## Features
 
 - **🔐 User Authentication**: Secure login for administrators, doctors, and lab technicians.
 - **👥 Patient Management**: Access and manage patient records and information.
@@ -27,7 +27,7 @@ iHospital Admin is a dedicated application designed to facilitate the management
 - **📊 Admin Dashboard**: Centralized interface for managing hospital operations.
 - **📄 PDF Generation**: Create and manage PDF documents such as prescriptions and reports.
 
-## ♿ Accessibility Features
+## Accessibility Features
 
 iHospital includes several accessibility features to enhance usability for all users:
 
@@ -39,7 +39,7 @@ iHospital includes several accessibility features to enhance usability for all u
 
 These features aim to ensure that all users can effectively navigate and utilize the application.
 
-## 📸 Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -70,7 +70,7 @@ These features aim to ensure that all users can effectively navigate and utilize
 </table>
 
 
-## 👨‍💼 Admin App Overview
+## Admin App Overview
 
 The **iHospital Admin app** provides essential functionalities tailored for each user type:
 
@@ -91,13 +91,13 @@ The **iHospital Admin app** provides essential functionalities tailored for each
 
 This concise structure ensures that each role has the necessary tools to perform their tasks effectively.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **📱 SwiftUI**: For building the user interface.
 - **⚡ Swift**: The programming language used for development.
 - **🗄️ Supabase**: Backend as a service for database management and authentication.
 
-## 💻 Installation
+## Installation
 
 To set up the iHospital Admin project locally, follow these steps:
 
@@ -115,14 +115,14 @@ open iHospital-AdminApp.xcodeproj
 ```
 4. Install dependencies if any (using CocoaPods or Swift Package Manager).
 
-## 📝 Usage
+## Usage
 
 1. Launch the application on your device or simulator.
 2. Log in using your administrator or staff credentials.
 3. Navigate through various modules such as Patient Management, Staff Management, Appointments, etc.
 4. Utilize the iHospital app for patient care and management tasks.
 
-## 🚀 Future Scope
+## Future Scope
 
 Future enhancements for the iHospital Admin app include:
 
@@ -131,7 +131,7 @@ Future enhancements for the iHospital Admin app include:
   - Efficient management of patient bed assignments.
   - Integration with admission and discharge processes.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
